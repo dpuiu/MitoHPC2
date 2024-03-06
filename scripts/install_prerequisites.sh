@@ -16,6 +16,8 @@ cd $HP_HDIR
 mkdir -p prerequisites/ $HP_BDIR/ $HP_JDIR/ $HP_RDIR/
 cd prerequisites/
 
+##############################################################################################################
+
 which bwa
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c --no-check-certificate https://github.com/lh3/bwa/releases/download/v0.7.17/bwa-0.7.17.tar.bz2
@@ -97,11 +99,33 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   chmod a+x $HP_BDIR/fastp
 fi
 
+#########################################################################################
+
+#if [ ! -s $HP_JDIR/gatk.jar ] ; then # 2023/04/26
+if [[ ! -s $HP_JDIR/gatk.jar || $# == 1 && $1 == "-f" ]] ; then
+  wget -N -c https://github.com/broadinstitute/gatk/releases/download/4.3.0.0/gatk-4.3.0.0.zip
+  unzip -o gatk-4.3.0.0.zip
+  cp gatk-4.3.0.0/gatk-package-4.3.0.0-local.jar $HP_JDIR/gatk.jar
+  cp gatk-4.3.0.0/gatk $HP_BDIR/
+fi
+
+#if [ ! -s $HP_JDIR/mutserve.jar ] ; then  # 2023/04/26
+if [[ ! -s $HP_JDIR/mutserve.jar || $# == 1 && $1 == "-f" ]] ; then
+  wget -N -c https://github.com/seppinho/mutserve/releases/download/v2.0.0-rc15/mutserve.zip
+  unzip -o mutserve.zip
+  cp mutserve.jar $HP_JDIR/
+fi
+
 which freebayes
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://github.com/freebayes/freebayes/releases/download/v1.3.6/freebayes-1.3.6-linux-amd64-static.gz
   gunzip freebayes-1.3.6-linux-amd64-static.gz  -c >  $HP_BDIR/freebayes
   chmod a+x $HP_BDIR//freebayes
+fi
+
+if [[ ! -s $HP_JDIR/VarScan.jar || $# == 1 && $1 == "-f" ]] ; then
+  wget -N -c  https://github.com/dkoboldt/varscan/releases/download/v2.4.6/VarScan.v2.4.6.jar
+  cp VarScan.v2.4.6.jar $HP_JDIR/VarScan.jar
 fi
 
 which gridss
@@ -112,22 +136,7 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   cp gridss-2.13.2-gridss-jar-with-dependencies.jar $HP_JDIR/gridss.jar
 fi
 
-which minimap2
-if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
-  wget -N -c https://github.com/lh3/minimap2/releases/download/v2.26/minimap2-2.26.tar.bz2
-  tar -xjvf minimap2-2.26.tar.bz2
-  cd minimap2-2.26/
-  make;  cp minimap2 $HP_BDIR
-  cd -
-fi
-
-#if [ ! -s $HP_JDIR/gatk.jar ] ; then # 2023/04/26
-if [[ ! -s $HP_JDIR/gatk.jar || $# == 1 && $1 == "-f" ]] ; then
-  wget -N -c https://github.com/broadinstitute/gatk/releases/download/4.3.0.0/gatk-4.3.0.0.zip
-  unzip -o gatk-4.3.0.0.zip
-  cp gatk-4.3.0.0/gatk-package-4.3.0.0-local.jar $HP_JDIR/gatk.jar
-  cp gatk-4.3.0.0/gatk $HP_BDIR/
-fi
+####################################################################################
 
 #if [ ! -s $HP_JDIR/haplogrep.jar ] ; then # 2023/04/26
 if [[ ! -s $HP_JDIR/haplogrep.jar || $# == 1 && $1 == "-f" ]] ; then
@@ -143,12 +152,7 @@ if [[ ! -s $HP_JDIR/haplocheck.jar || $# == 1 && $1 == "-f" ]] ; then
   cp haplocheck.jar $HP_JDIR/
 fi
 
-#if [ ! -s $HP_JDIR/mutserve.jar ] ; then  # 2023/04/26
-if [[ ! -s $HP_JDIR/mutserve.jar || $# == 1 && $1 == "-f" ]] ; then
-  wget -N -c https://github.com/seppinho/mutserve/releases/download/v2.0.0-rc15/mutserve.zip
-  unzip -o mutserve.zip
-  cp mutserve.jar $HP_JDIR
-fi
+#####################################################################################
 
 #if [ ! -s $HP_RDIR/$HP_RNAME.fa ] ; then # 2023/04/26
 if [[ ! -s $HP_RDIR/$HP_RNAME.fa.fai || $# == 1 && $1 == "-f" ]] ; then
