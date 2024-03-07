@@ -151,11 +151,11 @@ if [ ! -s $OS.vcf ] ; then
   elif [ "$HP_M" == "freebayes" ] ; then
     freebayes -p 1 --pooled-continuous --min-alternate-fraction 0.03 $O.bam -f $HP_RDIR/$HP_MT.fa  > $OS.vcf
   elif [ "$HP_M" == "varscan" ] ; then
-    samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d 2000  | tee \
-      >(java -jar $HP_JDIR/VarScan.jar pileup2snp   -B  --variants --min-var-freq 0.03 > $OS.snp.txt) \
-      >(java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants --min-var-freq 0.03 > $OS.indel.txt) > /dev/null
-    cat $OS.{snp,indel}.txt  | sort -k2,2n -u > $OS.txt
-    rm $OS.{snp,indel}.txt
+    #samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d 2000  | tee \
+    #  >(java -jar $HP_JDIR/VarScan.jar pileup2snp   -B  --variants --min-var-freq 0.03 > $OS.snp.txt) \
+    #  >(java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants --min-var-freq 0.03 > $OS.indel.txt) > /dev/null
+    samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d 2000  | java -jar $HP_JDIR/VarScan.jar pileup2snp   -B  --variants --min-var-freq 0.03 > $OS.txt
+    samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d 2000  | java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants --min-var-freq 0.03 | grep -v "^#" >> $OS.txt
 
     cat $HP_SDIR/$HP_M.vcf  > $OS.vcf
     fa2Vcf.pl $HP_RDIR/$HP_MT.fa >> $OS.vcf
@@ -258,7 +258,7 @@ rm -f  $OSC.*
 # exit if the number of iterations is set to 1
 if [ $HP_I -lt 2 ] || [ $HP_M == "mutserve" ] ; then
   rm -f $OS.bam*  $OSR.bam*
-  #!!! rm -f $O.fq $ON.score $O.bam  $OR.bam
+  #!!! rm -f $O.fq $ON.score $O.bam* $OR.bam*
   exit 0
 fi
 
@@ -286,18 +286,13 @@ if [ ! -s $OSS.vcf ] ; then
     freebayes -p 1 --pooled-continuous --min-alternate-fraction 0.03 $OS.bam -f $OS.fa  > $OSS.vcf
 
   elif [ "$HP_M" == "varscan" ] ; then
-    samtools mpileup -f $OS.fa $OS.bam -B -d 2000  | tee \
-      >(java -jar $HP_JDIR/VarScan.jar pileup2snp   -B  --variants  --min-var-freq 0.03 > $OSS.snp.txt) \
-      >(java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants  --min-var-freq 0.03 > $OSS.indel.txt) > /dev/null
-    cat $OSS.{snp,indel}.txt  | sort -k2,2n -u | uniq > $OSS.txt
-    rm $OSS.{snp,indel}.txt
+    samtools mpileup -f $OS.fa $OS.bam -B -d 2000 | java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants  --min-var-freq 0.03 > $OSS.txt
+    samtools mpileup -f $OS.fa $OS.bam -B -d 2000 | java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants  --min-var-freq 0.03 | grep -v "^#" >> $OSS.txt
 
     cat $HP_SDIR/$HP_M.vcf  > $OSS.vcf
     echo "##sample=$S" >> $OSS.vcf
-
     fa2Vcf.pl $OS.fa | grep -m 1 contig= >> $OSS.vcf
     fa2Vcf.pl $HP_RDIR/$HP_MT.fa >> $OSS.vcf
-
     cat $OSS.txt | \
       perl -ane 'next if($.==1 or $F[2]=~/N/i or $F[3]=~/N/i); $DP=$F[4]+$F[5];$F[6]=~/(.+)%/;$AF=$1/100; print join "\t",($F[0],$F[1],".",$F[2],$F[-1],".",".",".","GT:DP:AF","0/1:$DP:$AF");print "\n";' | \
       perl -ane 'if($F[4]=~/\+(.+)/) {($F[4],$F[7])=("$F[3]$1","INDEL")} elsif($F[4]=~/\-(.+)/) {($F[3],$F[4],$F[7])=("$F[3]$1",$F[3],"INDEL")} print join "\t",@F; print "\n";' | uniqVcf.pl >> $OSS.vcf
@@ -321,5 +316,5 @@ fi
 
 rm -f $OS.bam*  $OS.dict $OS.fa.fai
 
-#!!! rm -f $O.fq $ON.score $O.bam  $OR.bam
+#!!! rm -f $O.fq $ON.score $O.bam* $OR.bam*
 
