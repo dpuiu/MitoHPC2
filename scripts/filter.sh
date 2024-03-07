@@ -232,7 +232,7 @@ if  [ ! -s $OS.bam ] ; then
     bedtools bamtobed -i /dev/stdin -tag AS | bed2bed.pl -rmsuffix  | \
     count.pl -i 3 -j 4  | sort > $OS.score
 
-  join $OS.score $ON.score -a 1 --nocheck-order | perl -ane 'next if(@F==3 and $F[2]>$F[1]);print'  |\
+  join $OS.score $ON.score -a 1 --nocheck-order | perl -ane 'next if(@F==3 and $F[2]>$F[1]);print join "\t",@F;print "\n"' |\
      intersectSam.pl $OS.sam - > $OS.sam2 ; mv $OS.sam2 $OS.sam
 
   cat $OS.sam |\
