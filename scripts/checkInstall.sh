@@ -23,12 +23,14 @@ which samblaster        #install from "https://github.com/GregoryFaust/samblaste
 which bcftools
 which tabix
 which freebayes
-which minimap2
+#which minimap2
 
 test -f $HP_JDIR/gatk.jar
 test -f $HP_JDIR/mutserve.jar
 test -f $HP_JDIR/haplogrep.jar
 test -f $HP_JDIR/haplocheck.jar
+test -f $HP_JDIR/VarScan.jar
+
 ######################################################
 
 echo "########################"  > checkInstall.log

@@ -159,6 +159,7 @@ if [[ ! -s $HP_RDIR/$HP_RNAME.fa.fai || $# == 1 && $1 == "-f" ]] ; then
   wget -qO- $HP_RURL | zcat -f > $HP_RDIR/$HP_RNAME.fa
   samtools faidx $HP_RDIR/$HP_RNAME.fa
 fi
+exit 0
 
 #if [ ! -s $HP_RDIR/$HP_MT.fa ] ; then  # 2023/04/26
 if [[ ! -s $HP_RDIR/$HP_MT.dict || $# == 1 && $1 == "-f"  ]] ; then
@@ -181,4 +182,13 @@ fi
 #if [ ! -s $HP_RDIR/$HP_MTR.fa ] ; then # 2023/04/26
 if [[ ! -s $HP_RDIR/$HP_MTR.dict || $# == 1 && $1 == "-f" ]] ; then
   rotateFasta.sh $HP_MT $HP_RDIR/$HP_MT $HP_E $HP_RDIR/$HP_MTR
+fi
+
+which minimap2
+if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
+  wget -N -c https://github.com/lh3/minimap2/releases/download/v2.26/minimap2-2.26.tar.bz2
+  tar -xjvf minimap2-2.26.tar.bz2 
+  cd minimap2-2.26/
+  make;  cp minimap2 $HP_BDIR
+  cd -
 fi
