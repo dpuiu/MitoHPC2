@@ -28,3 +28,4 @@ wget -N -c https://github.com/genepi/haplocheck/releases/download/v1.3.3/haploch
 wget -N -c https://github.com/seppinho/mutserve/releases/download/v2.0.0-rc15/mutserve.zip
 wget https://github.com/PapenfussLab/gridss/releases/download/v2.13.2/gridss-2.13.2.tar.gz
 wget -N -c https://github.com/lh3/minimap2/releases/download/v2.26/minimap2-2.26.tar.bz2
+wget -N -c  https://github.com/dkoboldt/varscan/releases/download/v2.4.6/VarScan.v2.4.6.jar
