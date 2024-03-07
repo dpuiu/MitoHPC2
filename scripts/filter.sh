@@ -31,6 +31,9 @@ OSR=${OS}R
 OSS=$OS.$HP_M
 OSSR=${OSS}R
 
+MINAF=0.01
+MAXDP=2000
+
 #########################################################################################################################################
 # test if count and VCF output files exist; exit if they do
 
@@ -132,30 +135,30 @@ if [ $HP_I -lt 1 ]  ; then exit 0 ; fi
 
 if [ ! -s $OS.vcf ] ; then
   if [ "$HP_M" == "mutect2" ] ; then
-    java $HP_JOPT -jar $HP_JDIR/gatk.jar Mutect2           -R $HP_RDIR/$HP_MT.fa -I $O.bam       -O $OS.orig.vcf $HP_GOPT --native-pair-hmm-threads $HP_P --callable-depth 6 --max-reads-per-alignment-start 0 -min-AF 0.03 # --mitochondria-mode 
+    java $HP_JOPT -jar $HP_JDIR/gatk.jar Mutect2           -R $HP_RDIR/$HP_MT.fa -I $O.bam       -O $OS.orig.vcf $HP_GOPT --native-pair-hmm-threads $HP_P --callable-depth 6 --max-reads-per-alignment-start 0 -min-AF $MINAF # --mitochondria-mode 
     java $HP_JOPT -jar $HP_JDIR/gatk.jar FilterMutectCalls -R $HP_RDIR/$HP_MT.fa -V $OS.orig.vcf -O $OS.vcf --min-reads-per-strand 2
 
-    java $HP_JOPT -jar $HP_JDIR/gatk.jar Mutect2           -R $HP_RDIR/$HP_MTR.fa -I $OR.bam        -O $OSR.orig.vcf $HP_GOPT --native-pair-hmm-threads $HP_P  --callable-depth 6 --max-reads-per-alignment-start 0 -L "$HP_MT:285-315" -min-AF 0.03 # "$HP_MT:16254-16284"  
+    java $HP_JOPT -jar $HP_JDIR/gatk.jar Mutect2           -R $HP_RDIR/$HP_MTR.fa -I $OR.bam        -O $OSR.orig.vcf $HP_GOPT --native-pair-hmm-threads $HP_P  --callable-depth 6 --max-reads-per-alignment-start 0 -L "$HP_MT:285-315" -min-AF $MINAF # "$HP_MT:16254-16284"  
     java $HP_JOPT -jar $HP_JDIR/gatk.jar FilterMutectCalls -R $HP_RDIR/$HP_MTR.fa -V $OSR.orig.vcf  -O $OSR.vcf --min-reads-per-strand 2
     cat $OSR.vcf | perl -ane 'next if(/^#/) ; $F[1]=($F[1]-$ENV{HP_E})%$ENV{HP_MTLEN} ; print join "\t",@F; print "\n" ' >> $OS.vcf
     rm -f $OS.orig.* $OS.vcf.*
 
   elif [ "$HP_M" == "mutserve" ] ; then
     if [ "$HP_MT" == "chrM" ] ||  [ "$HP_MT" == "rCRS" ] ||  [ "$HP_MT" == "RSRS" ] ; then
-      java $HP_JOPT -jar $HP_JDIR/mutserve.jar call --deletions --insertions --level 0.03 --output $OS.vcf --reference $HP_RDIR/$HP_MT.fa $O.bam
+      java $HP_JOPT -jar $HP_JDIR/mutserve.jar call --deletions --insertions --level $MINAF --output $OS.vcf --reference $HP_RDIR/$HP_MT.fa $O.bam
       #mv $O.txt $OS.txt
     else
       echo "Wrong mutserve reference"
       exit 1
     fi
   elif [ "$HP_M" == "freebayes" ] ; then
-    freebayes -p 1 --pooled-continuous --min-alternate-fraction 0.03 $O.bam -f $HP_RDIR/$HP_MT.fa  > $OS.vcf
+    freebayes -p 1 --pooled-continuous --min-alternate-fraction $MINAF $O.bam -f $HP_RDIR/$HP_MT.fa  > $OS.vcf
   elif [ "$HP_M" == "varscan" ] ; then
-    #samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d 2000  | tee \
-    #  >(java -jar $HP_JDIR/VarScan.jar pileup2snp   -B  --variants --min-var-freq 0.03 > $OS.snp.txt) \
-    #  >(java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants --min-var-freq 0.03 > $OS.indel.txt) > /dev/null
-    samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d 2000  | java -jar $HP_JDIR/VarScan.jar pileup2snp   -B  --variants --min-var-freq 0.03 > $OS.txt
-    samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d 2000  | java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants --min-var-freq 0.03 | grep -v "^#" >> $OS.txt
+    #samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | tee \
+    #  >(java -jar $HP_JDIR/VarScan.jar pileup2snp   -B  --variants --min-var-freq $MINAF > $OS.snp.txt) \
+    #  >(java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants --min-var-freq $MINAF > $OS.indel.txt) > /dev/null
+    samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar pileup2snp   -B  --variants --min-var-freq $MINAF > $OS.txt
+    samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants --min-var-freq $MINAF | grep -v "^#" >> $OS.txt
 
     cat $HP_SDIR/$HP_M.vcf  > $OS.vcf
     fa2Vcf.pl $HP_RDIR/$HP_MT.fa >> $OS.vcf
@@ -274,20 +277,20 @@ if [ ! -f $OS.sa.bed ] ; then samtools view -h $OS.bam | sam2bedSA.pl | uniq.pl 
 # compute SNP/INDELs using mutect2/freebayes
 if [ ! -s $OSS.vcf ] ; then
   if [ "$HP_M" == "mutect2" ] ; then
-    java $HP_JOPT -jar $HP_JDIR/gatk.jar Mutect2           -R $OS.fa -I $OS.bam       -O $OSS.orig.vcf  $HP_GOPT --native-pair-hmm-threads $HP_P --callable-depth 6 --max-reads-per-alignment-start 0  -min-AF 0.03 # --mitochondria-mode
+    java $HP_JOPT -jar $HP_JDIR/gatk.jar Mutect2           -R $OS.fa -I $OS.bam       -O $OSS.orig.vcf  $HP_GOPT --native-pair-hmm-threads $HP_P --callable-depth 6 --max-reads-per-alignment-start 0  -min-AF $MINAF # --mitochondria-mode
     java $HP_JOPT -jar $HP_JDIR/gatk.jar FilterMutectCalls -R $OS.fa -V $OSS.orig.vcf -O $OSS.vcf  --min-reads-per-strand 2
 
-    java $HP_JOPT -jar $HP_JDIR/gatk.jar Mutect2           -R $OSR.fa -I $OSR.bam       -O $OSSR.orig.vcf  $HP_GOPT --native-pair-hmm-threads $HP_P --callable-depth 6 --max-reads-per-alignment-start 0 -L "$S:285-315"   -min-AF 0.03
+    java $HP_JOPT -jar $HP_JDIR/gatk.jar Mutect2           -R $OSR.fa -I $OSR.bam       -O $OSSR.orig.vcf  $HP_GOPT --native-pair-hmm-threads $HP_P --callable-depth 6 --max-reads-per-alignment-start 0 -L "$S:285-315"   -min-AF $MINAF
     java $HP_JOPT -jar $HP_JDIR/gatk.jar FilterMutectCalls -R $OSR.fa -V $OSSR.orig.vcf -O $OSSR.vcf  --min-reads-per-strand 2
     cat  $OSSR.vcf | perl -ane 'next if(/^#/) ; $F[1]=($F[1]-$ENV{HP_E})%$ENV{MTLEN} ; print join "\t",@F; print "\n" '  >> $OSS.vcf
     rm   $OSS.orig.* $OSSR.* $OSS.vcf.*
 
   elif [ "$HP_M" == "freebayes" ] ; then
-    freebayes -p 1 --pooled-continuous --min-alternate-fraction 0.03 $OS.bam -f $OS.fa  > $OSS.vcf
+    freebayes -p 1 --pooled-continuous --min-alternate-fraction $MINAF $OS.bam -f $OS.fa  > $OSS.vcf
 
   elif [ "$HP_M" == "varscan" ] ; then
-    samtools mpileup -f $OS.fa $OS.bam -B -d 2000 | java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants  --min-var-freq 0.03 > $OSS.txt
-    samtools mpileup -f $OS.fa $OS.bam -B -d 2000 | java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants  --min-var-freq 0.03 | grep -v "^#" >> $OSS.txt
+    samtools mpileup -f $OS.fa $OS.bam -B -d $MAXDP | java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants  --min-var-freq $MINAF > $OSS.txt
+    samtools mpileup -f $OS.fa $OS.bam -B -d $MAXDP | java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants  --min-var-freq $MINAF | grep -v "^#" >> $OSS.txt
 
     cat $HP_SDIR/$HP_M.vcf  > $OSS.vcf
     echo "##sample=$S" >> $OSS.vcf
@@ -316,5 +319,5 @@ fi
 
 rm -f $OS.bam*  $OS.dict $OS.fa.fai
 
-#!!! rm -f $O.fq $ON.score $O.bam* $OR.bam*
+rm -f $O.fq $ON.score $O.bam* $OR.bam* #!!!
 
