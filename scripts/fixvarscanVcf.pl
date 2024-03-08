@@ -33,6 +33,8 @@ MAIN:
 
         while(<>)
         {
+		my @F=split /\t/;
+		#next if(!/^#/ and (309<=$F[1] and $F[1]<=315 or 3100<=$F[1] and $F[1]<=3108));
 		print;
         }
 }
