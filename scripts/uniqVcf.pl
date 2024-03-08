@@ -45,6 +45,7 @@ MAIN:
 		my @F=split /\t/;
 
 		my $SM="";
+		my $AF=1;
 		if(@F>8)
 		{
 			if($F[8] eq "SM") { $SM=$F[9]}
@@ -52,14 +53,12 @@ MAIN:
 		}
 	
 		my $key=join "\t",(@F[0..4],$SM);
-		$line{$key}=$_ unless($line{$key});
-		
+		$line{$key}=$_ unless($line{$key});		
 		$count{$key}++;
 	}
 
 	foreach my $key ( keys %line )
 	{
-
 		print $line{$key} if($count{$key}>=$opt{min});
 	}
 }
