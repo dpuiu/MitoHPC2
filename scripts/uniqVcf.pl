@@ -8,7 +8,7 @@ my $HELP = qq~
 Program that filters unique SNV's (same ref,pos,ref,alt,sample)
 
         EXAMPLE:
-                cat I.vcf  | $0 
+                cat I.vcf -min min_count | $0 
 
 ~;
 
@@ -22,46 +22,45 @@ Program that filters unique SNV's (same ref,pos,ref,alt,sample)
 MAIN:
 {
         my %opt;
+	$opt{min}=1;
         my $result = GetOptions(
-                "help"          => \$opt{help}
+                "help"          => \$opt{help},
+		"min=i"		=> \$opt{min}
         );
         if(!$result)            { die "ERROR: $! "}
         if($opt{help})          { print $HELP; exit 0 }
 
         ##########################################################################
 
-	my (%max,%line);
+	my (%header,%line,%count);
 	while(<>)
 	{
 		if(/^#/)
 		{
-			print; next;
+			print unless($header{$_}); 
+			$header{$_}=1;
+			next;
 		}
 
 		my @F=split /\t/;
 
 		my $SM="";
-		my $AF=1;
 		if(@F>8)
 		{
 			if($F[8] eq "SM") { $SM=$F[9]}
 			elsif($F[7]=~/SM=(.+?);/ or $F[7]=~/SM=(.+)$/) { $SM=$1}
-
-			$AF=$1 if($F[7]=~/AF=(\S+?);/ or $F[7]=~/AF=(\S+)$/);
 		}
 	
 		my $key=join "\t",(@F[0..4],$SM);
-
-		if(!$max{$key} or $AF>$max{$key})
-		{
-			$max{$key}=$AF;
-			$line{$key}=$_;
-		}
+		$line{$key}=$_ unless($line{$key});
+		
+		$count{$key}++;
 	}
 
-	foreach my $key ( keys %max )
+	foreach my $key ( keys %line )
 	{
-		print $line{$key};
+
+		print $line{$key} if($count{$key}>=$opt{min});
 	}
 }
 

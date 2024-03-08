@@ -289,7 +289,7 @@ if [ ! -s $OSS.vcf ] ; then
     freebayes -p 1 --pooled-continuous --min-alternate-fraction $MINAF $OS.bam -f $OS.fa  > $OSS.vcf
 
   elif [ "$HP_M" == "varscan" ] ; then
-    samtools mpileup -f $OS.fa $OS.bam -B -d $MAXDP | java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants  --min-var-freq $MINAF > $OSS.txt
+    samtools mpileup -f $OS.fa $OS.bam -B -d $MAXDP | java -jar $HP_JDIR/VarScan.jar pileup2snp   -B  --variants  --min-var-freq $MINAF > $OSS.txt
     samtools mpileup -f $OS.fa $OS.bam -B -d $MAXDP | java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants  --min-var-freq $MINAF | grep -v "^#" >> $OSS.txt
 
     cat $HP_SDIR/$HP_M.vcf  > $OSS.vcf
