@@ -42,6 +42,7 @@ MAIN:
 			next;
 		}
 
+		chomp;
 		my @F=split /\t/;
 
 		my $SM="";
@@ -53,7 +54,7 @@ MAIN:
 		}
 	
 		my $key=join "\t",(@F[0..4],$SM);
-		$line{$key}=$_ unless($line{$key});		
+		$line{$key}="$_\n" unless($line{$key});		
 		$count{$key}++;
 	}
 

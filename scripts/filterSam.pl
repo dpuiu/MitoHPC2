@@ -46,11 +46,12 @@ MAIN:
 
 	while(<>)
 	{
+		chomp;
 		my @F=split /\t/;
 
 		if(/^\@SQ\tSN:(\S+)/ and $hb{$1})
 		{
-			print;
+			print "$_\n";
 		}
 		elsif(/^\@SQ\tSN:(\S+)\s+LN:(\d+)/ and $h{$1})
                 {

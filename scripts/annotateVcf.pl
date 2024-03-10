@@ -46,6 +46,7 @@ MAIN:
 		elsif(/^#/)   {}
 		else
 		{
+			chomp;
 	                my @F=split /\t/;
 			my $key="$F[0] $F[1] $F[3] $F[4]";
                 	$h{$key}=$F[7];
@@ -75,7 +76,8 @@ MAIN:
 			print;
 		}
 		else
-		{
+		{	
+			chomp;
 	                my @F=split /\t/;
 
 			my $key="$F[0] $F[1] $F[3] $F[4]";

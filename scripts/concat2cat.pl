@@ -33,17 +33,17 @@ MAIN:
 	my %GT;
 	while(<>)
 	{
-		chomp;
 		if(/^#/)
 		{
                         s/FORMAT/INFO/ if(/^##FORMAT=<ID=DP,/ or /##FORMAT=<ID=AF,/);
                         s/INFO/FORMAT/ if(/^##INFO=<ID=SM,/); 
 
 			print "##INFO=<ID=GT,Number=1,Type=String,Description=\"Genotype\">\n" if(/^##INFO=<ID=DP,/);
-			print "$_\n";
-			next
+			print;
+			next;
 		}
 
+		chomp;
 		my @F=split /\t/;
 		if($F[8] ne "SM")
 		{

@@ -21,7 +21,6 @@ Program that  ...  varscan VCF output
 MAIN:
 {
         my %opt;
-        my (%h,%AF);
         my $result = GetOptions(
                 "file=s"         => \$opt{file},
 		"help"  	 => \$opt{help}
@@ -33,8 +32,15 @@ MAIN:
 
         while(<>)
         {
+		if(/^#/)
+		{
+			print;
+			next;
+		}
+
+		chomp;
 		my @F=split /\t/;
-		#next if(!/^#/ and (309<=$F[1] and $F[1]<=315 or 3100<=$F[1] and $F[1]<=3108));
-		print;
+		next if($F[3]=~/N/);
+		print "$_\n";
         }
 }

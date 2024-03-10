@@ -39,6 +39,7 @@ MAIN:
 		}
 		else
 		{
+			chomp;
 			my @F=split /\t/;
 			print join "\t",@F[0..7]; print "\n";
 		}
