@@ -36,7 +36,9 @@ MAIN:
 {
 	# define variables
 	my %opt;
-	my $result = GetOptions();
+	my $result = GetOptions(
+		"posPrefix=s"	=>	\$opt{posPrefix}
+	);
         if(!$result)            	{ die "ERROR: $! "}
         if($opt{help})		{ print $HELP; exit 0 }
 
@@ -56,9 +58,9 @@ MAIN:
 		if($.==1)
 		{			
 			@H=@F;
-
-			foreach  (6..@H-1)
+			foreach (6..@H-1)
 			{
+				$H[$_]="$opt{posPrefix}_$H[$_]" if($opt{posPrefix});
 				$T[$_]="String";
 			}
 		}
