@@ -45,6 +45,7 @@ MAIN:
                 }
                 else
                 {
+			chomp;
                         my @F=split /\t/;
                         next if($F[3]=~/N/);
 

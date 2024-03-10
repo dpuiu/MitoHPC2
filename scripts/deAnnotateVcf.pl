@@ -43,6 +43,7 @@ MAIN:
 		elsif(/^#/)   { print }
 		else
 		{
+			chomp;
 	                my @F=split /\t/;
 			$F[7]=";$F[7];";
 			my $F7="";
@@ -54,7 +55,7 @@ MAIN:
 			$F7=~s/;$//;
 			$F[7]=$F7;
 
-			print join "\t",@F;
+			print join "\t",@F;print "\n";
 		}
         }
 

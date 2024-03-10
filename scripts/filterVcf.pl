@@ -56,6 +56,7 @@ MAIN:
                 open(IN,$opt{suspicious}) or die "ERROR: $!";
                 while(<IN>)
                 {
+			chomp;
                         my @F=split /\t/;
 			$suspicious{$F[0]}=1 if(@F);
                 }
