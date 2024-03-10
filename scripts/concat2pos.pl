@@ -90,7 +90,7 @@ MAIN:
                         {
                                 $h{$key}{AC_het}++;
 				my $AF=$1;
-				$h{$key}{max_observed_heteroplasmy}=$AF if(!$h{$key}{max_observed_heteroplasmy} or $AF>$h{$key}{max_observed_heteroplasmy});
+				$h{$key}{max_ARF}=$AF if(!$h{$key}{max_ARF} or $AF>$h{$key}{max_ARF});
 			}
 			elsif(/.+:0$/)
 			{
@@ -110,12 +110,12 @@ MAIN:
 		}
 	}
 
-	print "chr\tpos\tID\tref\talt\tfilters\tAC_hom\tAC_het\tAF_hom\tAF_het\tAN\tmax_observed_heteroplasmy\n";
+	print "chr\tpos\tID\tref\talt\tfilters\tAC_hom\tAC_het\tAF_hom\tAF_het\tAN\tmax_ARF\n";
 	foreach my $key (@keys)
 	{
 		my @F;
 
-		foreach ("AC_hom","AC_het","max_observed_heteroplasmy")
+		foreach ("AC_hom","AC_het","max_ARF")
 		{
 			$h{$key}{$_}=0 unless(defined($h{$key}{$_}));
 		}
@@ -124,7 +124,7 @@ MAIN:
 		$h{$key}{AF_het}=int(200000*$h{$key}{AC_het}/$AN+.5)/200000;
 
 
-		push @F,($key,$h{$key}{filter},$h{$key}{AC_hom},$h{$key}{AC_het},$h{$key}{AF_hom},$h{$key}{AF_het},$AN,$h{$key}{max_observed_heteroplasmy});
+		push @F,($key,$h{$key}{filter},$h{$key}{AC_hom},$h{$key}{AC_het},$h{$key}{AF_hom},$h{$key}{AF_het},$AN,$h{$key}{max_ARF});
 		print join "\t",@F; 
 		print "\n";
 	}

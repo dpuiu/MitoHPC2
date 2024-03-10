@@ -30,12 +30,18 @@ bcftools annotate -a $HP_RDIR/dbSNP.vcf.gz   -c "ID" $O.gz |\
   bcftools annotate -a $HP_RDIR/TRN.bed.gz     -c "CHROM,FROM,TO,TRN"     -h <(echo '##INFO=<ID=TRN,Number=1,Type=String,Description="tRNA">') |\
   bcftools annotate -a $HP_RDIR/DLOOP.bed.gz   -c "CHROM,FROM,TO,DLOOP"   -h <(echo '##INFO=<ID=DLOOP,Number=0,Type=Flag,Description="DLOOP">') |\
   annotateVcf.pl - $HP_RDIR/HG.vcf.gz        |\
-  annotateVcf.pl - $HP_RDIR/NUMT.vcf.gz      |\
-  annotateVcf.pl - $HP_RDIR/MITIMPACT.vcf.gz |\
-  annotateVcf.pl - $HP_RDIR/NONSYN.vcf.gz    |\
-  annotateVcf.pl - $HP_RDIR/STOP.vcf.gz      |\
-  annotateVcf.pl - $HP_RDIR/MLC.vcf.gz       |\
   bcftools annotate -a $HP_RDIR/MCC.bed.gz -c "CHROM,FROM,TO,MCC"         -h <(echo '##INFO=<ID=MCC,Number=1,Type=String,Description="New YALE protein_gene_missense_constraint; missense_OEUF">') > $O
 
 rm -f $O.gz*
+
+
+#  annotateVcf.pl - $HP_RDIR/HG.vcf.gz        |\
+#  annotateVcf.pl - $HP_RDIR/NUMT.vcf.gz      |\
+#  annotateVcf.pl - $HP_RDIR/MITIMPACT.vcf.gz |\
+#  annotateVcf.pl - $HP_RDIR/NONSYN.vcf.gz    |\
+#  annotateVcf.pl - $HP_RDIR/HelixMTdb.vcf.gz |\
+#  annotateVcf.pl - $HP_RDIR/MitImpact.vcf.gz |\
+#  annotateVcf.pl - $HP_RDIR/gnomad31.vcf.gz  |\
+#  annotateVcf.pl - $HP_RDIR/STOP.vcf.gz      |\
+#  annotateVcf.pl - $HP_RDIR/MLC.vcf.gz       |\
 
