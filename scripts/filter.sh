@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -ex
+#set -eux
 
 #########################################################################################################################################
 
@@ -9,6 +9,7 @@ set -ex
 #  1: sample names
 #  2: BAM/CRAM alignment file; full path
 #  3: output prefix; full path
+#  4:  SNV caller
 
 #########################################################################################################################################
 
@@ -19,16 +20,19 @@ export N=`basename "$N" .cram`
 IDIR=`dirname "$2"`
 I=$IDIR/$N
 ODIR=`dirname "$3"`; mkdir -p $ODIR 
+
+M="${4:-$HP_M}" # 2024/03/11 echo $M
+
 O=$3
 OR=${O}R
 
 ON=$O.$HP_NUMT
-OS=$O.$HP_M
+OS=$O.$M
 
 OSC=${OS}C
 OSR=${OS}R
 
-OSS=$OS.$HP_M
+OSS=$OS.$M
 OSSR=${OSS}R
 
 MINAF=0.01
@@ -134,7 +138,7 @@ if [ $HP_I -lt 1 ]  ; then exit 0 ; fi
 # compute SNVs using mutect2/mutserve/freebayes
 
 if [ ! -s $OS.vcf ] ; then
-  if [ "$HP_M" == "mutect2" ] ; then
+  if [ "$M" == "mutect2" ] ; then
     java $HP_JOPT -jar $HP_JDIR/gatk.jar Mutect2           -R $HP_RDIR/$HP_MT.fa -I $O.bam       -O $OS.orig.vcf $HP_GOPT --native-pair-hmm-threads $HP_P --callable-depth 6 --max-reads-per-alignment-start 0 -min-AF $MINAF # --mitochondria-mode 
     java $HP_JOPT -jar $HP_JDIR/gatk.jar FilterMutectCalls -R $HP_RDIR/$HP_MT.fa -V $OS.orig.vcf -O $OS.vcf --min-reads-per-strand 2
 
@@ -143,7 +147,7 @@ if [ ! -s $OS.vcf ] ; then
     cat $OSR.vcf | perl -ane 'next if(/^#/) ; $F[1]=($F[1]-$ENV{HP_E})%$ENV{HP_MTLEN} ; print join "\t",@F; print "\n" ' >> $OS.vcf
     rm -f $OS.orig.* $OS.vcf.*
 
-  elif [ "$HP_M" == "mutserve" ] ; then
+  elif [ "$M" == "mutserve" ] ; then
     if [ "$HP_MT" == "chrM" ] ||  [ "$HP_MT" == "rCRS" ] ||  [ "$HP_MT" == "RSRS" ] ; then
       java $HP_JOPT -jar $HP_JDIR/mutserve.jar call --deletions --insertions --level $MINAF --output $OS.vcf --reference $HP_RDIR/$HP_MT.fa $O.bam
       #mv $O.txt $OS.txt
@@ -151,22 +155,22 @@ if [ ! -s $OS.vcf ] ; then
       echo "Wrong mutserve reference"
       exit 1
     fi
-  elif [ "$HP_M" == "freebayes" ] ; then
+  elif [ "$M" == "freebayes" ] ; then
     freebayes -p 1 --pooled-continuous --min-alternate-fraction $MINAF $O.bam -f $HP_RDIR/$HP_MT.fa  > $OS.vcf
-  elif [ "$HP_M" == "varscan" ] ; then
+  elif [ "$M" == "varscan" ] ; then
     #samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | tee \
     #  >(java -jar $HP_JDIR/VarScan.jar pileup2snp   -B  --variants --min-var-freq $MINAF > $OS.snp.txt) \
     #  >(java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants --min-var-freq $MINAF > $OS.indel.txt) > /dev/null
     samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar pileup2snp   -B  --variants --min-var-freq $MINAF > $OS.txt
     samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants --min-var-freq $MINAF | grep -v "^#" >> $OS.txt
 
-    cat $HP_SDIR/$HP_M.vcf  > $OS.vcf
+    cat $HP_SDIR/$M.vcf  > $OS.vcf
     fa2Vcf.pl $HP_RDIR/$HP_MT.fa >> $OS.vcf
     cat $OS.txt| \
       perl -ane 'next if($.==1 or $F[2]=~/N/i or $F[3]=~/N/i); $DP=$F[4]+$F[5];$F[6]=~/(.+)%/;$AF=$1/100; print join "\t",($F[0],$F[1],".",$F[2],$F[-1],".",".",".","GT:DP:AF","0/1:$DP:$AF");print "\n";' | \
       perl -ane 'if($F[4]=~/\+(.+)/) {($F[4],$F[7])=("$F[3]$1","INDEL")} elsif($F[4]=~/\-(.+)/) {($F[3],$F[4],$F[7])=("$F[3]$1",$F[3],"INDEL")} print join "\t",@F; print "\n";' | uniqVcf.pl | sort -k1,1 -k2,2n >> $OS.vcf
   else
-    echo "Unsuported SNV caller"
+    echo "Unsuported SNV caller 1"
     exit 1
   fi
   rm -f $OSR.*
@@ -174,9 +178,9 @@ fi
 
 if [ ! -s $OS.00.vcf ] ; then
   # filter SNVs ; to update fixmuserveVcf.pl !!! 2024/03/04
-  bcftools norm -m-any -f $HP_RDIR/$HP_MT.fa  $OS.vcf   | fix${HP_M}Vcf.pl -file $HP_RDIR/$HP_MT.fa  | bedtools sort -header> $OS.fix.vcf
+  bcftools norm -m-any -f $HP_RDIR/$HP_MT.fa  $OS.vcf   | fix${M}Vcf.pl -file $HP_RDIR/$HP_MT.fa  | bedtools sort -header> $OS.fix.vcf
   cat $OS.fix.vcf | maxVcf.pl | bedtools sort -header |tee $OS.max.vcf | bgzip -f -c > $OS.max.vcf.gz ; tabix -f $OS.max.vcf.gz
-  cat $OS.fix.vcf | filterVcf.pl -sample $S -source $HP_M -header $HP_SDIR/$HP_M.vcf -depth $HP_DP | uniqVcf.pl | bedtools sort -header > $OS.00.vcf
+  cat $OS.fix.vcf | filterVcf.pl -sample $S -source $M -header $HP_SDIR/$M.vcf -depth $HP_DP | uniqVcf.pl | bedtools sort -header > $OS.00.vcf
   annotateVcf.sh $OS.00.vcf
 fi
 
@@ -259,7 +263,7 @@ fi
 rm -f  $OSC.*
 
 # exit if the number of iterations is set to 1
-if [ $HP_I -lt 2 ] || [ $HP_M == "mutserve" ] ; then
+if [ $HP_I -lt 2 ] || [ $M == "mutserve" ] ; then
   rm -f $OS.bam*  $OSR.bam*
   #!!! rm -f $O.fq $ON.score $O.bam* $OR.bam*
   exit 0
@@ -276,7 +280,7 @@ if [ ! -f $OS.sa.bed ] ; then samtools view -h $OS.bam | sam2bedSA.pl | uniq.pl 
 #########################################################################################################################################
 # compute SNP/INDELs using mutect2/freebayes
 if [ ! -s $OSS.vcf ] ; then
-  if [ "$HP_M" == "mutect2" ] ; then
+  if [ "$M" == "mutect2" ] ; then
     java $HP_JOPT -jar $HP_JDIR/gatk.jar Mutect2           -R $OS.fa -I $OS.bam       -O $OSS.orig.vcf  $HP_GOPT --native-pair-hmm-threads $HP_P --callable-depth 6 --max-reads-per-alignment-start 0  -min-AF $MINAF # --mitochondria-mode
     java $HP_JOPT -jar $HP_JDIR/gatk.jar FilterMutectCalls -R $OS.fa -V $OSS.orig.vcf -O $OSS.vcf  --min-reads-per-strand 2
 
@@ -285,14 +289,14 @@ if [ ! -s $OSS.vcf ] ; then
     cat  $OSSR.vcf | perl -ane 'next if(/^#/) ; $F[1]=($F[1]-$ENV{HP_E})%$ENV{MTLEN} ; print join "\t",@F; print "\n" '  >> $OSS.vcf
     rm   $OSS.orig.* $OSSR.* $OSS.vcf.*
 
-  elif [ "$HP_M" == "freebayes" ] ; then
+  elif [ "$M" == "freebayes" ] ; then
     freebayes -p 1 --pooled-continuous --min-alternate-fraction $MINAF $OS.bam -f $OS.fa  > $OSS.vcf
 
-  elif [ "$HP_M" == "varscan" ] ; then
+  elif [ "$M" == "varscan" ] ; then
     samtools mpileup -f $OS.fa $OS.bam -B -d $MAXDP | java -jar $HP_JDIR/VarScan.jar pileup2snp   -B  --variants  --min-var-freq $MINAF > $OSS.txt
     samtools mpileup -f $OS.fa $OS.bam -B -d $MAXDP | java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants  --min-var-freq $MINAF | grep -v "^#" >> $OSS.txt
 
-    cat $HP_SDIR/$HP_M.vcf  > $OSS.vcf
+    cat $HP_SDIR/$M.vcf  > $OSS.vcf
     echo "##sample=$S" >> $OSS.vcf
     fa2Vcf.pl $OS.fa | grep -m 1 contig= >> $OSS.vcf
     fa2Vcf.pl $HP_RDIR/$HP_MT.fa >> $OSS.vcf
@@ -300,7 +304,7 @@ if [ ! -s $OSS.vcf ] ; then
       perl -ane 'next if($.==1 or $F[2]=~/N/i or $F[3]=~/N/i); $DP=$F[4]+$F[5];$F[6]=~/(.+)%/;$AF=$1/100; print join "\t",($F[0],$F[1],".",$F[2],$F[-1],".",".",".","GT:DP:AF","0/1:$DP:$AF");print "\n";' | \
       perl -ane 'if($F[4]=~/\+(.+)/) {($F[4],$F[7])=("$F[3]$1","INDEL")} elsif($F[4]=~/\-(.+)/) {($F[3],$F[4],$F[7])=("$F[3]$1",$F[3],"INDEL")} print join "\t",@F; print "\n";' | uniqVcf.pl >> $OSS.vcf
   else
-    echo "Unsuported SNV caller"
+    echo "Unsuported SNV caller 2"
     exit 1
   fi
    rm  $OSR.* 
@@ -308,9 +312,9 @@ fi
 
 if [ ! -s $OSS.00.vcf ] ; then
   # filter SNP
-  cat $OSS.vcf | bcftools norm -m-any -f $OS.fa   | fix${HP_M}Vcf.pl -file $HP_RDIR/$HP_MT.fa | bedtools sort -header> $OSS.fix.vcf
+  cat $OSS.vcf | bcftools norm -m-any -f $OS.fa   | fix${M}Vcf.pl -file $HP_RDIR/$HP_MT.fa | bedtools sort -header> $OSS.fix.vcf
   cat $OSS.fix.vcf | fixsnpPos.pl -ref $HP_MT -rfile $HP_RDIR/$HP_MT.fa -rlen $HP_MTLEN -mfile $OS.max.vcf  | \
-    filterVcf.pl -sample $S -source $HP_M -header $HP_SDIR/$HP_M.vcf  -depth $HP_DP | bedtools sort  -header > $OSS.00.vcf  
+    filterVcf.pl -sample $S -source $M -header $HP_SDIR/$M.vcf  -depth $HP_DP | bedtools sort  -header > $OSS.00.vcf  
 
   annotateVcf.sh $OSS.00.vcf 
   intersectVcf.pl $OS.00.vcf $OS.max.vcf | cat - $OSS.00.vcf |  uniqVcf.pl | bedtools sort -header > $OSS.00.vcf.tmp ; mv $OSS.00.vcf.tmp $OSS.00.vcf
@@ -318,6 +322,5 @@ if [ ! -s $OSS.00.vcf ] ; then
 fi
 
 rm -f $OS.bam*  $OS.dict $OS.fa.fai
-
 rm -f $O.fq $ON.score $O.bam* $OR.bam* #!!!
 

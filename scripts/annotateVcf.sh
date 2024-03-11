@@ -35,6 +35,7 @@ if [ -s $HP_RDIR/MITOMAP.vcf.gz ]  ; then bcftools annotate -a $HP_RDIR/MITOMAP.
 if [ -s $HP_RDIR/MITIMPACT.vcf.gz ]    ; then bcftools annotate -a $HP_RDIR/MITIMPACT.vcf.gz $O.gz -c "INFO"  > $O ; bgzip -f $O ; tabix -f $O.gz ; fi
 if [ -s $HP_RDIR/HelixMTdb.vcf.gz ]    ; then bcftools annotate -a $HP_RDIR/HelixMTdb.vcf.gz $O.gz -c "INFO"  > $O ; bgzip -f $O ; tabix -f $O.gz ; fi
 if [ -s $HP_RDIR/gnomAD31.vcf.gz  ]    ; then bcftools annotate -a $HP_RDIR/gnomAD31.vcf.gz $O.gz -c "INFO"  > $O ; bgzip -f $O ; tabix -f $O.gz ; fi
+if [ -s $HP_RDIR/UKB_dragen.05.vcf.gz ] ; then bcftools annotate -a $HP_RDIR/UKB_dragen.05.vcf.gz $O.gz -c "INFO"  > $O ; bgzip -f $O ; tabix -f $O.gz ; fi
 if [ -s $HP_RDIR/MLC.vcf.gz ]  ; then bcftools annotate -a $HP_RDIR/MLC.vcf.gz $O.gz -c "INFO"  > $O ; bgzip -f $O ; tabix -f $O.gz ; fi
 
 if [ ! -s $O ] ; then zcat $O.gz > $O ; fi
