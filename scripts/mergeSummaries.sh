@@ -29,14 +29,14 @@ mkdir -p $HP_ODIR
 #done
 
 #for S in $HP_M.$HP_M
-for S in $HP_M 
+for M in $HP_M
 do
-  #find $@ -name $S.00.concat.vcf | xargs cat | bedtools sort -header > $HP_ODIR/$S.00.concat.vcf
-  #cat $HP_ODIR/$S.00.concat.vcf | grep -v "^#" | sed 's|:|\t|g'  | count.pl -i -1 -round 100| sort -n > $HP_ODIR/$S.00.AF.histo
+  #find $@ -name $M.00.concat.vcf | xargs cat | bedtools sort -header > $HP_ODIR/$M.00.concat.vcf
+  #cat $HP_ODIR/$M.00.concat.vcf | grep -v "^#" | sed 's|:|\t|g'  | count.pl -i -1 -round 100| sort -n > $HP_ODIR/$M.00.AF.histo
 
-  #snpCount.sh $S $HP_T1 &
-  #snpCount.sh $S $HP_T2 &
-  snpCount.sh $S $HP_T3 
+  snpCount.sh $M $HP_T1 
+  snpCount.sh $M $HP_T2 
+  snpCount.sh $M $HP_T3 
 done
  	
 

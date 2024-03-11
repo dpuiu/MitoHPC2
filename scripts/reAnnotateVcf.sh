@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -eux
 
 ##############################################################################################################
 
@@ -16,7 +16,6 @@ O=$2
 test -s $I
 
 cat $I | deAnnotateVcf.pl > $O
-
 bgzip -f $O
 tabix -f $O.gz
 
@@ -38,5 +37,6 @@ bcftools annotate -a $HP_RDIR/dbSNP.vcf.gz     -c "ID" $O.gz |\
   annotateVcf.pl - $HP_RDIR/MITIMPACT.vcf.gz |\
   annotateVcf.pl - $HP_RDIR/HelixMTdb.vcf.gz |\
   annotateVcf.pl - $HP_RDIR/gnomAD31.vcf.gz  |\
+  annotateVcf.pl - $HP_RDIR/UKB_dragen.05.vcf.gz | \
   annotateVcf.pl - $HP_RDIR/MLC.vcf.gz       > $O
 rm $O.gz
