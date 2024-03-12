@@ -21,7 +21,7 @@ IDIR=`dirname "$2"`
 I=$IDIR/$N
 ODIR=`dirname "$3"`; mkdir -p $ODIR 
 
-M="${4:-$HP_M}" # 2024/03/11 echo $M
+M="${4:-$HP_M}" # 2024/03/11 
 
 O=$3
 OR=${O}R
