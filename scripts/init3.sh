@@ -142,7 +142,7 @@ fi
 ###############################################################
 #JOB SCHEDULING
 
-#export HP_SH="bash" ;                                                                        export HP_SHS="$HP_SH"                     # bash
-export HP_SH="sbatch -J HP_$$ --cpus-per-task=$HP_P --nodes=1 --mem=$HP_MM --time=20:00" ;  export HP_SHS="$HP_SH -d singleton"        # SLURM
+export HP_SH="bash" ;                                                                        export HP_SHS="$HP_SH"                     # bash
+#export HP_SH="sbatch -J HP_$$ --cpus-per-task=$HP_P --nodes=1 --mem=$HP_MM --time=20:00" ;  export HP_SHS="$HP_SH -d singleton"        # SLURM
 #export HP_SH="bsub  -J HP_$$ -n $HP_P -R \"rusage[mem=$HP_MM]\" -W 00:20" ;  export HP_SHS="$HP_SH -w \"done(HP_$$)\""        # SLURM
 #export HP_SH="qsub -V -N HP_$$ -l mem_free=$HP_MM,h_vmem=$HP_MM -pe local $HP_P -cwd" ;     export HP_SHS="$HP_SH -hold_jid HP_$$"     # SGE
