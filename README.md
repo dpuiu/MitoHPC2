@@ -17,7 +17,8 @@ Make sure the VCF/BED files are gzipped and indexed.
 
 In addition, one can run multiple(3) SNV callers and merge the results. 
 Only the SNV called by at least 2 the metods make it into the final/merged set.
-     
+
+    # init     
     $ cp $HP_SDIR/init3.sh .
     $ cat init3.sh
       ...
@@ -28,6 +29,8 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
       ...
 
     $ . ./init3.sh
+
+    # run
     $ $HP_SDIR/run3.sh | tee run3.all.sh | bash       
 
     # output
