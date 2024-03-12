@@ -119,7 +119,8 @@ export HP_DP=25
 export HP_V=                     # SV caller: gridssexport HP_DP=100                 # minimum coverage: Ex 100
 
 #export HP_FRULE="perl -ane 'print unless(/strict_strand|strand_bias|base_qual|map_qual|weak_evidence|slippage|position|Homopolymer/ and /:0\.[01234]\d+$/);' |  bcftools filter -e 'DP<$HP_DP'"   # filter rule (or just "tee")
-export HP_FRULE="perl -ane 'print unless(/base_qual|map_qual|weak_evidence|slippage|position|Homopolymer|lod_fsta/ and /:0\.[01234]\d+$/);' | egrep '^#|INDEL|MLC_' |  bcftools filter -e 'DP<$HP_DP'"   # filter rule (or just "tee")
+#export HP_FRULE="perl -ane 'print unless(/base_qual|map_qual|weak_evidence|slippage|position|Homopolymer|lod_fsta/ and /:0\.[01234]\d+$/);' | egrep '^#|INDEL|MLC_' |  bcftools filter -e 'DP<$HP_DP'"   # filter rule (or just "tee")
+export HP_FRULE="tee"
 
 export HP_P=1				       		            # number of processors
 export HP_MM="3G"                                                   # maximum memory

@@ -8,7 +8,7 @@ my $HELP = qq~
 Program that prints all the SNV's present in one VCF file but missing from another
 
         EXAMPLE:
-                $0 I.vcf J.vcf > O.vcf
+                $0 I.vcf J.vcf [ -sm -af ] > O.vcf
 
 ~;
 
@@ -25,10 +25,7 @@ MAIN:
         # validate input parameters
         my $result = GetOptions(
 		"sm"      =>      \$opt{sm},
-		"min1=s"  =>	  \$opt{m1},
-		"Max1=s"  =>      \$opt{M1},
-               	"min2=s"  =>      \$opt{m2},
-               	"Max2=s"  =>      \$opt{M2},
+               	"af" 	  =>      \$opt{af},
 		"help"	  =>	  \$opt{help}
 	);
 
@@ -59,10 +56,7 @@ MAIN:
 		my $AF=1;
 		$AF=$1 if(/AF=(0\.\d+)/ or /.+:(1)$/ or /.+:(0\.\d+)/);
 
-		next if(defined($opt{m2}) and $AF<$opt{m2});
-		next if(defined($opt{M2}) and $AF>$opt{M2});
-
-                $h{"$F[0] $F[1] $F[3] $F[4] $SM"}=1;
+                $h{"$F[0] $F[1] $F[3] $F[4] $SM"}=$AF;
         }
 	close(IN);
         #last unless(%h);
@@ -88,13 +82,26 @@ MAIN:
 			else                                              { die "ERROR: $_" }
 		}
 
-		my $AF=1;
-                $AF=$1 if(/AF=(0\.\d+)/ or /.+:(1)$/ or /.+:(0\.\d+)/);
-
-               	next if(defined($opt{m1}) and $AF<$opt{m1});
-                next if(defined($opt{M1}) and $AF>$opt{M1});
-
-                print "$_\n" unless $h{"$F[0] $F[1] $F[3] $F[4] $SM"};
+		if($h{"$F[0] $F[1] $F[3] $F[4] $SM"})
+		{
+			if($opt{sm} and $opt{af})
+			{
+				if(/(.+;AF=)(0\.\d+)(.+)/ or /(.+;AF=)(1)(.+)/)
+				{
+					my $AF=abs($2-$h{"$F[0] $F[1] $F[3] $F[4] $SM"});
+					print "$1$AF$3\n" if($AF);
+				}	
+				elsif(/(.+:)(\d.*)$/)
+				{
+ 				 	 my $AF=abs($2-$h{"$F[0] $F[1] $F[3] $F[4] $SM"});
+					 print "$1$AF\n" if($AF);
+				}
+			}
+		}
+		else
+		{
+	                print "$_\n" unless $h{"$F[0] $F[1] $F[3] $F[4] $SM"};
+		}
         }
 
 	exit 0;
