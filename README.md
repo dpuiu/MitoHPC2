@@ -15,12 +15,18 @@ The pipleine has been updated so that all MitoHPC2/RefSeq/*.{vcf,bed}.gz files a
 If you have any custom annotation files you would like to use, just copy them to MitoHPC2/RefSeq. 
 Make sure the VCF/BED files are gzipped and indexed.
 
-In addition, one can run multiple(3) SNV callers and merge the results.
+In addition, one can run multiple(3) SNV callers and merge the results. 
+Only the SNV called by at least 2 the metods make it into the final/merged set.
      
-    * Example: Run mutect2,varscan,freebayes    
-    * Merges the calls; filter the SNV called by at least 2 of the metods
-    
     $ cp $HP_SDIR/init3.sh .
+    $ cat init3.sh
+      ...
+      export HP_M1=mutect2   
+      export HP_M2=varscan
+      export HP_M3=freebayes
+      export HP_M=merge3
+      ...
+
     $ . ./init3.sh
     $ $HP_SDIR/run3.sh | tee run3.all.sh | bash       
 
