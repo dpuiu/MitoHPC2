@@ -19,8 +19,10 @@ IDIR=`dirname "$2"`     # dir path
 I=${2%.*}               # bam/cram file name prefix
 X=${2##*.}              #                    extension
 O=$3                    # output prefix
-OS=$O.$HP_M             # output prefix + snv_caller
-OSS=$OS.$HP_M
+M="${4:-$HP_M}"         # 2024/03/12 
+
+OS=$O.$M                # output prefix + snv_caller
+OSS=$OS.$M
 RG="@RG\tID:$S\tSM:$S\tPL:HiFi"
 export PC="0.95"
 
@@ -66,12 +68,12 @@ if [ ! -s $O.cvg ]    ; then cat $O.bam | bedtools bamtobed -cigar  | bedtools g
 if [ ! -f $O.sa.bed ] ; then samtools view -h $O.bam | sam2bedSA.pl | uniq.pl -i 3 | sort -k2,2n -k3,3n > $O.sa.bed ; fi
 
 if [ ! -s $OS.00.vcf ] ; then
-  cat $HP_SDIR/$HP_M.vcf > $OS.00.vcf
+  cat $HP_SDIR/$M.vcf > $OS.00.vcf
   echo "##sample=$S" >> $OS.00.vcf
   fa2Vcf.pl $HP_RDIR/$HP_MT.fa >> $OS.00.vcf
 
   bcftools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -d $HP_DP | bcftools call --ploidy 2 -mv -Ov | bcftools norm -m-any  -f $HP_RDIR/$HP_MT.fa  | tee $OS.vcf | \
-    fix${HP_M}Vcf.pl |  tee  $OS.fix.vcf | filterVcf.pl -sample $S -source $HP_M  |  grep -v "^#" >> $OS.00.vcf
+    fix${M}Vcf.pl |  tee  $OS.fix.vcf | filterVcf.pl -sample $S -source $M  |  grep -v "^#" >> $OS.00.vcf
   cat $OS.fix.vcf | maxVcf.pl | bedtools sort -header | tee $OS.max.vcf | bgzip -f -c > $OS.max.vcf.gz ; tabix -f $OS.max.vcf.gz
   annotateVcf.sh $OS.00.vcf
 fi
@@ -102,16 +104,16 @@ if [ ! -s $OS.bam ] ; then
 fi
 
 if [ ! -s $OSS.00.vcf ] ; then
-  cat $HP_SDIR/$HP_M.vcf > $OSS.00.vcf
+  cat $HP_SDIR/$M.vcf > $OSS.00.vcf
   echo "##sample=$S" >> $OSS.00.vcf
   fa2Vcf.pl $HP_RDIR/$HP_MT.fa >> $OSS.00.vcf
 
   bcftools mpileup -f $OS.fa $OS.bam -d $HP_DP | bcftools call --ploidy 2 -mv -Ov | bcftools norm -m-any  -f $OS.fa  > $OSS.vcf
   cat  $OSS.vcf | \
-    fix${HP_M}Vcf.pl  | \
+    fix${M}Vcf.pl  | \
     fixsnpPos.pl -ref $HP_MT -rfile $HP_RDIR/$HP_MT.fa -rlen $HP_MTLEN -mfile $OS.max.vcf  | \
     cat $OS.max.vcf - | \
-    filterVcf.pl -sample $S -source $HP_M |  bedtools sort  >> $OSS.00.vcf
+    filterVcf.pl -sample $S -source $M |  bedtools sort  >> $OSS.00.vcf
 
   annotateVcf.sh $OSS.00.vcf
 fi
