@@ -11,13 +11,14 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/
     
 Check https://github.com/dpuiu/MitoHPC/blob/main/README.md
 
-# RUN MUTIPLE SNV CALLERS, MERGE RESULTS #
+In addition one can run multiple(3) SNV callers and merge the results.
      
-    * Runs mutect2,varscan,freebayes    
-    * Merges the calls; an SNV must be called by at least 2 of the metods
+    * Example: Run mutect2,varscan,freebayes    
+    * Merges the calls; filter the SNV called by at least 2 of the metods
     
     $ cp $HP_SDIR/init3.sh .
     $ . ./init3.sh
-    $ $HP_SDIR/run3.sh        
+    $ $HP_SDIR/run3.sh | tee run3.all.sh | bash       
 
+    # output
     $ ls $HP_ODIR/merge3.*
