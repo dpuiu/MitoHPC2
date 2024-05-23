@@ -1,0 +1,188 @@
+##fileformat=VCFv4.2
+##FILTER=<ID=PASS,Description="All filters passed">
+##FILTER=<ID=FAIL,Description="Fail the site if all alleles fail but for different reasons.">
+##FILTER=<ID=base_qual,Description="alt median base quality">
+##FILTER=<ID=clustered_events,Description="Clustered events observed in the tumor">
+##FILTER=<ID=contamination,Description="contamination">
+##FILTER=<ID=duplicate,Description="evidence for alt allele is overrepresented by apparent duplicates">
+##FILTER=<ID=fragment,Description="abs(ref - alt) median fragment length">
+##FILTER=<ID=germline,Description="Evidence indicates this site is germline, not somatic">
+##FILTER=<ID=haplotype,Description="Variant near filtered variant on same haplotype.">
+##FILTER=<ID=low_allele_frac,Description="Allele fraction is below specified threshold">
+##FILTER=<ID=map_qual,Description="ref - alt median mapping quality">
+##FILTER=<ID=multiallelic,Description="Site filtered because too many alt alleles pass tumor LOD">
+##FILTER=<ID=n_ratio,Description="Ratio of N to alt exceeds specified ratio">
+##FILTER=<ID=normal_artifact,Description="artifact_in_normal">
+##FILTER=<ID=orientation,Description="orientation bias detected by the orientation bias mixture model">
+##FILTER=<ID=panel_of_normals,Description="Blacklisted site in panel of normals">
+##FILTER=<ID=position,Description="median distance of alt variants from end of reads">
+##FILTER=<ID=possible_numt,Description="Allele depth is below expected coverage of NuMT in autosome">
+##FILTER=<ID=slippage,Description="Site filtered due to contraction of short tandem repeat region">
+##FILTER=<ID=strand_bias,Description="Evidence for alt allele comes from one read direction only">
+##FILTER=<ID=strict_strand,Description="Evidence for alt allele is not represented in both directions">
+##FILTER=<ID=weak_evidence,Description="Mutation does not meet likelihood threshold">
+##FORMAT=<ID=AD,Number=R,Type=Integer,Description="Allelic depths for the ref and alt alleles in the order listed">
+##FORMAT=<ID=AF,Number=A,Type=Float,Description="Allele fractions of alternate alleles in the tumor">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Approximate read depth (reads with MQ=255 or with bad mates are filtered)">
+##FORMAT=<ID=F1R2,Number=R,Type=Integer,Description="Count of reads in F1R2 pair orientation supporting each allele">
+##FORMAT=<ID=F2R1,Number=R,Type=Integer,Description="Count of reads in F2R1 pair orientation supporting each allele">
+##FORMAT=<ID=FAD,Number=R,Type=Integer,Description="Count of fragments supporting each allele.">
+##FORMAT=<ID=GQ,Number=1,Type=Integer,Description="Genotype Quality">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=PGT,Number=1,Type=String,Description="Physical phasing haplotype information, describing how the alternate alleles are phased in relation to one another; will always be heterozygous and is not intended to describe called alleles">
+##FORMAT=<ID=PID,Number=1,Type=String,Description="Physical phasing ID information, where each unique ID within a given sample (but not across samples) connects records within a phasing group">
+##FORMAT=<ID=PL,Number=G,Type=Integer,Description="Normalized, Phred-scaled likelihoods for genotypes as defined in the VCF specification">
+##FORMAT=<ID=PS,Number=1,Type=Integer,Description="Phasing set (typically the position of the first variant in the set)">
+##FORMAT=<ID=SB,Number=4,Type=Integer,Description="Per-sample component statistics which comprise the Fisher's Exact Test to detect strand bias.">
+##GATKCommandLine=<ID=FilterMutectCalls,CommandLine="FilterMutectCalls --output /home/dpuiu1/Homo_sapiens_mito/MitoHPC2/examples2/out.mutect2//sample_L5/sample_L5.mutect2.vcf --min-reads-per-strand 2 --variant /home/dpuiu1/Homo_sapiens_mito/MitoHPC2/examples2/out.mutect2//sample_L5/sample_L5.mutect2.orig.vcf --reference /home/dpuiu1/Homo_sapiens_mito/MitoHPC2/RefSeq//chrM.fa --threshold-strategy OPTIMAL_F_SCORE --f-score-beta 1.0 --false-discovery-rate 0.05 --initial-threshold 0.1 --mitochondria-mode false --microbial-mode false --max-events-in-region 2 --max-alt-allele-count 1 --unique-alt-read-count 0 --min-median-mapping-quality -1 --min-median-base-quality 20 --max-median-fragment-length-difference 10000 --min-median-read-position 1 --max-n-ratio Infinity --min-allele-fraction 0.0 --contamination-estimate 0.0 --log-snv-prior -13.815510557964275 --log-indel-prior -16.11809565095832 --log-artifact-prior -2.302585092994046 --normal-p-value-threshold 0.001 --min-slippage-length 8 --pcr-slippage-rate 0.1 --distance-on-haplotype 100 --long-indel-length 5 --interval-set-rule UNION --interval-padding 0 --interval-exclusion-padding 0 --interval-merging-rule ALL --read-validation-stringency SILENT --seconds-between-progress-updates 10.0 --disable-sequence-dictionary-validation false --create-output-bam-index true --create-output-bam-md5 false --create-output-variant-index true --create-output-variant-md5 false --max-variants-per-shard 0 --lenient false --add-output-sam-program-record true --add-output-vcf-command-line true --cloud-prefetch-buffer 40 --cloud-index-prefetch-buffer -1 --disable-bam-index-caching false --sites-only-vcf-output false --help false --version false --showHidden false --verbosity INFO --QUIET false --use-jdk-deflater false --use-jdk-inflater false --gcs-max-retries 20 --gcs-project-for-requester-pays  --disable-tool-default-read-filters false",Version="4.3.0.0",Date="May 23, 2024 2:37:45 PM EDT">
+##GATKCommandLine=<ID=Mutect2,CommandLine="Mutect2 --callable-depth 6 --minimum-allele-fraction 0.01 --native-pair-hmm-threads 1 --output /home/dpuiu1/Homo_sapiens_mito/MitoHPC2/examples2/out.mutect2//sample_L5/sample_L5.mutect2.orig.vcf --max-reads-per-alignment-start 0 --input /home/dpuiu1/Homo_sapiens_mito/MitoHPC2/examples2/out.mutect2//sample_L5/sample_L5.bam --reference /home/dpuiu1/Homo_sapiens_mito/MitoHPC2/RefSeq//chrM.fa --f1r2-median-mq 50 --f1r2-min-bq 20 --f1r2-max-depth 200 --flow-likelihood-parallel-threads 0 --flow-likelihood-optimized-comp false --flow-use-t0-tag false --flow-probability-threshold 0.003 --flow-remove-non-single-base-pair-indels false --flow-remove-one-zero-probs false --flow-quantization-bins 121 --flow-fill-empty-bins-value 0.001 --flow-symmetric-indel-probs false --flow-report-insertion-or-deletion false --flow-disallow-probs-larger-than-call false --flow-lump-probs false --flow-retain-max-n-probs-base-format false --flow-probability-scaling-factor 10 --flow-order-cycle-length 4 --flow-number-of-uncertain-flows-to-clip 0 --flow-nucleotide-of-first-uncertain-flow T --keep-boundary-flows false --genotype-pon-sites false --genotype-germline-sites false --af-of-alleles-not-in-resource -1.0 --mitochondria-mode false --mutect3-training-mode false --mutect3-ref-downsample 10 --mutect3-alt-downsample 20 --mutect3-non-artifact-ratio 20 --tumor-lod-to-emit 3.0 --initial-tumor-lod 2.0 --pcr-snv-qual 40 --pcr-indel-qual 40 --max-population-af 0.01 --downsampling-stride 1 --max-suspicious-reads-per-alignment-start 0 --normal-lod 2.2 --ignore-itr-artifacts false --gvcf-lod-band -2.5 --gvcf-lod-band -2.0 --gvcf-lod-band -1.5 --gvcf-lod-band -1.0 --gvcf-lod-band -0.5 --gvcf-lod-band 0.0 --gvcf-lod-band 0.5 --gvcf-lod-band 1.0 --independent-mates false --flow-mode NONE --disable-adaptive-pruning false --kmer-size 10 --kmer-size 25 --dont-increase-kmer-sizes-for-cycles false --allow-non-unique-kmers-in-ref false --num-pruning-samples 1 --min-dangling-branch-length 4 --recover-all-dangling-branches false --max-num-haplotypes-in-population 128 --min-pruning 2 --adaptive-pruning-initial-error-rate 0.001 --pruning-lod-threshold 2.302585092994046 --pruning-seeding-lod-threshold 9.210340371976184 --max-unpruned-variants 100 --linked-de-bruijn-graph false --disable-artificial-haplotype-recovery false --enable-legacy-graph-cycle-detection false --debug-assembly false --debug-graph-transformations false --capture-assembly-failure-bam false --num-matching-bases-in-dangling-end-to-recover -1 --error-correction-log-odds -Infinity --error-correct-reads false --kmer-length-for-read-error-correction 25 --min-observations-for-kmer-to-be-solid 20 --likelihood-calculation-engine PairHMM --base-quality-score-threshold 18 --dragstr-het-hom-ratio 2 --dont-use-dragstr-pair-hmm-scores false --pair-hmm-gap-continuation-penalty 10 --expected-mismatch-rate-for-read-disqualification 0.02 --pair-hmm-implementation FASTEST_AVAILABLE --pcr-indel-model CONSERVATIVE --phred-scaled-global-read-mismapping-rate 45 --disable-symmetric-hmm-normalizing false --disable-cap-base-qualities-to-map-quality false --enable-dynamic-read-disqualification-for-genotyping false --dynamic-read-disqualification-threshold 1.0 --native-pair-hmm-use-double-precision false --flow-hmm-engine-min-indel-adjust 6 --flow-hmm-engine-flat-insertion-penatly 45 --flow-hmm-engine-flat-deletion-penatly 45 --pileup-detection false --pileup-detection-enable-indel-pileup-calling false --num-artificial-haplotypes-to-add-per-allele 5 --artifical-haplotype-filtering-kmer-size 10 --pileup-detection-snp-alt-threshold 0.1 --pileup-detection-indel-alt-threshold 0.5 --pileup-detection-absolute-alt-depth 0.0 --pileup-detection-snp-adjacent-to-assembled-indel-range 5 --pileup-detection-bad-read-tolerance 0.0 --pileup-detection-proper-pair-read-badness true --pileup-detection-edit-distance-read-badness-threshold 0.08 --pileup-detection-chimeric-read-badness true --pileup-detection-template-mean-badness-threshold 0.0 --pileup-detection-template-std-badness-threshold 0.0 --bam-writer-type CALLED_HAPLOTYPES --dont-use-soft-clipped-bases false --override-fragment-softclip-check false --min-base-quality-score 10 --smith-waterman JAVA --emit-ref-confidence NONE --max-mnp-distance 1 --force-call-filtered-alleles false --reference-model-deletion-quality 30 --soft-clip-low-quality-ends false --allele-informative-reads-overlap-margin 2 --smith-waterman-dangling-end-match-value 25 --smith-waterman-dangling-end-mismatch-penalty -50 --smith-waterman-dangling-end-gap-open-penalty -110 --smith-waterman-dangling-end-gap-extend-penalty -6 --smith-waterman-haplotype-to-reference-match-value 200 --smith-waterman-haplotype-to-reference-mismatch-penalty -150 --smith-waterman-haplotype-to-reference-gap-open-penalty -260 --smith-waterman-haplotype-to-reference-gap-extend-penalty -11 --smith-waterman-read-to-haplotype-match-value 10 --smith-waterman-read-to-haplotype-mismatch-penalty -15 --smith-waterman-read-to-haplotype-gap-open-penalty -30 --smith-waterman-read-to-haplotype-gap-extend-penalty -5 --flow-assembly-collapse-hmer-size 0 --flow-assembly-collapse-partial-mode false --flow-filter-alleles false --flow-filter-alleles-qual-threshold 30.0 --flow-filter-alleles-sor-threshold 3.0 --flow-filter-lone-alleles false --flow-filter-alleles-debug-graphs false --min-assembly-region-size 50 --max-assembly-region-size 300 --active-probability-threshold 0.002 --max-prob-propagation-distance 50 --force-active false --assembly-region-padding 100 --padding-around-indels 75 --padding-around-snps 20 --padding-around-strs 75 --max-extension-into-assembly-region-padding-legacy 25 --enable-legacy-assembly-region-trimming false --interval-set-rule UNION --interval-padding 0 --interval-exclusion-padding 0 --interval-merging-rule ALL --read-validation-stringency SILENT --seconds-between-progress-updates 10.0 --disable-sequence-dictionary-validation false --create-output-bam-index true --create-output-bam-md5 false --create-output-variant-index true --create-output-variant-md5 false --max-variants-per-shard 0 --lenient false --add-output-sam-program-record true --add-output-vcf-command-line true --cloud-prefetch-buffer 40 --cloud-index-prefetch-buffer -1 --disable-bam-index-caching false --sites-only-vcf-output false --help false --version false --showHidden false --verbosity INFO --QUIET false --use-jdk-deflater false --use-jdk-inflater false --gcs-max-retries 20 --gcs-project-for-requester-pays  --disable-tool-default-read-filters false --max-read-length 2147483647 --min-read-length 30 --minimum-mapping-quality 20 --disable-tool-default-annotations false --enable-all-annotations false",Version="4.3.0.0",Date="May 23, 2024 2:36:14 PM EDT">
+##INFO=<ID=AS_FilterStatus,Number=A,Type=String,Description="Filter status for each allele, as assessed by ApplyVQSR. Note that the VCF filter field will reflect the most lenient/sensitive status across all alleles.">
+##INFO=<ID=AS_SB_TABLE,Number=1,Type=String,Description="Allele-specific forward/reverse read counts for strand bias tests. Includes the reference and alleles separated by |.">
+##INFO=<ID=AS_UNIQ_ALT_READ_COUNT,Number=A,Type=Integer,Description="Number of reads with unique start and mate end positions for each alt at a variant site">
+##INFO=<ID=CONTQ,Number=1,Type=Float,Description="Phred-scaled qualities that alt allele are not due to contamination">
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Approximate read depth; some reads may have been filtered">
+##INFO=<ID=ECNT,Number=1,Type=Integer,Description="Number of events in this haplotype">
+##INFO=<ID=GERMQ,Number=1,Type=Integer,Description="Phred-scaled quality that alt alleles are not germline variants">
+##INFO=<ID=MBQ,Number=R,Type=Integer,Description="median base quality by allele">
+##INFO=<ID=MFRL,Number=R,Type=Integer,Description="median fragment length by allele">
+##INFO=<ID=MMQ,Number=R,Type=Integer,Description="median mapping quality by allele">
+##INFO=<ID=MPOS,Number=A,Type=Integer,Description="median distance from end of read">
+##INFO=<ID=NALOD,Number=A,Type=Float,Description="Negative log 10 odds of artifact in normal with same allele fraction as tumor">
+##INFO=<ID=NCount,Number=1,Type=Integer,Description="Count of N bases in the pileup">
+##INFO=<ID=NLOD,Number=A,Type=Float,Description="Normal log 10 likelihood ratio of diploid het or hom alt genotypes">
+##INFO=<ID=OCM,Number=1,Type=Integer,Description="Number of alt reads whose original alignment doesn't match the current contig.">
+##INFO=<ID=PON,Number=0,Type=Flag,Description="site found in panel of normals">
+##INFO=<ID=POPAF,Number=A,Type=Float,Description="negative log 10 population allele frequencies of alt alleles">
+##INFO=<ID=ROQ,Number=1,Type=Float,Description="Phred-scaled qualities that alt allele are not due to read orientation artifact">
+##INFO=<ID=RPA,Number=R,Type=Integer,Description="Number of times tandem repeat unit is repeated, for each allele (including reference)">
+##INFO=<ID=RU,Number=1,Type=String,Description="Tandem repeat unit (bases)">
+##INFO=<ID=SEQQ,Number=1,Type=Integer,Description="Phred-scaled quality that alt alleles are not sequencing errors">
+##INFO=<ID=STR,Number=0,Type=Flag,Description="Variant is a short tandem repeat">
+##INFO=<ID=STRANDQ,Number=1,Type=Integer,Description="Phred-scaled quality of strand bias artifact">
+##INFO=<ID=STRQ,Number=1,Type=Integer,Description="Phred-scaled quality that alt alleles in STRs are not polymerase slippage errors">
+##INFO=<ID=TLOD,Number=A,Type=Float,Description="Log 10 likelihood ratio score of variant existing versus not existing">
+##MutectVersion=2.2
+##contig=<ID=chrM,length=16569>
+##filtering_status=These calls have been filtered by FilterMutectCalls to label false positives with a list of failed filters and true positives with PASS.
+##source=FilterMutectCalls
+##source=Mutect2
+##tumor_sample=sample_L5
+##bcftools_normVersion=1.17+htslib-1.17
+##bcftools_normCommand=norm -m-any -f /home/dpuiu1/Homo_sapiens_mito/MitoHPC2/RefSeq//chrM.fa /home/dpuiu1/Homo_sapiens_mito/MitoHPC2/examples2/out.mutect2//sample_L5/sample_L5.mutect2.vcf; Date=Thu May 23 14:37:58 2024
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	sample_L5
+chrM	73	.	A	G	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|743,787;DP=1573;ECNT=4;GERMQ=93;MBQ=0,20;MFRL=0,515;MMQ=60,40;MPOS=39;POPAF=7.3;TLOD=4290.85	GT:DP:AF	0/1:1530:0.999
+chrM	89	.	T	G	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=632,616|119,156;DP=1572;ECNT=4;GERMQ=93;MBQ=20,20;MFRL=511,503;MMQ=40,40;MPOS=35;POPAF=7.3;TLOD=368.1	GT:DP:AF	0/1:1523:0.179
+chrM	152	.	T	C	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|817,755;DP=1624;ECNT=4;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,40;MPOS=36;POPAF=7.3;TLOD=3883.25	GT:DP:AF	0/1:1572:0.999
+chrM	182	.	C	T	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|806,676;DP=1536;ECNT=4;GERMQ=93;MBQ=0,20;MFRL=0,500;MMQ=60,40;MPOS=40;POPAF=7.3;TLOD=3660.27	GT:DP:AF	0/1:1482:0.999
+chrM	247	.	G	A	.	clustered_events;haplotype	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|860,665;DP=1544;ECNT=5;GERMQ=93;MBQ=0,20;MFRL=0,515;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=6492.15	GT:DP:AF	0|1:1525:0.999
+chrM	263	.	A	G	.	clustered_events;haplotype	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|864,674;DP=1550;ECNT=5;GERMQ=93;MBQ=0,20;MFRL=0,520;MMQ=60,60;MPOS=38;POPAF=7.3;TLOD=6586.43	GT:DP:AF	0|1:1538:0.999
+chrM	268	.	C	G	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=710,556|140,99;DP=1542;ECNT=5;GERMQ=93;MBQ=20,20;MFRL=522,525;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=305.38	GT:DP:AF	0/1:1505:0.157
+chrM	310	.	T	TC	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=4,0|812,639;DP=1546;ECNT=5;GERMQ=93;MBQ=20,20;MFRL=452,550;MMQ=60,60;MPOS=38;POPAF=7.3;RPA=5,6;RU=C;STR;STRQ=93;TLOD=3517.02	GT:DP:AF	0/1:1455:0.998
+chrM	383	.	T	A	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=683,583|158,137;DP=1604;ECNT=5;GERMQ=93;MBQ=20,20;MFRL=519,520;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=401.34	GT:DP:AF	0/1:1561:0.187
+chrM	507	.	T	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=741,696|161,155;DP=1807;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=498,503;MMQ=60,60;MPOS=34;POPAF=7.3;TLOD=423.05	GT:DP:AF	0|1:1753:0.178
+chrM	513	.	GCA	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,9|849,793;DP=1823;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=488,500;MMQ=60,60;MPOS=37;POPAF=7.3;RPA=5,4;RU=CA;STR;STRQ=93;TLOD=4607.19	GT:DP:AF	0|1:1651:0.997
+chrM	601	.	G	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=562,548|132,117;DP=1396;ECNT=1;GERMQ=93;MBQ=20,20;MFRL=503,502;MMQ=60,60;MPOS=37;POPAF=7.3;TLOD=334.97	GT:DP:AF	0/1:1359:0.182
+chrM	665	.	C	G	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=661,636|154,129;DP=1635;ECNT=7;GERMQ=93;MBQ=20,20;MFRL=501,498;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=377.69	GT:DP:AF	0/1:1580:0.177
+chrM	709	.	G	A	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|740,710;DP=1496;ECNT=7;GERMQ=93;MBQ=0,20;MFRL=0,500;MMQ=60,60;MPOS=37;POPAF=7.3;TLOD=3582.19	GT:DP:AF	0/1:1450:0.999
+chrM	750	.	A	G	.	clustered_events;haplotype	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|677,681;DP=1384;ECNT=7;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=31;POPAF=7.3;TLOD=5584.53	GT:DP:AF	0|1:1358:0.999
+chrM	769	.	G	A	.	clustered_events;haplotype	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|693,695;DP=1413;ECNT=7;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=32;POPAF=7.3;TLOD=5745.48	GT:DP:AF	0|1:1388:0.999
+chrM	771	.	A	AC	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=566,569|108,116;DP=1416;ECNT=7;GERMQ=93;MBQ=20,20;MFRL=499,505;MMQ=60,60;MPOS=32;POPAF=7.3;TLOD=634.64	GT:DP:AF	0/1:1359:0.165
+chrM	825	.	T	A	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,10|760,792;DP=1611;ECNT=7;GERMQ=93;MBQ=20,20;MFRL=526,500;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=3809.14	GT:DP:AF	0/1:1562:0.996
+chrM	851	.	A	G	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|806,824;DP=1680;ECNT=7;GERMQ=93;MBQ=0,20;MFRL=0,500;MMQ=60,60;MPOS=42;POPAF=7.3;TLOD=4027.01	GT:DP:AF	0/1:1630:0.999
+chrM	934	.	G	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=715,776|166,132;DP=1836;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=499,496;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=387.67	GT:DP:AF	0/1:1789:0.165
+chrM	1018	.	G	A	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|864,869;DP=1789;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=38;POPAF=7.3;TLOD=4280.18	GT:DP:AF	0/1:1733:0.999
+chrM	1438	.	A	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|722,720;DP=1485;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,500;MMQ=60,60;MPOS=35;POPAF=7.3;TLOD=3562.23	GT:DP:AF	0/1:1442:0.999
+chrM	1822	.	T	C	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|692,693;DP=1420;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,502;MMQ=60,60;MPOS=35;POPAF=7.3;TLOD=3421.49	GT:DP:AF	0/1:1385:0.999
+chrM	2454	.	G	C	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=579,535|112,126;DP=1393;ECNT=1;GERMQ=93;MBQ=20,20;MFRL=499,496;MMQ=60,60;MPOS=36;POPAF=7.3;TLOD=315.59	GT:DP:AF	0/1:1352:0.174
+chrM	2706	.	A	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|661,658;DP=1358;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,501;MMQ=60,60;MPOS=35;POPAF=7.3;TLOD=3258.24	GT:DP:AF	0/1:1319:0.999
+chrM	3423	.	T	C	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|706,680;DP=1430;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=36;POPAF=7.3;TLOD=3423.94	GT:DP:AF	0/1:1386:0.999
+chrM	3594	.	C	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|704,719;DP=1468;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,498;MMQ=60,60;MPOS=37;POPAF=7.3;TLOD=3515.28	GT:DP:AF	0/1:1423:0.999
+chrM	3833	.	TGC	T	.	clustered_events;haplotype	AS_FilterStatus=SITE;AS_SB_TABLE=746,794|150,153;DP=1916;ECNT=3;GERMQ=93;MBQ=20,20;MFRL=499,494;MMQ=60,60;MPOS=36;POPAF=7.3;TLOD=997.79	GT:DP:AF	0|1:1843:0.165
+chrM	3859	.	T	C	.	clustered_events;haplotype	AS_FilterStatus=SITE;AS_SB_TABLE=753,807|166,150;DP=1912;ECNT=3;GERMQ=93;MBQ=20,20;MFRL=498,500;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=977.98	GT:DP:AF	1|0:1876:0.168
+chrM	3871	.	A	C	.	clustered_events;haplotype	AS_FilterStatus=SITE;AS_SB_TABLE=734,787|167,142;DP=1842;ECNT=3;GERMQ=93;MBQ=20,20;MFRL=499,500;MMQ=60,60;MPOS=41;POPAF=7.3;TLOD=969.17	GT:DP:AF	1|0:1830:0.169
+chrM	4092	.	G	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=670,738|148,166;DP=1761;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=495,498;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=422.05	GT:DP:AF	0|1:1722:0.181
+chrM	4104	.	A	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|780,902;DP=1730;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,495;MMQ=60,60;MPOS=43;POPAF=7.3;TLOD=4741.61	GT:DP:AF	0|1:1682:0.999
+chrM	4489	.	C	A	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=557,522|110,102;DP=1339;ECNT=1;GERMQ=93;MBQ=20,20;MFRL=497,493;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=274.01	GT:DP:AF	0/1:1291:0.162
+chrM	4769	.	A	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|495,676;DP=1211;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,492;MMQ=60,60;MPOS=37;POPAF=7.3;TLOD=2892.26	GT:DP:AF	0/1:1171:0.999
+chrM	5111	.	C	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|928,686;DP=1674;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=3987.62	GT:DP:AF	0/1:1614:0.999
+chrM	5147	.	G	A	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|935,628;DP=1628;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,493;MMQ=60,60;MPOS=34;POPAF=7.3;TLOD=3860.92	GT:DP:AF	0/1:1563:0.999
+chrM	5406	.	A	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=553,601|112,135;DP=1452;ECNT=1;GERMQ=93;MBQ=20,20;MFRL=498,505;MMQ=60,60;MPOS=38;POPAF=7.3;TLOD=327.49	GT:DP:AF	0/1:1401:0.175
+chrM	5656	.	A	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|644,672;DP=1351;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=37;POPAF=7.3;TLOD=3250.95	GT:DP:AF	0/1:1316:0.999
+chrM	6167	.	T	C	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=722,759|140,142;DP=1818;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=499,506;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=361.56	GT:DP:AF	0|1:1763:0.158
+chrM	6182	.	G	A	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|860,923;DP=1833;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,500;MMQ=60,60;MPOS=41;POPAF=7.3;TLOD=4936.71	GT:DP:AF	0|1:1783:0.999
+chrM	6297	.	T	C	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|872,921;DP=1851;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,502;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=4428.25	GT:DP:AF	0/1:1793:0.999
+chrM	6378	.	T	A	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=695,702|179,143;DP=1771;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=502,502;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=436.92	GT:DP:AF	0/1:1719:0.186
+chrM	6596	.	C	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=543,555|121,103;DP=1369;ECNT=1;GERMQ=93;MBQ=20,20;MFRL=501,498;MMQ=60,60;MPOS=33;POPAF=7.3;TLOD=292.92	GT:DP:AF	0/1:1322:0.168
+chrM	6707	.	T	C	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=545,560|116,115;DP=1382;ECNT=1;GERMQ=93;MBQ=20,20;MFRL=499,497;MMQ=60,60;MPOS=35;POPAF=7.3;TLOD=304.29	GT:DP:AF	0/1:1336:0.171
+chrM	7028	.	C	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|683,660;DP=1387;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,498;MMQ=60,60;MPOS=35;POPAF=7.3;TLOD=3317.49	GT:DP:AF	0/1:1343:0.999
+chrM	7256	.	C	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|631,675;DP=1358;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,501;MMQ=60,60;MPOS=34;POPAF=7.3;TLOD=3226.21	GT:DP:AF	0/1:1306:0.999
+chrM	7424	.	A	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|636,686;DP=1362;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=35;POPAF=7.3;TLOD=3265.61	GT:DP:AF	0/1:1322:0.999
+chrM	7521	.	G	A	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|668,612;DP=1329;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,501;MMQ=60,60;MPOS=37;POPAF=7.3;TLOD=3161.83	GT:DP:AF	0/1:1280:0.999
+chrM	7972	.	A	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|698,667;DP=1412;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,498;MMQ=60,60;MPOS=37;POPAF=7.3;TLOD=3371.93	GT:DP:AF	0/1:1365:0.999
+chrM	8155	.	G	A	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|923,936;DP=1925;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,500;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=4591.59	GT:DP:AF	0/1:1859:0.999
+chrM	8188	.	A	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|930,920;DP=1912;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=41;POPAF=7.3;TLOD=4570.56	GT:DP:AF	0/1:1850:0.999
+chrM	8582	.	C	T	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|827,833;DP=1714;ECNT=3;GERMQ=93;MBQ=0,20;MFRL=0,503;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=4101.33	GT:DP:AF	0/1:1660:0.999
+chrM	8655	.	C	T	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|804,830;DP=1692;ECNT=3;GERMQ=93;MBQ=0,20;MFRL=0,504;MMQ=60,60;MPOS=35;POPAF=7.3;TLOD=4036.76	GT:DP:AF	0/1:1634:0.999
+chrM	8701	.	A	G	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|760,777;DP=1596;ECNT=3;GERMQ=93;MBQ=0,20;MFRL=0,502;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=3797.3	GT:DP:AF	0/1:1537:0.999
+chrM	8860	.	A	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|697,619;DP=1351;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,501;MMQ=60,60;MPOS=36;POPAF=7.3;TLOD=3250.84	GT:DP:AF	0/1:1316:0.999
+chrM	9305	.	G	A	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|905,918;DP=1840;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,500;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=7612.25	GT:DP:AF	0|1:1823:0.999
+chrM	9329	.	G	A	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|907,905;DP=1829;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,500;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=7585.16	GT:DP:AF	0|1:1812:0.999
+chrM	9454	.	T	C	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=592,550|135,119;DP=1440;ECNT=1;GERMQ=93;MBQ=20,20;MFRL=501,500;MMQ=60,60;MPOS=38;POPAF=7.3;TLOD=340.87	GT:DP:AF	0/1:1396:0.18
+chrM	9540	.	T	C	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|864,861;DP=1776;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,502;MMQ=60,60;MPOS=38;POPAF=7.3;TLOD=4262.07	GT:DP:AF	0/1:1725:0.999
+chrM	9623	.	A	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=722,701|125,139;DP=1731;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=501,496;MMQ=60,60;MPOS=36;POPAF=7.3;TLOD=334.74	GT:DP:AF	0/1:1687:0.154
+chrM	10010	.	T	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=719,708|160,142;DP=1779;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=499,499;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=399.69	GT:DP:AF	0/1:1729:0.173
+chrM	10084	.	T	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=737,707|157,158;DP=1811;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=500,504;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=420.73	GT:DP:AF	0/1:1759:0.177
+chrM	10398	.	A	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|721,661;DP=1430;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=36;POPAF=7.3;TLOD=3413.97	GT:DP:AF	0/1:1382:0.999
+chrM	10601	.	T	G	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=712,741|145,149;DP=1792;ECNT=3;GERMQ=93;MBQ=20,20;MFRL=501,497;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=383.91	GT:DP:AF	0/1:1747:0.166
+chrM	10603	.	C	G	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=718,747|136,137;DP=1799;ECNT=3;GERMQ=93;MBQ=20,20;MFRL=500,498;MMQ=60,60;MPOS=37;POPAF=7.3;TLOD=347.58	GT:DP:AF	0/1:1738:0.155
+chrM	10688	.	G	A	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|847,897;DP=1797;ECNT=3;GERMQ=93;MBQ=0,20;MFRL=0,502;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=4308.83	GT:DP:AF	0/1:1744:0.999
+chrM	10810	.	T	C	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|789,801;DP=1641;ECNT=5;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=43;POPAF=7.3;TLOD=3928.17	GT:DP:AF	0/1:1590:0.999
+chrM	10873	.	T	C	.	clustered_events;multiallelic	AS_FilterStatus=SITE|SITE;AS_SB_TABLE=0,0|547,549|105,128;DP=1411;ECNT=5;GERMQ=93;MBQ=0,20;MFRL=0,500;MMQ=60,60;MPOS=35;POPAF=7.3;TLOD=2461.21	GT:DP:AF	0/1/0:1329:0.827
+chrM	10874	.	C	G	.	clustered_events;multiallelic	AS_SB_TABLE=0,0|547,549|105,128;DP=1411;ECNT=5;GERMQ=93;MBQ=0,20;MFRL=0,495;MMQ=60,60;MPOS=36;POPAF=7.3;TLOD=307.83	GT:DP:AF	0/0/1:1329:0.172
+chrM	10960	.	AC	A	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=559,528|101,109;DP=1340;ECNT=5;GERMQ=93;MBQ=20,20;MFRL=502,499;MMQ=60,60;MPOS=33;POPAF=7.3;TLOD=587.72	GT:DP:AF	0/1:1297:0.162
+chrM	10981	.	C	A	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=573,563|123,131;DP=1426;ECNT=5;GERMQ=93;MBQ=20,20;MFRL=502,502;MMQ=60,60;MPOS=35;POPAF=7.3;TLOD=341.09	GT:DP:AF	0/1:1390:0.181
+chrM	11025	.	T	C	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|752,763;DP=1563;ECNT=5;GERMQ=93;MBQ=0,20;MFRL=0,501;MMQ=60,60;MPOS=41;POPAF=7.3;TLOD=3742.41	GT:DP:AF	0/1:1515:0.999
+chrM	11179	.	A	C	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=606,582|118,138;DP=1483;ECNT=1;GERMQ=93;MBQ=20,20;MFRL=500,499;MMQ=60,60;MPOS=34;POPAF=7.3;TLOD=340.34	GT:DP:AF	0/1:1444:0.176
+chrM	11719	.	G	A	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|697,694;DP=1432;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,500;MMQ=60,60;MPOS=38;POPAF=7.3;TLOD=3436.23	GT:DP:AF	0/1:1391:0.999
+chrM	11881	.	C	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|675,686;DP=1411;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,501;MMQ=60,60;MPOS=37;POPAF=7.3;TLOD=3362.1	GT:DP:AF	0/1:1361:0.999
+chrM	12236	.	G	A	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|684,723;DP=1432;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,500;MMQ=60,60;MPOS=35;POPAF=7.3;TLOD=3475.95	GT:DP:AF	0/1:1407:0.999
+chrM	12432	.	C	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|895,885;DP=1839;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=4397.53	GT:DP:AF	0/1:1780:0.999
+chrM	12488	.	C	CA	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=765,749|149,130;DP=1871;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=498,501;MMQ=60,60;MPOS=40;POPAF=7.3;RPA=2,3;RU=A;STR;STRQ=93;TLOD=635.89	GT:DP:AF	0/1:1793:0.155
+chrM	12640	.	G	C	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=724,714|138,149;DP=1770;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=498,506;MMQ=60,60;MPOS=36;POPAF=7.3;TLOD=373.26	GT:DP:AF	0/1:1725:0.165
+chrM	12705	.	C	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|835,904;DP=1790;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=4295.46	GT:DP:AF	0/1:1739:0.999
+chrM	12926	.	A	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=775,777|152,156;DP=1901;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=499,497;MMQ=60,60;MPOS=41;POPAF=7.3;TLOD=400	GT:DP:AF	0|1:1860:0.164
+chrM	12950	.	A	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|910,914;DP=1876;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=41;POPAF=7.3;TLOD=5058.03	GT:DP:AF	0|1:1824:0.999
+chrM	13077	.	C	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=744,724|174,130;DP=1809;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=497,506;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=399.79	GT:DP:AF	0/1:1772:0.17
+chrM	13105	.	A	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|907,826;DP=1787;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,498;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=4281.89	GT:DP:AF	0/1:1733:0.999
+chrM	13475	.	T	G	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=772,721|154,171;DP=1860;ECNT=3;GERMQ=93;MBQ=20,20;MFRL=499,496;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=433.28	GT:DP:AF	0/1:1818:0.177
+chrM	13483	.	A	G	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=748,717|160,160;DP=1838;ECNT=3;GERMQ=93;MBQ=20,20;MFRL=498,501;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=427.46	GT:DP:AF	0/1:1785:0.177
+chrM	13506	.	C	T	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|935,871;DP=1862;ECNT=3;GERMQ=93;MBQ=0,20;MFRL=0,498;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=5025.78	GT:DP:AF	0/1:1806:0.999
+chrM	13650	.	C	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|854,880;DP=1798;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,500;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=4283.96	GT:DP:AF	0/1:1734:0.999
+chrM	13722	.	A	G	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|903,864;DP=1837;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=38;POPAF=7.3;TLOD=4366.05	GT:DP:AF	0/1:1767:0.999
+chrM	14212	.	T	C	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|943,904;DP=1892;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,500;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=4563.36	GT:DP:AF	0/1:1847:0.999
+chrM	14239	.	C	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|954,902;DP=1907;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=4585.86	GT:DP:AF	0/1:1856:0.999
+chrM	14486	.	A	C	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=711,715|159,147;DP=1795;ECNT=3;GERMQ=93;MBQ=20,20;MFRL=497,497;MMQ=60,60;MPOS=36;POPAF=7.3;TLOD=406.69	GT:DP:AF	0/1:1732:0.175
+chrM	14537	.	A	G	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=742,740|137,163;DP=1858;ECNT=3;GERMQ=93;MBQ=20,20;MFRL=497,493;MMQ=60,60;MPOS=34;POPAF=7.3;TLOD=390.95	GT:DP:AF	0/1:1782:0.166
+chrM	14581	.	T	C	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|845,895;DP=1791;ECNT=3;GERMQ=93;MBQ=0,20;MFRL=0,496;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=4299.21	GT:DP:AF	0/1:1740:0.999
+chrM	14766	.	C	T	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|694,703;DP=1439;ECNT=1;GERMQ=93;MBQ=0,20;MFRL=0,498;MMQ=60,60;MPOS=36;POPAF=7.3;TLOD=3451.04	GT:DP:AF	0/1:1397:0.999
+chrM	14905	.	G	A	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|874,873;DP=1806;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,497;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=4316.49	GT:DP:AF	0/1:1747:0.999
+chrM	14971	.	T	C	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|862,900;DP=1818;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,497;MMQ=60,60;MPOS=37;POPAF=7.3;TLOD=4353.63	GT:DP:AF	0/1:1762:0.999
+chrM	15217	.	G	A	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|851,870;DP=1780;ECNT=3;GERMQ=93;MBQ=0,20;MFRL=0,502;MMQ=60,60;MPOS=38;POPAF=7.3;TLOD=4740.12	GT:DP:AF	0/1:1721:0.999
+chrM	15242	.	G	T	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=727,754|152,151;DP=1836;ECNT=3;GERMQ=93;MBQ=20,20;MFRL=502,501;MMQ=60,60;MPOS=34;POPAF=7.3;TLOD=397.06	GT:DP:AF	0/1:1784:0.168
+chrM	15326	.	A	G	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|835,868;DP=1756;ECNT=3;GERMQ=93;MBQ=0,20;MFRL=0,502;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=4207.43	GT:DP:AF	0/1:1703:0.999
+chrM	15616	.	C	CG	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=706,700|128,120;DP=1724;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=500,510;MMQ=60,60;MPOS=37;POPAF=7.3;RPA=1,2;RU=G;STR;STRQ=93;TLOD=616.23	GT:DP:AF	0/1:1654:0.15
+chrM	15676	.	CA	C	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=657,703|130,117;DP=1684;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=500,501;MMQ=60,60;MPOS=35;POPAF=7.3;RPA=3,2;RU=A;STR;STRQ=93;TLOD=571.88	GT:DP:AF	0/1:1607:0.154
+chrM	15884	.	G	A	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|847,870;DP=1775;ECNT=2;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=38;POPAF=7.3;TLOD=4241.15	GT:DP:AF	0/1:1717:0.999
+chrM	15921	.	T	TC	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=720,755|127,141;DP=1810;ECNT=2;GERMQ=93;MBQ=20,20;MFRL=498,502;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=739.46	GT:DP:AF	0/1:1743:0.154
+chrM	16020	.	T	C	.	PASS	AS_FilterStatus=SITE;AS_SB_TABLE=532,557|97,103;DP=1327;ECNT=1;GERMQ=93;MBQ=20,20;MFRL=499,496;MMQ=60,60;MPOS=32;POPAF=7.3;TLOD=253.03	GT:DP:AF	0/1:1289:0.153
+chrM	16129	.	G	A	.	clustered_events;haplotype	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|828,830;DP=1676;ECNT=6;GERMQ=93;MBQ=0,20;MFRL=0,501;MMQ=60,60;MPOS=42;POPAF=7.3;TLOD=7085.62	GT:DP:AF	0|1:1658:0.999
+chrM	16148	.	C	T	.	clustered_events;haplotype	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|834,842;DP=1676;ECNT=6;GERMQ=93;MBQ=0,20;MFRL=0,502;MMQ=60,60;MPOS=39;POPAF=7.3;TLOD=7497.95	GT:DP:AF	0|1:1676:0.999
+chrM	16166	.	A	G	.	clustered_events;haplotype	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|832,882;DP=1714;ECNT=6;GERMQ=93;MBQ=0,20;MFRL=0,502;MMQ=60,60;MPOS=36;POPAF=7.3;TLOD=7731.71	GT:DP:AF	0|1:1714:0.999
+chrM	16182	.	AACC	A	.	clustered_events;haplotype	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|800,886;DP=1686;ECNT=6;GERMQ=56;MBQ=0,20;MFRL=0,502;MMQ=60,60;MPOS=34;POPAF=7.3;TLOD=7598.54	GT:DP:AF	0|1:1686:0.999
+chrM	16189	.	T	TCC	.	clustered_events;haplotype	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|795,891;DP=1713;ECNT=6;GERMQ=56;MBQ=0,20;MFRL=0,501;MMQ=60,60;MPOS=34;POPAF=7.3;RPA=4,6;RU=C;STR;STRQ=93;TLOD=7553.4	GT:DP:AF	0|1:1686:0.999
+chrM	16223	.	C	T	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|743,883;DP=1675;ECNT=6;GERMQ=93;MBQ=0,20;MFRL=0,501;MMQ=60,60;MPOS=36;POPAF=7.3;TLOD=4016.31	GT:DP:AF	0/1:1626:0.999
+chrM	16278	.	C	T	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|705,854;DP=1606;ECNT=5;GERMQ=93;MBQ=0,20;MFRL=0,500;MMQ=60,60;MPOS=40;POPAF=7.3;TLOD=3851.67	GT:DP:AF	0/1:1559:0.999
+chrM	16311	.	T	C	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|753,878;DP=1680;ECNT=5;GERMQ=93;MBQ=0,20;MFRL=0,499;MMQ=60,60;MPOS=36;POPAF=7.3;TLOD=4557.5	GT:DP:AF	0/1:1631:0.999
+chrM	16326	.	AC	A	.	clustered_events	AS_FilterStatus=SITE;AS_SB_TABLE=572,729|157,125;DP=1654;ECNT=5;GERMQ=93;MBQ=20,20;MFRL=499,495;MMQ=60,60;MPOS=38;POPAF=7.3;RPA=2,1;RU=C;STR;STRQ=93;TLOD=724.76	GT:DP:AF	0/1:1583:0.179
+chrM	16355	.	C	T	.	clustered_events;haplotype	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|750,865;DP=1635;ECNT=5;GERMQ=93;MBQ=0,20;MFRL=0,498;MMQ=60,60;MPOS=35;POPAF=7.3;TLOD=7005.88	GT:DP:AF	0|1:1615:0.999
+chrM	16362	.	T	C	.	clustered_events;haplotype	AS_FilterStatus=SITE;AS_SB_TABLE=0,0|747,848;DP=1606;ECNT=5;GERMQ=93;MBQ=0,20;MFRL=0,497;MMQ=60,60;MPOS=37;POPAF=7.3;TLOD=6957.07	GT:DP:AF	0|1:1595:0.999
