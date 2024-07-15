@@ -67,7 +67,7 @@ if [ $HP_I -lt 2 ] ; then exit 0 ; fi
 if [ $M == "mutserve" ] ; then exit 0 ; fi
 
 MM=$M.$M
-awk '{print $3}' $HP_IN | sed "s|$|.$S.cvg.stat|" | xargs cat | uniq.pl -i 0  > $ODIR/$S.cvg.tab
+awk '{print $3}' $HP_IN | sed "s|$|.$M.cvg.stat|" | xargs cat | uniq.pl -i 0  > $ODIR/$S.cvg.tab
 
 #Sept 22nd 2023 ; removed "| eval $HP_FRULE " 
 #awk '{print $3}' $HP_IN | sed "s|$|.$MM.00.vcf|"  | xargs cat |  grep -v "^##sample=" |   grep -v "^##bcftools_annotateCommand" | uniq.pl | bedtools sort -header  | eval $HP_FRULE  > $ODIR/$MM.00.concat.vcf  

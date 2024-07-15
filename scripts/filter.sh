@@ -81,15 +81,14 @@ if [ ! -s $O.fq ] ; then
     if [ $R ] ; then R="-s $R"  ; fi
   fi
 
-  samtools view $R $2 $HP_RMT $HP_RNUMT -bu -F 0x900 -T $HP_RDIR/$HP_RNAME.fa -@ $HP_P | \
+  samtools view $R $2 $HP_RMT $HP_RNUMT -bu -F 0x900 -T $HP_RDIR/$HP_RNAME.fa -@ $HP_P   | \
     samtools sort -n -O SAM -m $HP_MM -@ $HP_P |  \
     perl -ane 'if(/^@/) {print} elsif($P[0] eq $F[0]) {print $p,$_}; @P=@F; $p=$_;' | \
-    samblaster $HP_DOPT --addMateTags | \
+    samblaster $HP_DOPT --addMateTags   | \
     samtools view -bu | \
     bedtools bamtofastq  -i /dev/stdin -fq /dev/stdout -fq2 /dev/stdout | \
     fastp --stdin --interleaved_in --stdout $HP_FOPT  > $O.fq
 fi
-
 #########################################################################################################################################
 # realign subsampled reads
 
