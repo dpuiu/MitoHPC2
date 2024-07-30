@@ -11,3 +11,4 @@
 * scripts/fixmutect2Vcf.pl : added the FORMAT/AD tag
 * scripts/*.vcf            : added the FORMAT/AD tag
 
+* scripts/filter2.sh       : added new script to filter the original mutect2.mutect2 calls => mutect2.mutect2.00.orig
