@@ -44,11 +44,15 @@ MAIN:
 		next if($F[3]=~/N/);
 
 		$F[8]=~/^GT:AD:AF:DP:/ or die "ERROR: $_";
-		$F[9]=~/^(.+?):.+?:(.+?):(\d+):/ or die "ERROR: $_";
-		my ($GT,$DP,$AF)=($1,$3,$2);
+		#$F[9]=~/^(.+?):.+?:(.+?):(\d+):/ or die "ERROR: $_";
+		#my ($GT,$DP,$AF)=($1,$3,$2);
 
-                $F[8]="GT:DP:AF";
-                $F[9]="$GT:$DP:$AF";
+		#added AD
+		$F[9]=~/^(.+?):(.+?):(.+?):(\d+):/ or die "ERROR: $_";
+                my ($GT,$AD,$AF,$DP)=($1,$2,$3,$4);
+
+                $F[8]="GT:DP:AD:AF";
+                $F[9]="$GT:$DP:$AD:$AF";
 
 		if(length($F[3]) eq length($F[4]) and length($F[3])>1)
 		{
