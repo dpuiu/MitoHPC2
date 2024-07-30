@@ -311,11 +311,15 @@ fi
 
 if [ ! -s $OSS.00.vcf ] ; then
   # filter SNP
-  cat $OSS.vcf | bcftools norm -m-any -f $OS.fa   | fix${M}Vcf.pl -file $HP_RDIR/$HP_MT.fa | bedtools sort -header> $OSS.fix.vcf
-  cat $OSS.fix.vcf | fixsnpPos.pl -ref $HP_MT -rfile $HP_RDIR/$HP_MT.fa -rlen $HP_MTLEN -mfile $OS.max.vcf  | \
-    filterVcf.pl -sample $S -source $M -header $HP_SDIR/$M.vcf  -depth $HP_DP | bedtools sort  -header > $OSS.00.vcf  
+  cat $OSS.vcf | bcftools norm -m-any -f $OS.fa   | fix${M}Vcf.pl -file $HP_RDIR/$HP_MT.fa | bedtools sort -header | tee $OSS.fix.vcf |\
+    fixsnpPos.pl -ref $HP_MT -rfile $HP_RDIR/$HP_MT.fa -rlen $HP_MTLEN -mfile $OS.max.vcf  | \
+    filterVcf.pl -sample $S -source $M -header $HP_SDIR/$M.vcf  -depth $HP_DP | bedtools sort  -header | tee $OSS.00.orig.vcf  > $OSS.00.vcf
 
-  annotateVcf.sh $OSS.00.vcf 
+  #cat $OSS.vcf | bcftools norm -m-any -f $OS.fa   | fix${M}Vcf.pl -file $HP_RDIR/$HP_MT.fa | bedtools sort -header | tee $OSS.fix.vcf |\
+  #  fixsnpPos2.pl -ref $HP_MT -rfile $HP_RDIR/$HP_MT.fa -rlen $HP_MTLEN -mfile $OS.max.vcf  | \
+  #  filterVcf.pl -sample $S -source $M -header $HP_SDIR/$M.vcf  -depth $HP_DP | bedtools sort  -header > $OSS.00b.vcf
+
+  annotateVcf.sh  $OSS.00.vcf
   intersectVcf.pl $OS.00.vcf $OS.max.vcf | cat - $OSS.00.vcf |  uniqVcf.pl | bedtools sort -header > $OSS.00.vcf.tmp ; mv $OSS.00.vcf.tmp $OSS.00.vcf
   #intersectVcf.pl $OS.00.vcf $OS.max.vcf | differenceVcf.pl - $OSS.00.vcf  | perl -ane 'if(/(.+):0\.\d+$/) { print "$1:1\n"} else { print }' | cat - $OSS.00.vcf | uniqVcf.pl | bedtools sort -header > $OSS.00.vcf.tmp # new(rna-seq)
 fi

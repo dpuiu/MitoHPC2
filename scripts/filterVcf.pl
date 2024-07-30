@@ -117,8 +117,8 @@ MAIN:
 
 			if($h{DP}<$opt{depth}) { next }
 
-			$F[8]="GT:DP:AF";
-			$F[9]="$h{GT}:$h{DP}:$h{AF}";
+			$F[8]="GT:DP:AD:AF";
+			$F[9]="$h{GT}:$h{DP}:$h{AD}:$h{AF}";
 
 
 			next if($F[7]=~/SM=([^;\s]+)/ and $suspicious{$1});
