@@ -2,12 +2,13 @@
 
 S="$1"
 M="mutect2"
-OS="$S/$S.$M"
+OS="out/$S/$S.$M"
 OSS="$OS.$M"
 
 if [ ! -s $OSS.00.orig.vcf ] ; then
   test -s $OS.max.vcf
-  test -s $OSS.fix.vcf
+  test -s $OS.fa
+  test -s $OSS.vcf
 
   cat $OSS.vcf | bcftools norm -m-any -f $OS.fa  | fix${M}Vcf.pl -file $HP_RDIR/$HP_MT.fa | bedtools sort -header | \
     fixsnpPos.pl -ref $HP_MT -rfile $HP_RDIR/$HP_MT.fa -rlen $HP_MTLEN -mfile $OS.max.vcf  | \
