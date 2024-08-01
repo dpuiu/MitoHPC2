@@ -96,16 +96,7 @@ MAIN:
 	}
 
 	####################################################################################
-	my %diff2;
-	my $diff=0;
 	my @pos=(sort {$a<=>$b} keys %diff);
-	foreach my $pos (@pos)
-	{
-		$diff+=$diff{$pos};
-		#$diff2{$pos+$diff+1}=$diff;  # +1: Sept 11
-		$diff2{$pos+1}=$diff;	      # 2024/01/20
-	}
-	my @pos2=(sort {$a<=>$b} keys %diff2);
 
 	###################################################
 
@@ -129,28 +120,33 @@ MAIN:
 		{
 			chomp;
 			my @F=split /\t/;
-			my $diff2=0;
+			my $diff=0;
 			my $i=0;
-			while($i<@pos2 and $F[1]>$pos2[$i])
+			while($i<@pos and $diff+$F[1]>$pos[$i])
 			{
-				$diff2=$diff2{$pos2[$i]};
+				$diff+=$diff{$pos[$i]};
 				$i++
 			}
 
 			$F[0]=$opt{ref};
-			$F[1]-=$diff2;
+			$F[1]-=$diff;
 
-			if($max{$F[1]}) 
+			my $F3=substr($MT,$F[1]-1,length($F[3]));
+			if($F3 eq $F[3])
 			{
-				#$F[3]=$max{$F[1]};			
-				$F[3]=substr($MT,$F[1]-1,length($F[3]));
+			}
+                        elsif($F3 eq $F[4])
+                        {
+				@F[3,4]=@F[4,3];
+                        }
+			else
+			{
+				$F[3]=$F3;
+				$F[4]=lc($F[4]);
 			}
 
-			if($F[3] ne $F[4])
-   			{
-				print join "\t",@F;
-				print "\n";
-			}
+			print join "\t",@F;
+			print "\n";
 		}
 	}
 }
