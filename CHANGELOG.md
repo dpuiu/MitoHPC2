@@ -15,6 +15,10 @@
 
 # 2024/07/31 #
 
-
 * scripts/filter2.sh	   : file path update
+
+# 2024/08/01 #
+
+* scripts/fixsnpPos.pl	   : using lower cases for 2nd iteration "flipped" SNVs 
+* scripts/differenceVcf.pl : allow for lower eq upper cases 
 
