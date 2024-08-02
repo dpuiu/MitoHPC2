@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -e
 
 S="$1"
 M="mutect2"
