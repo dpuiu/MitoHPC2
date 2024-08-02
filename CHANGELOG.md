@@ -22,3 +22,7 @@
 * scripts/fixsnpPos.pl	   : using lower cases for 2nd iteration "flipped" SNVs 
 * scripts/differenceVcf.pl : allow for lower eq upper cases 
 
+# 2024/08/02 #
+
+* scripts/filter1.sh	   : added new script to re-filter the original mutect2 calls and add AD tag to mutect2.00 file
+
