@@ -67,9 +67,11 @@ MAIN:
                 $F[9]=~/^(.+?):(.+?):(\d+)$/ or die "ERROR: $_";
                 my ($GT,$DP,$AF)=($1,$3,$2);
 		$AF=$1 if($AF=~/(.+?),/);
+		my $AD=int($DP*$AF/100+.5);
+	
 
-                $F[8]="GT:DP:AF";
-                $F[9]="$GT:$DP:$AF";
+                $F[8]="GT:DP:AD:AF";
+                $F[9]="$GT:$DP:$AD:$AF";
 
 		if($F[1]==3105    and $F[4] eq "*") { next }
 		elsif($F[1]==3106 and $F[4] eq "*") { next }

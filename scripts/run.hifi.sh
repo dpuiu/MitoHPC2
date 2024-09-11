@@ -14,7 +14,7 @@ test -s $HP_IN
 
 #check SNV and SV callers
 if [ $HP_I != "0" ]       && [ $HP_I != "1" ]        && [ $HP_I != "2" ] ;                                                              then  echo "Incorrect HP_I parameter" > /dev/stderr ; exit 1 ; fi
-if [ $HP_M != "mutect2" ] && [ $HP_M != "mutserve" ] && [ $HP_M != "freebayes" ] && [ $HP_M != "varscan" ] && [ $HP_M != "bcftools" ] ; then  echo "Incorrect HP_M parameter" > /dev/stderr ; exit 1 ; fi
+if [ $HP_M != "bcftools" ] && [ $HP_M != "mutserve" ] && [ $HP_M != "freebayes" ] && [ $HP_M != "varscan" ] && [ $HP_M != "bcftools" ] ; then  echo "Incorrect HP_M parameter" > /dev/stderr ; exit 1 ; fi
 if [ $HP_V ] && [ $HP_V != "gridss" ] ;                                                                                                 then  echo "Incorrect HP_V parameter" > /dev/stderr ; exit 1 ; fi
 
 #check THOLDs
@@ -78,7 +78,7 @@ printf "export HP_P=$HP_P\n"
 printf "export PATH=$HP_SDIR:$HP_BDIR:\$PATH\n"
 
 printf "\n"
-grep -v "^#" $HP_IN | sed "s|^|$HP_SH $HP_SDIR/filter.sh |"
+grep -v "^#" $HP_IN | sed "s|^|$HP_SH $HP_SDIR/filterHiFi.sh |"
 
 printf "\n"
 printf "$HP_SHS $HP_SDIR/getSummary.sh $HP_ODIR\n"

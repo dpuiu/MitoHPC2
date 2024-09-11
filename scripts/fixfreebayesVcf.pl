@@ -44,10 +44,10 @@ MAIN:
 
 		$F[8]=~/^GT:DP:AD/ or die "ERROR: $_";
 		$F[9]=~/^(.+?):(.+?):\d+,(.+?):/ or die "ERROR: $_";
-		my ($GT,$DP,$AF)=($1,$2,int(1000*$3/$2+.5)/1000);
+		my ($GT,$DP,$AD,$AF)=($1,$2,$3,int(1000*$3/$2+.5)/1000);
 
-		$F[8]="GT:DP:AF";
-		$F[9]="$GT:$DP:$AF";
+		$F[8]="GT:DP:AD:AF";
+		$F[9]="$GT:$DP:$AD:$AF";
 
 		if(length($F[3]) eq length($F[4]))
 		{

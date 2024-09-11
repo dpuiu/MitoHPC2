@@ -7,13 +7,21 @@ For Calling Mitochondrial Homoplasmies and Heteroplasmies
 A bioinformatics pipeline for estimating mitochondrial DNA copy number and heteroplasmy levels from whole genome sequencing data, Battle et. al, NAR 2022
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/ 
 
-# INSTALL/RUN ##
+# INSTALL # 
     
 Check https://github.com/dpuiu/MitoHPC/blob/main/README.md
 
 The pipleine has been updated so that all MitoHPC2/RefSeq/*.{vcf,bed}.gz files are used for annotation. 
-If you have any custom annotation files you would like to use, just copy them to MitoHPC2/RefSeq. 
+If you have any custom annotation files you would like to use, just copy them to MitoHPC2/RefSeq/
 Make sure the VCF/BED files are gzipped and indexed.
+
+# RUN #
+
+Check https://github.com/dpuiu/MitoHPC/blob/main/README.md first !!!
+
+Updates:
+
+## MULTIPLE SNV CALLERS
 
 In addition, one can run multiple(3) SNV callers and merge the results. 
 Only the SNV called by at least 2 the metods make it into the final/merged set.
@@ -35,3 +43,17 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 
     # output
     $ ls $HP_ODIR/merge3.*
+
+## SINGLE SNV CALLER (PacBio HiFi)
+
+    # copy init file to work directory
+    $ cp $HP_SDIR/init.hifi.sh .
+
+    # init
+    $ . ./init.hifi.sh
+
+    # run
+    $ $HP_SDIR/run.hifi.sh | tee run.hifi.all.sh | bash       
+
+    # check output
+    $ ls $HP_ODIR/mutect2.*
