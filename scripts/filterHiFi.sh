@@ -23,7 +23,9 @@ M="${4:-$HP_M}"         # 2024/03/12
 
 OS=$O.$M                # output prefix + snv_caller
 OSS=$OS.$M
-RG="@RG\tID:$S\tSM:$S\tPL:HiFi"
+#RG="@RG\tID:$S\tSM:$S\tPL:HiFi"
+ RG="@RG\tID:$S\tSM:$S\tPL:HiFi"
+
 export PC="0.95"
 
 ODIR=`dirname "$3"`; mkdir -p $ODIR
@@ -55,7 +57,7 @@ fi
 
 if [ ! -s $O.bam ] ; then
   cat $O.fa | minimap2  $HP_RDIR/$HP_MT.fa /dev/stdin -R $RG -a | samtools view -b | samtools sort | samtools view -h > $O.sam
-  bedtools bamtobed -i $O.sam | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4  |  sort | join $O.len -  -a 1 --nocheck-order | \
+  samtools view -b $O.sam | bedtools bamtobed | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4  |  sort | join $O.len -  -a 1 --nocheck-order | \
     perl -ane 'print "$F[0]\t$F[1]\t$F[2]\t",$F[2]/$F[1],"\n"' | perl -ane 'print  if($F[-1]>$ENV{PC});' | cut -f1 | \
     samtools view -N /dev/stdin $O.sam  -b > $O.bam
   samtools index $O.bam
