@@ -37,6 +37,8 @@ export HP_RFILE=$HP_RDIR/$HP_RNAME
 
 export HP_O=Human		 # organism: Human, Mouse...
 export HP_MT=chrM                # chrM, rCRS or RSRS, FASTA file available under $HP_RDIR
+export HP_MTLEN=16569
+export HP_NUMT=NUMT
 
 ################################################################
 #PARAMETERS

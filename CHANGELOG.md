@@ -26,10 +26,15 @@
 
 * scripts/filter1.sh	     : added new script to re-filter the original mutect2 calls and add AD tag to mutect2.00 file
 
-# 2024/09/22 # 
+# 2024/09/12 # 
 
 * scripts/README.md          : updated README.med file
-* scripts/run.hifi.sh        : to process HiFi reads
+* scripts/run.hifi.sh        : added to process HiFi reads
 * scripts/fixbcftoolsVcf.pl  : added the FORMAT/AD tag => can process HiFi reads
 * scripts/fixfreebayesVcf.pl : added the FORMAT/AD tag
 * scripts/fixmutserveVcf.pl  : added the FORMAT/AD tag
+
+# 2024/09/15 #
+
+* scripts/filterHiFi.sh      : minimap2 added "-x map-hifi"
+* scripts/init.hifi.sh	     : initialized HP_MTLEN

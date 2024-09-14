@@ -16,6 +16,9 @@ cd $HP_HDIR
 mkdir -p prerequisites/ $HP_BDIR/ $HP_JDIR/ $HP_RDIR/
 cd prerequisites/
 
+#compile using multiple threads
+alias make="make -j $((`nproc`/2))"
+
 ##############################################################################################################
 
 which bwa
