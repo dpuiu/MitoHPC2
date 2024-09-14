@@ -46,7 +46,7 @@ if [ ! -s $O.fa ] ; then
   if [ "$X" == "cram" ] ; then T="-T $HP_RFILE.fa" ; else T="" ; fi
   MTCOUNT=`samtools view -F 0x900 $2 $HP_RMT $T -c`
   COUNT=`samtools view -F 0x900 $2 $T -c`
-  echo -e "$S\t$COUNT\t$COUNT\$MTCOUNT" > $O.count
+  echo -e "$S\t$COUNT\t$COUNT\t$MTCOUNT" > $O.count
 
   if [ $MTCOUNT -lt 1 ]; then echo "ERROR: There are no MT reads in $2; plese remove it from $HP_IN" ; exit 1 ; fi
   if [ $HP_L ]; then R=`tail -1 $O.count | perl -ane '$R=$ENV{HP_L}/($F[-1]+1);  if($R<1) { print "-s $R"} else {print ""} '` ; else R="" ; fi
@@ -56,9 +56,9 @@ if [ ! -s $O.fa ] ; then
 fi
 
 if [ ! -s $O.bam ] ; then
-  cat $O.fa | minimap2  $HP_RDIR/$HP_MT.fa /dev/stdin -R $RG -a | samtools view -b | samtools sort | samtools view -h > $O.sam
-  samtools view -b $O.sam | bedtools bamtobed | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4  |  sort | join $O.len -  -a 1 --nocheck-order | \
-    perl -ane 'print "$F[0]\t$F[1]\t$F[2]\t",$F[2]/$F[1],"\n"' | perl -ane 'print  if($F[-1]>$ENV{PC});' | cut -f1 | \
+  cat $O.fa | minimap2 -x map-hifi $HP_RDIR/$HP_MT.fa /dev/stdin -R $RG -a | samtools view -b | samtools sort | samtools view -h > $O.sam
+  samtools view -b $O.sam | bedtools bamtobed | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4 | sort | join $O.len -  -a 1 --nocheck-order | \
+    perl -ane 'print "$F[0]\t$F[1]\t$F[2]\t",$F[2]/$F[1],"\n"' | sort -k4,4nr | tee $O.score  | perl -ane 'print  if($F[-1]>$ENV{PC});' | cut -f1 | \
     samtools view -N /dev/stdin $O.sam  -b > $O.bam
   samtools index $O.bam
   rm $O.sam
@@ -66,7 +66,7 @@ fi
 
 # count aligned reads; compute cvg; get coverage stats; get split alignments
 
-if [ ! -s $O.cvg ]    ; then cat $O.bam | bedtools bamtobed -cigar  | bedtools genomecov -i - -g $HP_RDIR/$HP_MT.fa.fai -d | tee $O.cvg  | cut -f3 | st.pl  > $O.cvg.stat ; fi
+if [ ! -s $O.cvg ]    ; then cat $O.bam | bedtools bamtobed -cigar  | bedtools genomecov -i - -g $HP_RDIR/$HP_MT.fa.fai -d | tee $O.cvg  | cut -f3 | st.pl  | perl -ane 'if($.==1) { print "Run\t$_" } else { print "$ENV{S}\t$_" }'  > $O.cvg.stat ; fi
 if [ ! -f $O.sa.bed ] ; then samtools view -h $O.bam | sam2bedSA.pl | uniq.pl -i 3 | sort -k2,2n -k3,3n > $O.sa.bed ; fi
 
 if [ ! -s $OS.00.vcf ] ; then
@@ -96,7 +96,7 @@ fi
 #################################################
 
 if [ ! -s $OS.bam ] ; then
-   cat $O.fa |  minimap2 $OS.fa /dev/stdin -R $RG -a | samtools view -b | samtools sort | samtools view -h > $OS.sam
+   cat $O.fa |  minimap2 -x map-hifi $OS.fa /dev/stdin -R $RG -a | samtools view -b | samtools sort | samtools view -h > $OS.sam
    bedtools bamtobed -i $OS.sam | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4  | sort | join $O.len -  -a 1 --nocheck-order | \
      perl -ane 'print "$F[0]\t$F[1]\t$F[2]\t",$F[2]/$F[1],"\n"' | perl -ane 'print  if($F[-1]>$ENV{PC});'  | cut -f1 | \
      samtools view -N /dev/stdin $OS.sam  -b > $OS.bam
@@ -104,6 +104,8 @@ if [ ! -s $OS.bam ] ; then
   rm $OS.sam $O.fa $O.len
   touch $OS.merge.bed
 fi
+
+if [ ! -s $OS.cvg ]    ; then cat $OS.bam  | bedtools bamtobed -cigar | grep "^$S" | bedtools genomecov -i - -g $OS.fa.fai -d  | tee $OS.cvg  | cut -f3 | st.pl | perl -ane 'if($.==1) { print "Run\t$_" } else { print "$ENV{S}\t$_" }'  > $OS.cvg.stat  ; fi
 
 if [ ! -s $OSS.00.vcf ] ; then
   cat $HP_SDIR/$M.vcf > $OSS.00.vcf
