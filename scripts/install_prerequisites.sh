@@ -17,7 +17,6 @@ mkdir -p prerequisites/ $HP_BDIR/ $HP_JDIR/ $HP_RDIR/
 cd prerequisites/
 
 #compile using multiple threads
-alias make="make -j $((`nproc`/2))"
 
 ##############################################################################################################
 
@@ -27,7 +26,7 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   if [ ! -s $HP_BDIR/bwa ] ; then
     tar -xjvf bwa-0.7.17.tar.bz2
     cd bwa-0.7.17
-    make CFLAGS="-g -Wall -Wno-unused-function -O2 -fcommon"  # compiling using gcc v10.+ fails unless "-fcommon" is added
+    make  CFLAGS="-g -Wall -Wno-unused-function -O2 -fcommon"  # compiling using gcc v10.+ fails unless "-fcommon" is added
     cp bwa $HP_BDIR/
     cd -
   fi
@@ -38,7 +37,7 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://github.com/lh3/minimap2/releases/download/v2.26/minimap2-2.26.tar.bz2
   tar -xjvf minimap2-2.26.tar.bz2 
   cd minimap2-2.26/
-  make;  cp minimap2 $HP_BDIR
+  make ;  cp minimap2 $HP_BDIR
   cd -
 fi
 
@@ -63,7 +62,7 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
     tar -xjvf  bcftools-1.16.tar.bz2
     cd bcftools-1.16
     ./configure --prefix=$HP_HDIR/ # --disable-bz2
-    make ; make install
+    make  ; make install
     cd -
   fi
 fi
@@ -142,12 +141,35 @@ if [[ ! -s $HP_JDIR/VarScan.jar || $# == 1 && $1 == "-f" ]] ; then
   cp VarScan.v2.4.6.jar $HP_JDIR/VarScan.jar
 fi
 
-which gridss
+which Rscript
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
-  wget https://github.com/PapenfussLab/gridss/releases/download/v2.13.2/gridss-2.13.2.tar.gz
-  tar -xzvf gridss-2.13.2.tar.gz
-  cp gridss $HP_BDIR/
-  cp gridss-2.13.2-gridss-jar-with-dependencies.jar $HP_JDIR/gridss.jar
+  wget -N -c https://cran.r-project.org/src/base/R-4/R-4.3.0.tar.gz
+  tar -xzvf R-4.3.0.tar.gz
+  cd R-4.3.0
+  ./configure --prefix=$HP_HDIR
+  make
+  make install
+fi
+
+#which gridss
+#if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
+#  wget -N -c https://github.com/PapenfussLab/gridss/releases/download/v2.13.2/gridss-2.13.2.tar.gz
+#  tar -xzvf gridss-2.13.2.tar.gz
+#  cp gridss $HP_BDIR/
+#  cp gridss-2.13.2-gridss-jar-with-dependencies.jar $HP_JDIR/gridss.jar
+#fi
+
+#which delly
+#if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
+#  wget -N -c https://github.com/dellytools/delly/releases/download/v1.2.9/delly_v1.2.9_linux_x86_64bit
+#  cp delly_v1.2.9_linux_x86_64bit $HP_BDIR/delly
+#fi
+
+which plink2
+if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
+  wget -N -c https://s3.amazonaws.com/plink2-assets/plink2_linux_x86_64_latest.zip
+  unzip plink2_linux_x86_64_latest.zip
+  cp plink2 $HP_BDIR/
 fi
 
 ####################################################################################

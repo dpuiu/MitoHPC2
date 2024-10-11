@@ -1,4 +1,4 @@
-#!/usr/bin/env bash 
+x#!/usr/bin/env bash 
 #set -e
 
 #if [ -z $HP_HDIR ] ; then echo "Variable HP_HDIR not defined. Make sure you followed the SETUP ENVIRONMENT instructions" ;  fi
@@ -44,15 +44,15 @@ export HP_NUMT=NUMT
 #PARAMETERS
 
 export HP_TYPE="hifi"            # paired/single/hifi
-export HP_L=2000                 # maximum number of reads
-export HP_M=bcftools 	         # SNV caller: mutect2,mutserve,freebayes or bcftools
+export HP_L=4000                 # maximum number of alignments; increased from 2000 to 4000
+export HP_M=bcftools 	         # SNV caller: bcftools
 
 export HP_CN=1                   # do compute mtDNA copy number
 export HP_I=2		         # number of SNV iterations : 0: compute read counts,mtDNA-CN; 1:1 iteration (mutect2,mutserve) ;  2:2 iterations (mutect2)
 export HP_T1=03                  # heteroplasmy tholds
 export HP_T2=05
 export HP_T3=10
-export HP_DP=25    		 # minimum coverage: Ex 25
+export HP_DP=10    		 # minimum coverage: Ex 25
 export HP_V=                     # SV caller: gridss
 
 export HP_FRULE="perl -ane 'print unless(/Homopolymer/ and /:0\.[01234]\d*$/);' |  bcftools filter -e 'DP<$HP_DP'"   # filter rule (or just "tee")

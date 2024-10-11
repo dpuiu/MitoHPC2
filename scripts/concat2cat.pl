@@ -53,9 +53,9 @@ MAIN:
 			elsif($F[7]=~/(\S*)SM=(\S+)/)     { ($SM,$ANNOTATION)=($2,"$1") }
 			else                              { die "ERROR: $_";           }
 
-			my ($GT,$DP,$AF)=split /:/,$F[-1];
+			my ($GT,$DP,$AD,$AF)=split /:/,$F[-1];
 
-			$F[7]=$ANNOTATION."GT=$GT;DP=$DP;AF=$AF";
+			$F[7]=$ANNOTATION."GT=$GT;DP=$DP;AD=$AD;AF=$AF";
 			$F[8]="SM";
 			$F[9]="$SM";
 		}

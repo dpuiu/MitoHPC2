@@ -10,6 +10,13 @@ set -e
 #test -s init.sh
 #. ./init.sh
 
+if [ -z $HP_IN ]; then
+  echo "Some of the HP_* variables do not seem to be set."
+  echo "Please run:"
+  echo "  . ./init.sh"
+  exit 1
+fi
+
 test -s $HP_IN
 
 #check SNV and SV callers

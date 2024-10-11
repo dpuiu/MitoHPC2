@@ -43,6 +43,9 @@ if [ -f $HP_ODIR/$S.merge.bed ] ; then
   # haplockeck
   cat $HP_ODIR/$S.haplocheck.tab  | perl -ane 'print "$F[0]\thaplocheck_fail\t$F[2]\n" if($F[1] eq "YES" and $F[2]>$ENV{T}/100)' >> $HP_ODIR/$S.$T.suspicious.tab
 
+  # sv's
+  if [[ ! -z "$HP_V" ]] ; then cat $HP_ODIR/$HP_V.00.concat.vcf | filterVcf.pl -p 0.$T -suspicious /dev/null >  $HP_ODIR/$HP_V.$T.concat.vcf ; fi
+
   cut -f1 $HP_ODIR/$S.$T.suspicious.tab | sort -u > $HP_ODIR/$S.$T.suspicious.ids
 fi
 
@@ -54,25 +57,22 @@ fi
 #Updated Jan 22nd 2024
 #if [ -s $HP_ODIR/$S.00.concat.vcf ] ; then cat $HP_ODIR/$S.00.concat.vcf | filterVcf.pl -p 0.$T -suspicious $HP_ODIR/$HP_M.$T.suspicious.ids | eval $HP_FRULE > $HP_ODIR/$S.$T.concat.vcf ; fi
 #if [ -s $HP_ODIR/$S.00.concat.vcf ] ; then cat $HP_ODIR/$S.00.concat.vcf | filterVcf.pl -p 0.$T -suspicious /dev/null | eval $HP_FRULE > $HP_ODIR/$S.$T.concat.vcf ; fi
-if [ -s $HP_ODIR/$S.00.concat.vcf ] ; then cat $HP_ODIR/$S.00.concat.vcf | filterVcf.pl -p 0.$T -suspicious /dev/null > $HP_ODIR/$S.$T.concat.vcf ; fi
-
-test -s $HP_ODIR/$S.$T.concat.vcf
-
-cat $HP_ODIR/$S.$T.concat.vcf | concat2cat.pl  > $HP_ODIR/$S.$T.vcf
+if [ -s $HP_ODIR/$S.00.concat.vcf ] ; then 
+   cat $HP_ODIR/$S.00.concat.vcf | filterVcf.pl -p 0.$T -suspicious /dev/null > $HP_ODIR/$S.$T.concat.vcf # | concat2cat.pl  > $HP_ODIR/$S.$T.vcf 
+fi
 
 # Jan 25 2023
 #cat $HP_ODIR/$S.$T.concat.vcf | concat2merge.pl -in $HP_IN -suspicious $HP_ODIR/$HP_M.$T.suspicious.ids | bedtools sort -header | tee $HP_ODIR/$S.$T.merge.vcf | vcf2sitesOnly.pl >  $HP_ODIR/$S.$T.merge.sitesOnly.vcf 
 #cat $HP_ODIR/$S.$T.concat.vcf | snpCount.pl     -in $HP_IN -suspicious $HP_ODIR/$HP_M.$T.suspicious.ids | tee $HP_ODIR/$S.$T.tab | getSummaryN.pl > $HP_ODIR/$S.$T.summary
 #cat $HP_ODIR/$S.$T.concat.vcf | concat2pos.pl   -in $HP_IN -suspicious $HP_ODIR/$HP_M.$T.suspicious.ids | sort -k2,2n -k4,4 -k5,5  > $HP_ODIR/$S.$T.pos
 
-
 # March 7th 2023
 #cat $HP_ODIR/$S.$T.concat.vcf | concat2merge.pl -in $HP_IN  | bedtools sort -header | tee $HP_ODIR/$S.$T.merge.vcf | vcf2sitesOnly.pl >  $HP_ODIR/$S.$T.merge.sitesOnly.vcf 
 
-# Jan 24 2024
-#cat $HP_ODIR/$S.$T.concat.vcf | concat2merge.pl -in $HP_IN  | tee $HP_ODIR/$S.$T.merge.vcf | vcf2sitesOnly.pl >  $HP_ODIR/$S.$T.merge.sitesOnly.vcf
-#cat $HP_ODIR/$S.$T.concat.vcf  | concat2merge.pl -in $HP_IN  | vcf2sitesOnly.pl >  $HP_ODIR/$S.$T.merge.sitesOnly.vcf
+#  Oct 2024
+cat $HP_ODIR/$S.$T.concat.vcf | concat2merge.pl -in $HP_IN  | tee $HP_ODIR/$S.$T.merge.vcf | vcf2sitesOnly.pl >  $HP_ODIR/$S.$T.merge.sitesOnly.vcf
 cat $HP_ODIR/$S.$T.concat.vcf | snpCount.pl     -in $HP_IN  | tee $HP_ODIR/$S.$T.tab | getSummaryN.pl > $HP_ODIR/$S.$T.summary
 cat $HP_ODIR/$S.$T.concat.vcf | concat2pos.pl   -in $HP_IN  | sort -k2,2n -k4,4 -k5,5  > $HP_ODIR/$S.$T.pos
-
+plink2 --vcf $HP_ODIR/$S.$T.merge.vcf --make-bed --out $HP_ODIR/$S.$T.merge || true
+#plink2 --bfile $HP_ODIR/$S.$T.merge  --export vcf  --out $HP_ODIR/$S.$T.merge.fromPlink2
 

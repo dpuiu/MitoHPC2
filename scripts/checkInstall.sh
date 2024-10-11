@@ -18,18 +18,27 @@ which python		#module load python
 which bwa	        #module load bwa
 which samtools          #module load samtools
 which bedtools          #module load bedtools
-which fastp             #install from "https://github.com/OpenGene/fastp"
-which samblaster        #install from "https://github.com/GregoryFaust/samblaster"
+which fastp
+which samblaster
 which bcftools
 which tabix
 which freebayes
-#which minimap2
+which minimap2
+which plink2
+#which gridss
+#which delly
 
 test -f $HP_JDIR/gatk.jar
 test -f $HP_JDIR/mutserve.jar
 test -f $HP_JDIR/haplogrep.jar
 test -f $HP_JDIR/haplocheck.jar
 test -f $HP_JDIR/VarScan.jar
+
+java -jar $HP_JDIR/gatk.jar >& /dev/null
+java -jar $HP_JDIR/mutserve.jar >& /dev/null
+java -jar $HP_JDIR/haplogrep.jar >& /dev/null
+java -jar $HP_JDIR/haplocheck.jar >& /dev/null
+java -jar $HP_JDIR/VarScan.jar >& /dev/null
 
 ######################################################
 
@@ -44,6 +53,7 @@ echo "EXECUTABLES:"  >> checkInstall.log
 samtools --version | head -1 >> checkInstall.log
 bcftools --version | head -1 >> checkInstall.log
 bedtools --version | head -1 >> checkInstall.log
+plink2 --version   | head -1 >> checkInstall.log
 fastp --version 2>&1 | head -1  >> checkInstall.log
 echo -n "bwa "  >> checkInstall.log; bwa 2>&1 | grep Version -m 1  >> checkInstall.log
 samblaster --version 2>&1 | head -1 >> checkInstall.log
@@ -51,6 +61,7 @@ echo -n "tabix " >> checkInstall.log ; tabix 2>&1 |  grep -v ^$ | head -1 >> che
 perl --version | grep -v ^$ | head -1  >> checkInstall.log
 java -version | head -1               >> checkInstall.log
 #gridss
+#delly
 
 echo "########################"  >> checkInstall.log
 echo "JAVA:"  >> checkInstall.log

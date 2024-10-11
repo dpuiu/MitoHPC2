@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
 #set -eux
-
+set -x
 #########################################################################################################################################
 
 # Program that runs the heteroplasmy pipeline on a single sample
@@ -128,7 +128,7 @@ fi
 # count aligned reads; compute cvg; get coverage stats; get split alignments
 
 #if [ ! -s $O.count ]  ; then samtools idxstats $O.bam  -@ $HP_P | idxstats2count.pl -sample $S -chrM $HP_MT > $O.count ; fi
-if [ ! -s $O.cvg ]    ; then cat $O.bam  | bedtools bamtobed -cigar | grep "^$HP_MT" | bedtools genomecov -i - -g $HP_RDIR/$HP_MT.fa.fai  -d | tee $O.cvg  | cut -f3 | st.pl | perl -ane 'if($.==1) { print "Run\t$_" } else { print "$ENV{S}\t$_" }'  > $O.cvg.stat  ; fi
+if [ ! -s $O.cvg ]    ; then cat $O.bam  | bedtools bamtobed -cigar | grep "^$HP_MT" | bedtools genomecov -i - -g $HP_RDIR/$HP_MT.fa.fai  -d | tee $O.cvg  | cut -f3 | st.pl -sample $S > $O.cvg.stat  ; fi
 if [ ! -f $O.sa.bed ] ; then samtools view -h $O.bam  -@ $HP_P | sam2bedSA.pl | uniq.pl -i 3 | sort -k2,2n -k3,3n > $O.sa.bed ; fi
 
 if [ $HP_I -lt 1 ]  ; then exit 0 ; fi
@@ -165,9 +165,7 @@ if [ ! -s $OS.vcf ] ; then
 
     cat $HP_SDIR/$M.vcf  > $OS.vcf
     fa2Vcf.pl $HP_RDIR/$HP_MT.fa >> $OS.vcf
-    cat $OS.txt| \
-      perl -ane 'next if($.==1 or $F[2]=~/N/i or $F[3]=~/N/i); $DP=$F[4]+$F[5];$F[6]=~/(.+)%/;$AF=$1/100; print join "\t",($F[0],$F[1],".",$F[2],$F[-1],".",".",".","GT:DP:AF","0/1:$DP:$AF");print "\n";' | \
-      perl -ane 'if($F[4]=~/\+(.+)/) {($F[4],$F[7])=("$F[3]$1","INDEL")} elsif($F[4]=~/\-(.+)/) {($F[3],$F[4],$F[7])=("$F[3]$1",$F[3],"INDEL")} print join "\t",@F; print "\n";' | uniqVcf.pl | sort -k1,1 -k2,2n >> $OS.vcf
+    cat $OS.txt| varscan2Vcf.pl | uniqVcf.pl | sort -k1,1 -k2,2n >> $OS.vcf
   else
     echo "Unsuported SNV caller 1"
     exit 1
@@ -186,12 +184,24 @@ fi
 #########################################################################################################################################
 #  identify SVs
 
-if [ $HP_V ] && [ "$HP_V" == "gridss" ] ; then
+
+if [ $HP_V ] ; then
   OV=$O.$HP_V
   if [ ! -s $OV.00.vcf ] ; then
-    gridss --jar $HP_JDIR/gridss.jar -r $HP_RDIR/$HP_MT.fa -o $OV.vcf.gz $O.bam  -t 1 -w $OV
-    cat $HP_SDIR/gridss.vcf > $OV.fix.vcf
-    bcftools view -i 'FILTER="PASS"' $OV.vcf.gz | bcftools query  -f "%CHROM\t%POS\t.\t%REF\t%ALT\t%QUAL\t%FILTER\t.\tGT:DP:AF\t[%GT:%REF:%AF]\n" | grep -v -P 'h\t'  >> $OV.fix.vcf
+
+    if [ "$HP_V" == "gridss" ] ; then
+      gridss --jar $HP_JDIR/gridss.jar -r $HP_RDIR/$HP_MT.fa -o $OV.vcf.gz $O.bam  -t 1 -w $OV
+      cat $HP_SDIR/$HP_V.vcf > $OV.fix.vcf
+      bcftools query  -f "%CHROM\t%POS\t.\t%REF\t%ALT\t%QUAL\t%FILTER\t.\tGT:DP:AD:AF\t[%GT:%REF:%ASSR:%AF]\n" $OV.vcf.gz | grep -v LOW_QUAL | grep -P "\[" | grep -v -P "\t$HP_MTLEN\t" | filterVcf.pl  -sample $S >> $OV.fix.vcf
+    elif [ "$HP_V" == "delly" ] ; then
+      delly call -g $HP_RDIR/$HP_MT.fa $O.bam > $OV.vcf
+    else
+      echo "Unsuported SV caller"
+      exit 1
+    fi
+
+    #cat $HP_SDIR/$HP_V.vcf > $OV.fix.vcf
+    #bcftools view -i 'FILTER="PASS"' $OV.vcf.gz | bcftools query  -f "%CHROM\t%POS\t.\t%REF\t%ALT\t%QUAL\t%FILTER\t.\tGT:DP:AD:AF\t[%GT:%DP:%AD:%AF]\n" | grep -v -P 'h\t'  >> $OV.fix.vcf
     cat $OV.fix.vcf | filterVcf.pl -sample $S -source $HP_V -depth $HP_DP  > $OV.00.vcf 
     rm -rf $OV $OV.vcf.gz.* $OV.fix.vcf
   fi
@@ -215,15 +225,15 @@ fi
 
 if  [ ! -s $OS.fa ]  ; then
   bcftools consensus -f $HP_RDIR/$HP_MT.fa $OS.max.vcf.gz -H A | perl -ane 'chomp; if($.==1) { print ">$ENV{S}\n" } else { s/N//g; print } END {print "\n"}' > $OS.fa
-  rm -f $OS.max.vcf.gz $OS.max.vcf.gz.tbi
+  #rm -f $OS.max.vcf.gz $OS.max.vcf.gz.tbi
   samtools faidx $OS.fa
   rm -f $OS.dict
   java $HP_JOPT -jar $HP_JDIR/gatk.jar CreateSequenceDictionary --REFERENCE $OS.fa --OUTPUT $OS.dict
 
   export MTLEN=`cut -f2 $OS.fa.fai`
 
-  circFasta.sh   $N $OS $HP_E $OSC
-  rotateFasta.sh $N $OS $HP_E $OSR
+  circFasta.sh   $S $OS $HP_E $OSC
+  rotateFasta.sh $S $OS $HP_E $OSR
 fi
 
 ########################################################################################################################################
@@ -273,9 +283,8 @@ fi
 # count aligned reads; compute cvg; compute cvg stats; gets split alignments
 
 #if [ ! -s $OS.count ]  ; then samtools idxstats $OS.bam  -@ $HP_P | idxstats2count.pl -sample $S -chrM $S > $OS.count ; fi
-if [ ! -s $OS.cvg ]    ; then cat $OS.bam  | bedtools bamtobed -cigar | grep "^$S" | bedtools genomecov -i - -g $OS.fa.fai -d  | tee $OS.cvg  | cut -f3 | st.pl | perl -ane 'if($.==1) { print "Run\t$_" } else { print "$ENV{S}\t$_" }'  > $OS.cvg.stat  ; fi
+if [ ! -s $OS.cvg ]    ; then cat $OS.bam  | bedtools bamtobed -cigar | grep "^$S" | bedtools genomecov -i - -g $OS.fa.fai -d  | tee $OS.cvg  | cut -f3 | st.pl -sample $S > $OS.cvg.stat  ; fi
 if [ ! -f $OS.sa.bed ] ; then samtools view -h $OS.bam | sam2bedSA.pl | uniq.pl -i 3 | sort -k2,2n -k3,3n > $OS.sa.bed ; fi
-
 #########################################################################################################################################
 # compute SNP/INDELs using mutect2/freebayes
 if [ ! -s $OSS.vcf ] ; then
@@ -299,9 +308,8 @@ if [ ! -s $OSS.vcf ] ; then
     echo "##sample=$S" >> $OSS.vcf
     fa2Vcf.pl $OS.fa | grep -m 1 contig= >> $OSS.vcf
     fa2Vcf.pl $HP_RDIR/$HP_MT.fa >> $OSS.vcf
-    cat $OSS.txt | \
-      perl -ane 'next if($.==1 or $F[2]=~/N/i or $F[3]=~/N/i); $DP=$F[4]+$F[5];$F[6]=~/(.+)%/;$AF=$1/100; print join "\t",($F[0],$F[1],".",$F[2],$F[-1],".",".",".","GT:DP:AF","0/1:$DP:$AF");print "\n";' | \
-      perl -ane 'if($F[4]=~/\+(.+)/) {($F[4],$F[7])=("$F[3]$1","INDEL")} elsif($F[4]=~/\-(.+)/) {($F[3],$F[4],$F[7])=("$F[3]$1",$F[3],"INDEL")} print join "\t",@F; print "\n";' | uniqVcf.pl >> $OSS.vcf
+
+    cat $OSS.txt| varscan2Vcf.pl | uniqVcf.pl | sort -k1,1 -k2,2n >> $OSS.vcf
   else
     echo "Unsuported SNV caller 2"
     exit 1
@@ -325,5 +333,5 @@ if [ ! -s $OSS.00.vcf ] ; then
 fi
 
 rm -f $OS.bam*  $OS.dict $OS.fa.fai
-rm -f $O.fq $ON.score $O.bam* $OR.bam* #!!!
+rm -f $O.fq $ON.score $OR.bam* $O.bam* 
 

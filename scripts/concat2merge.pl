@@ -61,7 +61,7 @@ MAIN:
 
 	#######################################################
 
-	my ($pkey,$sample,@keys,%keys,%GT_DP_AF,$header);
+	my ($pkey,$sample,@keys,%keys,%GT_DP_AD_AF,$header);
 	my ($AC,$AN)=(0,0);
 
 	while(<>)
@@ -88,53 +88,52 @@ MAIN:
 			my @F=split /\t/;
 			@F[2,5,6]=(".",".",".");
 	
-			if($F[-1]=~/^(.+):(.+):1$/)        { $F[-1]="1:$2:1"    }
-			elsif($F[-1]=~/^(.+):(.+):(.+)$/)  { $F[-1]="0/1:$2:$3" }
-	
+			#if($F[-1]=~/^(.+):(.+):1$/)        { $F[-1]="1:$2:1"    }
+			#elsif($F[-1]=~/^(.+):(.+):(.+)$/)  { $F[-1]="0/1:$2:$3" }
 
 			my $sample;
 			if($F[7]=~/SM=(.+?);(.+)/) { ($sample,$F[7])=($1,"$2;");}
 			elsif($F[7]=~/SM=(.+)/)    { ($sample,$F[7])=($1,"");}
+			$F[7]=~s/\s/_/g;
 
 			defined($samples{$sample}) or die "ERROR: sample not defined in $_";
 			my $key=join "\t",@F[0..7];
 			
 			if($pkey and $key ne $pkey)
 			{
- 				my @P=($pkey."AC=$AC;AN=$AN","GT:DP:AF");
+ 				my @P=($pkey."AC=$AC;AN=$AN","GT:DP:AD:AF");
 
                 		foreach my  $sample (@samples)
 		                {
-		                        if($GT_DP_AF{$sample}) { push @P,$GT_DP_AF{$sample} ; }
-                	       	 	else                   { push @P,".:.:." }
+		                        if($GT_DP_AD_AF{$sample}) { push @P,$GT_DP_AD_AF{$sample} ; }
+                	       	 	else                      { push @P,".:.:.:." }
 	                	}
 
 	        	        print join "\t",@P;  print "\n";
 
-				%GT_DP_AF=();
+				%GT_DP_AD_AF=();
 				($AC,$AN)=(0,0);
 				
 			}
 			
 			$pkey=$key;
 
-			$GT_DP_AF{$sample}=$F[-1];			
+			$GT_DP_AD_AF{$sample}=$F[-1];			
 			$AC++;
                         $AN++;
-                        $AN++ if($GT_DP_AF{$sample}=~/\|/ or $GT_DP_AF{$sample}=~/\//)
-
+                        $AN++ if($GT_DP_AD_AF{$sample}=~/\|/ or $GT_DP_AD_AF{$sample}=~/\//)
 		}
 	}
 
 	#end
 	if($pkey)
         {
-		my @P=($pkey."AC=$AC;AN=$AN","GT:DP:AF");
+		my @P=($pkey."AC=$AC;AN=$AN","GT:DP:AD:AF");
 
 		foreach my  $sample (@samples)
                 {
-			if($GT_DP_AF{$sample}) { push @P,$GT_DP_AF{$sample} ; }
-                        else                   { push @P,".:.:." }
+			if($GT_DP_AD_AF{$sample}) { push @P,$GT_DP_AD_AF{$sample} ; }
+                        else                      { push @P,".:.:.:." }
                 }
 
                print join "\t",@P;  print "\n";
