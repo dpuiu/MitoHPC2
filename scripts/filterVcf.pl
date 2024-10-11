@@ -113,13 +113,15 @@ MAIN:
 			if(!defined($h{AF}) or $h{AF}>1-$opt{percent}) 	{ $h{AF}=1; }
 			elsif($h{AF}<$opt{percent})			{ next;     }
 
-			$h{GT}="1$1" if($h{AF}==1 and $h{GT}=~/0(.+)/);
+			#$h{GT}="1$1" if($h{AF}==1 and $h{GT}=~/0(.+)/);	# 2024/09/03
+			if($h{AF}==1)    { $h{GT}="1" }
+			elsif($h{AF}<.5) { $h{GT}="0/1" }
+			else             { $h{GT}="1/0" }
 
 			if($h{DP}<$opt{depth}) { next }
 
 			$F[8]="GT:DP:AD:AF";
 			$F[9]="$h{GT}:$h{DP}:$h{AD}:$h{AF}";
-
 
 			next if($F[7]=~/SM=([^;\s]+)/ and $suspicious{$1});
 			print join "\t",@F[0..9];

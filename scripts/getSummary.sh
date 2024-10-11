@@ -52,6 +52,11 @@ samtools faidx  $ODIR/$M.fa
 #cvg
 awk '{print $3}' $HP_IN | sed "s|$|.$M.merge.bed|" | xargs cat > $ODIR/$M.merge.bed
 
+#sv's
+if [[ ! -z "$HP_V" ]] ; then
+  awk '{print $3}' $HP_IN | sed "s|$|.$HP_V.00.vcf|" | xargs cat | uniq.pl | bedtools sort -header > $ODIR/$HP_V.00.concat.vcf
+fi
+
 #snv counts
 snpCount.sh $M $HP_T1
 snpCount.sh $M $HP_T2

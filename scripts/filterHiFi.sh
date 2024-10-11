@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-set -ex
-
+#set -e
+set -x
 #########################################################################################################################################
 
 # Program that runs the heteroplasmy pipeline on a single HiFi sample
@@ -30,6 +30,8 @@ export PC="0.95"
 
 ODIR=`dirname "$3"`; mkdir -p $ODIR
 
+MAXDP=2000
+MINAF=0.01
 #########################################################################################################################################
 # test if count and VCF output files exist; exit if they do
 
@@ -42,21 +44,34 @@ if [ $HP_I -ge 2 ] && [ -s $OSS.00.vcf ] ; then exit 0 ; fi
 test -s $2
 test -s $2.bai || test -s $2.crai || test -s $I.bai || test -s $I.crai
 
+# generate index and indexstats files
+if [ ! -s $O.idxstats ] ; then
+  if [ ! -s $I.idxstats ] ; then samtools idxstats $2 > $O.idxstats 
+                            else cp $I.idxstats $O.idxstats 
+  fi
+fi
+
+# get read counts
+if [ ! -s $O.count ]; then cat $O.idxstats | idxstats2count.pl -sample $S -chrM $HP_RMT > $O.count ; fi
+
+# test if there are any MT reads
+MTCOUNT=`tail -1 $O.count| cut -f4`
+if [ $MTCOUNT -lt 1 ]; then echo "ERROR: There are no MT reads in $2; plese remove it from $HP_IN" ; exit 1 ; fi
+
+
 if [ ! -s $O.fa ] ; then
   if [ "$X" == "cram" ] ; then T="-T $HP_RFILE.fa" ; else T="" ; fi
-  MTCOUNT=`samtools view -F 0x900 $2 $HP_RMT $T -c`
-  COUNT=`samtools view -F 0x900 $2 $T -c`
-  echo -e "$S\t$COUNT\t$COUNT\t$MTCOUNT" > $O.count
-
-  if [ $MTCOUNT -lt 1 ]; then echo "ERROR: There are no MT reads in $2; plese remove it from $HP_IN" ; exit 1 ; fi
+  #MTCOUNT=`samtools view -F 0x900 $2 $HP_RMT $T -c`
+  #COUNT=`samtools view -F 0x900 $2 $T -c`
+  #echo -e "$S\t$COUNT\t$COUNT\t$MTCOUNT" > $O.count
+  #if [ $MTCOUNT -lt 1 ]; then echo "ERROR: There are no MT reads in $2; plese remove it from $HP_IN" ; exit 1 ; fi
   if [ $HP_L ]; then R=`tail -1 $O.count | perl -ane '$R=$ENV{HP_L}/($F[-1]+1);  if($R<1) { print "-s $R"} else {print ""} '` ; else R="" ; fi
-
-  samtools view -F 0x900 $R $2 $HP_RMT $T | perl -ane 'print "$F[0]\t",length($F[9]),"\n";' | sort > $O.len
+  samtools view -F 0x900 $R $2 $HP_RMT $T    | perl -ane 'print "$F[0]\t",length($F[9]),"\n";' | sort > $O.len
   samtools view -F 0x900 $R $2 $HP_RMT $T -b | samtools fasta > $O.fa
 fi
 
 if [ ! -s $O.bam ] ; then
-  cat $O.fa | minimap2 -x map-hifi $HP_RDIR/$HP_MT.fa /dev/stdin -R $RG -a | samtools view -b | samtools sort | samtools view -h > $O.sam
+  cat $O.fa | minimap2 -x map-hifi $HP_RDIR/$HP_MT.fa /dev/stdin -R $RG -a --eqx | samtools view -b | samtools sort | samtools view -h > $O.sam
   samtools view -b $O.sam | bedtools bamtobed | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4 | sort | join $O.len -  -a 1 --nocheck-order | \
     perl -ane 'print "$F[0]\t$F[1]\t$F[2]\t",$F[2]/$F[1],"\n"' | sort -k4,4nr | tee $O.score  | perl -ane 'print  if($F[-1]>$ENV{PC});' | cut -f1 | \
     samtools view -N /dev/stdin $O.sam  -b > $O.bam
@@ -66,17 +81,26 @@ fi
 
 # count aligned reads; compute cvg; get coverage stats; get split alignments
 
-if [ ! -s $O.cvg ]    ; then cat $O.bam | bedtools bamtobed -cigar  | bedtools genomecov -i - -g $HP_RDIR/$HP_MT.fa.fai -d | tee $O.cvg  | cut -f3 | st.pl  | perl -ane 'if($.==1) { print "Run\t$_" } else { print "$ENV{S}\t$_" }'  > $O.cvg.stat ; fi
-if [ ! -f $O.sa.bed ] ; then samtools view -h $O.bam | sam2bedSA.pl | uniq.pl -i 3 | sort -k2,2n -k3,3n > $O.sa.bed ; fi
+if [ ! -s $O.cvg ]    ; then cat $O.bam | bedtools bamtobed | bedtools genomecov -i - -g $HP_RDIR/$HP_MT.fa.fai  -d | tee $O.cvg  | cut -f3 | st.pl -sample $S > $O.cvg.stat ; fi
+if [ ! -f $O.sa.bed ] ; then samtools view -h $O.bam | sam2bed.pl | sort -k1,1 -k2,2n -k3,3n | tee $O.bed | grep -P '\d\d+D\t|\d\d+I\t' > $O.sa.bed ; fi
+
+if [ ! -s $OS.vcf ] ; then
+  if [ "$M" == "bcftools" ] ; then
+    bcftools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -d $MAXDP | bcftools call --ploidy 2 -mv -Ov > $OS.vcf
+  elif [ "$M" == "freebayes" ] ; then
+    freebayes -p 1 --pooled-continuous --min-alternate-fraction $MINAF $O.bam -f $HP_RDIR/$HP_MT.fa  > $OS.vcf
+  else
+    echo "Unsuported SNV caller 1"
+    exit 1
+  fi
+fi
 
 if [ ! -s $OS.00.vcf ] ; then
-  cat $HP_SDIR/$M.vcf > $OS.00.vcf
-  echo "##sample=$S" >> $OS.00.vcf
-  fa2Vcf.pl $HP_RDIR/$HP_MT.fa >> $OS.00.vcf
-
-  bcftools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -d $HP_DP | bcftools call --ploidy 2 -mv -Ov | bcftools norm -m-any  -f $HP_RDIR/$HP_MT.fa  | tee $OS.vcf | \
-    fix${M}Vcf.pl |  tee  $OS.fix.vcf | filterVcf.pl -sample $S -source $M  |  grep -v "^#" >> $OS.00.vcf
-  cat $OS.fix.vcf | maxVcf.pl | bedtools sort -header | tee $OS.max.vcf | bgzip -f -c > $OS.max.vcf.gz ; tabix -f $OS.max.vcf.gz
+  #cat $HP_SDIR/$M.vcf  > $OS.vcf
+  #fa2Vcf.pl $HP_RDIR/$HP_MT.fa >> $OS.vcf
+  bcftools norm -m-any  -f $HP_RDIR/$HP_MT.fa $OS.vcf|  fix${M}Vcf.pl -file $HP_RDIR/$HP_MT.fa | bedtools sort -header  > $OS.fix.vcf
+  cat $OS.fix.vcf | maxVcf.pl | bedtools sort -header |tee $OS.max.vcf | bgzip -f -c > $OS.max.vcf.gz ; tabix -f $OS.max.vcf.gz
+  cat $OS.fix.vcf | filterVcf.pl -sample $S -source $M -header $HP_SDIR/$M.vcf -depth $HP_DP | uniqVcf.pl | bedtools sort -header > $OS.00.vcf
   annotateVcf.sh $OS.00.vcf
 fi
 
@@ -89,32 +113,44 @@ if [ ! -s $OS.haplogroup ] ; then
 fi
 
 if  [ ! -s $OS.fa ]  ; then
-  bcftools consensus -f $HP_RDIR/$HP_MT.fa $OS.max.vcf.gz -H A | perl -ane 'chomp; if($.==1) { print ">$ENV{S}\n" } else { s/N//g; print } END {print "\n"}' > $OS.fa
+  bcftools consensus -f $HP_RDIR/$HP_MT.fa $OS.max.vcf.gz | perl -ane 'chomp; if($.==1) { print ">$ENV{S}\n" } else { s/N//g; print } END {print "\n"}' > $OS.fa
   samtools faidx $OS.fa
 fi
 
 #################################################
 
 if [ ! -s $OS.bam ] ; then
-   cat $O.fa |  minimap2 -x map-hifi $OS.fa /dev/stdin -R $RG -a | samtools view -b | samtools sort | samtools view -h > $OS.sam
+   cat $O.fa |  minimap2 -x map-hifi $OS.fa /dev/stdin -R $RG -a  --eqx | samtools view -b | samtools sort | samtools view -h > $OS.sam
    bedtools bamtobed -i $OS.sam | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4  | sort | join $O.len -  -a 1 --nocheck-order | \
      perl -ane 'print "$F[0]\t$F[1]\t$F[2]\t",$F[2]/$F[1],"\n"' | perl -ane 'print  if($F[-1]>$ENV{PC});'  | cut -f1 | \
      samtools view -N /dev/stdin $OS.sam  -b > $OS.bam
   samtools index $OS.bam
   rm $OS.sam $O.fa $O.len
-  touch $OS.merge.bed
 fi
 
-if [ ! -s $OS.cvg ]    ; then cat $OS.bam  | bedtools bamtobed -cigar | grep "^$S" | bedtools genomecov -i - -g $OS.fa.fai -d  | tee $OS.cvg  | cut -f3 | st.pl | perl -ane 'if($.==1) { print "Run\t$_" } else { print "$ENV{S}\t$_" }'  > $OS.cvg.stat  ; fi
+if [ ! -s $OS.cvg ]   ; then bedtools genomecov -d -ibam $OS.bam | tee $OS.cvg  | cut -f3 | st.pl -sample $S > $OS.cvg.stat  ; fi
+if [ ! -f $Os.sa.bed ] ; then samtools view -h $OS.bam | sam2bed.pl | sort -k1,1 -k2,2n -k3,3n  | tee $OS.bed | grep -P '\d\d+D\t|\d\d+I\t'  > $OS.sa.bed ; fi
+if [ ! -f $Os.merge.bed ] ; then cat $OS.bed | grep -P '\d=\t|\d\M\t' | bedtools merge | bed2bed.pl > $OS.merge.bed ; fi
+
 
 if [ ! -s $OSS.00.vcf ] ; then
   cat $HP_SDIR/$M.vcf > $OSS.00.vcf
   echo "##sample=$S" >> $OSS.00.vcf
   fa2Vcf.pl $HP_RDIR/$HP_MT.fa >> $OSS.00.vcf
 
-  bcftools mpileup -f $OS.fa $OS.bam -d $HP_DP | bcftools call --ploidy 2 -mv -Ov | bcftools norm -m-any  -f $OS.fa  > $OSS.vcf
-  cat  $OSS.vcf | \
+  if [ "$M" == "bcftools" ] ; then
+    bcftools mpileup -f $OS.fa $OS.bam -d $MAXDP | bcftools call --ploidy 2 -mv -Ov > $OSS.vcf
+  elif [ "$M" == "freebayes" ] ; then
+    freebayes -p 1 --pooled-continuous --min-alternate-fraction $MINAF $OS.bam -f $OS.fa  > $OSS.vcf
+  else
+    echo "Unsuported SNV caller 1"
+    exit 1
+  fi
+
+  cat  $OSS.vcf |\
+    bcftools norm -m-any  -f $OS.fa  | \
     fix${M}Vcf.pl  | \
+    bedtools sort -header | \
     fixsnpPos.pl -ref $HP_MT -rfile $HP_RDIR/$HP_MT.fa -rlen $HP_MTLEN -mfile $OS.max.vcf  | \
     cat $OS.max.vcf - | \
     filterVcf.pl -sample $S -source $M |  bedtools sort  >> $OSS.00.vcf

@@ -38,3 +38,27 @@
 
 * scripts/filterHiFi.sh      : minimap2 added "-x map-hifi"
 * scripts/init.hifi.sh	     : initialized HP_MTLEN
+
+# 2024/10/11 #
+
+* scripts/install_prerequisites.sh   : updated gridss, added Rscript , delly, plink2 (uncomment)
+* scripts/checkInstall.sh            : added Rscript , delly, plink2 (uncomment)
+* scripts/init.hifi.sh               : lower min coverage to HP_DP=10
+* scripts/run.sh                     : chech if init script has been run
+* scripts/filter.sh                  : multiple updates
+                                       updated st.pl call
+                                       added varscan2Vcf.pl call
+                                       allow for other SV callers(delly)
+                                       update circFasta.sh call
+                                       update rotateFasta.h call
+                                       bcftools consensus : removed "-H A"
+* scripts/filterHiFi.sh              : multiple updates
+                                       miniamp2 : added --eqx
+                                       support for freebayes SNV caller
+* scripts/cat2concat.pl              : added FORMAT/AD
+* scripts/concat2merge.pl            : updated GT
+* scripts/st.pl                      : added -sample parameter
+* scripts/varscan2Vcf.pl             : new script
+* scripts/filterVcf.pl               : GT:0/1;1/0;1
+* scripts/fixsnpPos.pl               : undo lower case update
+* scripts/getSummary.sh              : summarize SV's

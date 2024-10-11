@@ -25,7 +25,8 @@ MAIN:
 	my (@c,$s,$n);
 
         my $result = GetOptions(
-		 "help"  =>      \$opt{help}
+ 		"sample|Run=s"	=> \$opt{sample},
+		 "help" 	=> \$opt{help}
 	);
         if(!$result)            { die "ERROR: $! "}
         if($opt{help})          { print $HELP; exit 0 }
@@ -42,10 +43,14 @@ MAIN:
 
 	@c=sort {$a<=>$b} @c;
 
+
 	if(@c and @c>1)
 	{
 		$n=@c;
+		print("Run\t") if(defined($opt{sample}));
 		print join "\t",("count","min","q1","median","q3","max","mean"); print "\n";
+
+		print("$opt{sample}\t") if(defined($opt{sample}));
 		print join "\t",(scalar(@c),$c[0],$c[int($n/4+.5)],$c[int($n/2+.5)],$c[int($n*3/4+.5)],$c[-1],int($s*100/$n+.5)/100); print "\n";
 	}
 

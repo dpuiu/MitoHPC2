@@ -102,11 +102,13 @@ MAIN:
 			{
 				print join "\t",($ref,$begin,$end,$qry,$score,$strand,$CIGAR);print "\t";
 				print join "\t",($saref,$sabegin,$saend,$qry,$sascore,$sastrand,$saCIGAR);print "\n";
+				#print join "\t",($ref,$end,$sabegin,$qry,$sabegin-$end,($strand eq $sastrand)?$strand:".");print "\n";
 			}
 			else
                         {
 				print join "\t",($saref,$sabegin,$saend,$qry,$sascore,$sastrand,$saCIGAR);print "\t";
                                 print join "\t",($ref,$begin,$end,$qry,$score,$strand,$CIGAR);print "\n";
+				#print join "\t",($saref,$saend,$begin,$qry,$begin-$saend,($strand eq $sastrand)?$strand:".");print "\n";
                          }
 		}
 	}

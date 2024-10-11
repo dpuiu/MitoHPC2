@@ -71,6 +71,7 @@ MAIN:
 			my @F3=split //,$F[3];
 			my @F4=split //,$F[4];
 
+			next if(@F3!=@F4 and $F3[0] ne $F4[0]);	# added 2024/09/30
 			while(@F3>1 and @F4>1 and $F3[-1] eq $F4[-1])
 			{
 				pop @F3;
