@@ -1,4 +1,4 @@
-x#!/usr/bin/env bash 
+#!/usr/bin/env bash 
 #set -e
 
 #if [ -z $HP_HDIR ] ; then echo "Variable HP_HDIR not defined. Make sure you followed the SETUP ENVIRONMENT instructions" ;  fi

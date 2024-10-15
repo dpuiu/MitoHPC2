@@ -27,7 +27,8 @@ MAIN:
 
 	my $result = GetOptions(
 		"out=s"	=>	\$opt{out},
-		 "help"  =>     \$opt{help}
+		"help"  =>      \$opt{help},
+		"word"	=>	\$opt{word}
 	);
 
         if(!$result)            { die "ERROR: $! "}
@@ -41,8 +42,11 @@ MAIN:
 		next unless(/\.bam$/ or /\.cram$/);
 		my @F=split /\t/;
 
-		print "$1\t$F[-1]\t$opt{out}/$1/$1\n" if($F[-1]=~/.+\/(\S+)\./ or $F[-1]=~/(\S+)\./);
-		#print "$1\t$F[-1]\t$opt{out}/$1/$1\n" if($F[-1]=~/.+\/(\S+?)\./ or $F[-1]=~/(\S+?)\./);
+                if($opt{word} and $F[-1]=~/.+\/(\w+)/ or $opt{word} and $F[-1]=~/(\w+)\./  or $F[-1]=~/.+\/(\S+)\./ or $F[-1]=~/(\S+)\./)
+		{
+	                print "$1\t$F[-1]\t$opt{out}/$1/$1\n" 
+
+		}
 	}
 	exit 0;
 }
