@@ -76,6 +76,12 @@ MAIN:
 		die "NORMALIZATION ERROR:$_\n" if($F[4]=~/,/);
 		#$F[6]="." unless($F[6] eq "PASS");
 
+		if($opt{percent}>0)
+		{
+			$F[3]=uc($F[3]);
+        	        $F[4]=uc($F[4]);
+		}
+
 		if($F[8] eq "SM")
 		{
 			if($F[7]=~/(.*)AF=(0\.\d+)(.*)/ or $F[7]=~/(.*)AF=(\d)(.*)/)

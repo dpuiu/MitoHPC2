@@ -11,6 +11,23 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/
     
 Check https://github.com/dpuiu/MitoHPC/blob/main/README.md
 
+## BRAND NEW MACHINE ##
+
+    # make sure git is installed
+     $ sudo apt-get -y update
+     $ sudo apt-get install git
+     $ which git
+
+     $ git clone https://github.com/dpuiu/MitoHPC2.git
+     $ cd MitoHPC2/scripts
+     $ export HP_SDIR=`pwd`
+
+     $ sudo ./install_sysprerequisites.sh
+     $ ./install_prerequisites.sh
+     $ ./checkInstall.sh
+
+## CUSTOOM ANNOTATION ## 
+
 The pipleine has been updated so that all MitoHPC2/RefSeq/*.{vcf,bed}.gz files are used for annotation. 
 If you have any custom annotation files you would like to use, just copy them to MitoHPC2/RefSeq/
 Make sure the VCF/BED files are gzipped and indexed.
@@ -19,9 +36,21 @@ Make sure the VCF/BED files are gzipped and indexed.
 
 Check https://github.com/dpuiu/MitoHPC/blob/main/README.md first !!!
 
-Updates:
+## SINGLE SNV CALLER (Illumina)
 
-## MULTIPLE SNV CALLERS
+    # copy init file to work directory
+    $ cp $HP_SDIR/init.sh .
+
+    # init
+    $ . ./init.sh
+
+    # run
+    $ $HP_SDIR/run.sh | tee run.all.sh | bash
+
+    # check output
+    $ ls $HP_ODIR/mutect2.*
+
+## MULTIPLE SNV CALLERS (Illumina)
 
 In addition, one can run multiple(3) SNV callers and merge the results. 
 Only the SNV called by at least 2 the metods make it into the final/merged set.
@@ -57,3 +86,25 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 
     # check output
     $ ls $HP_ODIR/mutect2.*
+
+# Examples #
+
+40 HPRC samples; Illumina vs PacBio HiFi 
+
+## Illumina ##
+
+    $ cd examples/HPRC/Illumina/
+    $ cat in.url | ls2in.pl -word -out $PWD/out > in.txt
+    $ cp $HP_SDIR/init.sh .
+    $ . ./init.sh
+    $ $HP_SDIR/run.sh | tee run.all.sh | bash
+    $ ls $HP_ODIR/
+
+## PacBio HiFi ##
+
+    $ cd examples/HPRC/HiFi/
+    $ cat in.url | ls2in.pl -word -out $PWD/out > in.txt
+    $ cp $HP_SDIR/init.hifi.sh .
+    $ . ./init.hifi.sh
+    $ $HP_SDIR/run.hifi.sh | tee run.all.sh | bash
+    $ ls $HP_ODIR/         

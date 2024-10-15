@@ -5,7 +5,7 @@ use warnings;
 use Getopt::Long;
 
 my $HELP = qq~
-Program that recalculates SNV positions using the max VCF and reference FASTA
+Program that recomputes SNV positions using the max VCF and reference FASTA
 
         EXAMPLE:
 
@@ -138,13 +138,13 @@ MAIN:
                         elsif($F3 eq $F[4])
                         {
 				@F[3,4]=@F[4,3];
-                                #$F[4]=lc($F[4]);
+                                $F[4]=lc($F[4]);
                         }
 			else
 			{
 				$F[3]=$F3;
-                                #$F[3]=lc($F[3]);
-				#$F[4]=lc($F[4]);
+                                $F[3]=lc($F[3]);
+				$F[4]=lc($F[4]);
 			}
 
 			print join "\t",@F;

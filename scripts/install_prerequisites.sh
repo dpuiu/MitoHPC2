@@ -34,22 +34,34 @@ fi
 
 which minimap2
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
-  wget -N -c https://github.com/lh3/minimap2/releases/download/v2.26/minimap2-2.26.tar.bz2
-  tar -xjvf minimap2-2.26.tar.bz2 
-  cd minimap2-2.26/
+  wget -N -c https://github.com/lh3/minimap2/releases/download/v2.28/minimap2-2.28.tar.bz2
+  tar -xjvf minimap2-2.28.tar.bz2 
+  cd minimap2-2.28/
   make ;  cp minimap2 $HP_BDIR
   cd -
 fi
 
 ##############################################################################################################
 
+which htsfile
+if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
+  wget -N -c https://github.com/samtools/htslib/releases/download/1.21/htslib-1.21.tar.bz2
+  if [ ! -s $HP_BDIR/tabix ] ; then
+    tar -xjvf htslib-1.21.tar.bz2
+    cd htslib-1.21
+    ./configure --prefix=$HP_HDIR/ --with-curl # --disable-bz2
+    make ; make install
+    cd -
+  fi
+fi
+
 which samtools
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
-  wget -N -c https://github.com/samtools/samtools/releases/download/1.16/samtools-1.16.tar.bz2
+  wget -N -c https://github.com/samtools/samtools/releases/download/1.21/samtools-1.21.tar.bz2
   if [ ! -s $HP_BDIR/samtools ] ; then
-    tar -xjvf samtools-1.16.tar.bz2
-    cd samtools-1.16
-    ./configure --prefix=$HP_HDIR/ # --without-curses --disable-bz2
+    tar -xjvf samtools-1.21.tar.bz2
+    cd samtools-1.21
+    ./configure --prefix=$HP_HDIR/ --with-curl # --without-curses --disable-bz2
     make ;  make install
     cd -
   fi
@@ -57,27 +69,16 @@ fi
 
 which bcftools
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
-  wget -N -c https://github.com/samtools/bcftools/releases/download/1.16/bcftools-1.16.tar.bz2
+  wget -N -c https://github.com/samtools/bcftools/releases/download/1.21/bcftools-1.21.tar.bz2
   if [ ! -s $HP_BDIR/bcftools ] ; then
-    tar -xjvf  bcftools-1.16.tar.bz2
-    cd bcftools-1.16
+    tar -xjvf  bcftools-1.21.tar.bz2
+    cd bcftools-1.21
     ./configure --prefix=$HP_HDIR/ # --disable-bz2
     make  ; make install
     cd -
   fi
 fi
 
-which htsfile
-if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
-  wget -N -c https://github.com/samtools/htslib/releases/download/1.16/htslib-1.16.tar.bz2
-  if [ ! -s $HP_BDIR/tabix ] ; then
-    tar -xjvf htslib-1.16.tar.bz2
-    cd htslib-1.16
-    ./configure --prefix=$HP_HDIR/ # --disable-bz2
-    make ; make install
-    cd -
-  fi
-fi
 
 which samblaster
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
@@ -92,17 +93,13 @@ fi
 
 which bedtools
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
-  wget -N -c https://github.com/arq5x/bedtools2/releases/download/v2.30.0/bedtools-2.30.0.tar.gz
+  wget -N -c https://github.com/arq5x/bedtools2/releases/download/v2.31.1/bedtools-2.31.1.tar.gz
   if [ ! -s $HP_BDIR/bedtools ] ; then
-    tar -xzvf bedtools-2.30.0.tar.gz
+    tar -xzvf bedtools-2.31.1.tar.gz
     cd bedtools2/
     make install prefix=$HP_HDIR/
     cd -
   fi
-
-  #wget -N -c https://github.com/arq5x/bedtools2/releases/download/v2.30.0/bedtools.static.binary
-  #cp bedtools.static.binary $HP_BDIR/bedtools
-  #chmod a+x $HP_BDIR/bedtools
 fi
 
 which fastp
@@ -116,10 +113,10 @@ fi
 
 #if [ ! -s $HP_JDIR/gatk.jar ] ; then # 2023/04/26
 if [[ ! -s $HP_JDIR/gatk.jar || $# == 1 && $1 == "-f" ]] ; then
-  wget -N -c https://github.com/broadinstitute/gatk/releases/download/4.3.0.0/gatk-4.3.0.0.zip
-  unzip -o gatk-4.3.0.0.zip
-  cp gatk-4.3.0.0/gatk-package-4.3.0.0-local.jar $HP_JDIR/gatk.jar
-  cp gatk-4.3.0.0/gatk $HP_BDIR/
+  wget -N -c https://github.com/broadinstitute/gatk/releases/download/4.6.0.0/gatk-4.6.0.0.zip
+  unzip -o gatk-4.6.0.0.zip
+  cp gatk-4.6.0.0/gatk-package-4.6.0.0-local.jar $HP_JDIR/gatk.jar
+  cp gatk-4.6.0.0/gatk $HP_BDIR/
 fi
 
 #if [ ! -s $HP_JDIR/mutserve.jar ] ; then  # 2023/04/26
@@ -131,9 +128,9 @@ fi
 
 which freebayes
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
-  wget -N -c https://github.com/freebayes/freebayes/releases/download/v1.3.6/freebayes-1.3.6-linux-amd64-static.gz
-  gunzip freebayes-1.3.6-linux-amd64-static.gz  -c >  $HP_BDIR/freebayes
-  chmod a+x $HP_BDIR//freebayes
+  wget -N -c https://github.com/freebayes/freebayes/releases/download/v1.3.8/freebayes-1.3.8-linux-amd64-static.gz
+  gunzip freebayes-1.3.8-linux-amd64-static.gz  -c >  $HP_BDIR/freebayes
+  chmod a+x $HP_BDIR/freebayes
 fi
 
 if [[ ! -s $HP_JDIR/VarScan.jar || $# == 1 && $1 == "-f" ]] ; then
@@ -151,18 +148,18 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   make install
 fi
 
-#which gridss
-#if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
-#  wget -N -c https://github.com/PapenfussLab/gridss/releases/download/v2.13.2/gridss-2.13.2.tar.gz
-#  tar -xzvf gridss-2.13.2.tar.gz
-#  cp gridss $HP_BDIR/
-#  cp gridss-2.13.2-gridss-jar-with-dependencies.jar $HP_JDIR/gridss.jar
-#fi
+which gridss
+if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
+  wget -N -c https://github.com/PapenfussLab/gridss/releases/download/v2.13.2/gridss-2.13.2.tar.gz
+  tar -xzvf gridss-2.13.2.tar.gz
+  cp gridss $HP_BDIR/
+  cp gridss-2.13.2-gridss-jar-with-dependencies.jar $HP_JDIR/gridss.jar
+fi
 
 #which delly
 #if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
-#  wget -N -c https://github.com/dellytools/delly/releases/download/v1.2.9/delly_v1.2.9_linux_x86_64bit
-#  cp delly_v1.2.9_linux_x86_64bit $HP_BDIR/delly
+#  wget -N -c https://github.com/dellytools/delly/releases/download/v1.3.1/delly_v1.3.1_linux_x86_64bit
+#  cp delly_v1.3.1_linux_x86_64bit $HP_BDIR/delly
 #fi
 
 which plink2
