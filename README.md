@@ -9,24 +9,29 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/
 
 # INSTALL # 
     
-Check https://github.com/dpuiu/MitoHPC/blob/main/README.md
-
-## BRAND NEW MACHINE ##
-
-    # make sure git is installed
-     $ sudo apt-get -y update
-     $ sudo apt-get install git
+     # make sure git is installed
      $ which git
 
+     # install system prerequisites(if admin and git not installed)
+     $ sudo apt-get -y update                            
+     $ sudo apt-get install git                          
+
+     # clone and init 
      $ git clone https://github.com/dpuiu/MitoHPC2.git
      $ cd MitoHPC2/scripts
      $ export HP_SDIR=`pwd`
+     $ . ./init.sh
 
-     $ sudo ./install_sysprerequisites.sh
+     # install system prerequisites(if admin or checkInstall.sh below fails)
+     $ sudo ./install_sysprerequisites.sh                
+
+     # install prerequisites and check install
      $ ./install_prerequisites.sh
      $ ./checkInstall.sh
 
-## CUSTOOM ANNOTATION ## 
+For additional information check https://github.com/dpuiu/MitoHPC/blob/main/README.md
+
+## CUSTOM ANNOTATION ## 
 
 The pipleine has been updated so that all MitoHPC2/RefSeq/*.{vcf,bed}.gz files are used for annotation. 
 If you have any custom annotation files you would like to use, just copy them to MitoHPC2/RefSeq/
@@ -94,7 +99,7 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 ## Illumina ##
 
     $ cd examples/HPRC/Illumina/
-    $ cat in.url | ls2in.pl -word -out $PWD/out > in.txt
+    $ cat in.url | ls2in.pl -word -out $PWD/out | sort | head -n 5 > in.txt
     $ cp $HP_SDIR/init.sh .
     $ . ./init.sh
     $ $HP_SDIR/run.sh | tee run.all.sh | bash
@@ -103,7 +108,7 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 ## PacBio HiFi ##
 
     $ cd examples/HPRC/HiFi/
-    $ cat in.url | ls2in.pl -word -out $PWD/out > in.txt
+    $ cat in.url | ls2in.pl -word -out $PWD/out | sort | head -n 5 > in.txt
     $ cp $HP_SDIR/init.hifi.sh .
     $ . ./init.hifi.sh
     $ $HP_SDIR/run.hifi.sh | tee run.all.sh | bash

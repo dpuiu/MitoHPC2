@@ -37,8 +37,8 @@ MAIN:
 
 		chomp;
 		my @F=split /\t/;
-
 		my $POS=$F[1];
+		($F[3],$F[4])=(uc($F[3]),uc($F[4]));
 
 		my $AF=1;
 		$AF=$1 if($F[9]=~/.+:(\S+)/);

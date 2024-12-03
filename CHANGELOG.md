@@ -78,3 +78,9 @@
 
 * examples/HPRC/Illumina/in.url        : URLs of 40 HPRC Illumina samples
 * examples/HPRC/HiFi/in.url            : URLs of	40 HPRC	HiFi     samples
+
+# 2024/12/03 #
+
+* scripts/uniqVcf.pl			: convert REF/ALT to upper case
+* scripts/maxVcf.pl			: convert REF/ALT to upper case
+
