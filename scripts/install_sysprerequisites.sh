@@ -14,6 +14,7 @@ if [ "$?" == 0 ] ; then
   apt-get install -y git wget default-jdk default-jre zlib1g libz-dev libncurses5-dev libbz2-dev pkg-config liblzma-dev build-essential unzip  parallel # make gcc python
   apt-get install -y libcurl4-gnutls-dev libssl-dev zlib1g-dev
   apt-get install -y python-is-python3
+  apt-get install -y gfortran libreadline-dev libpcre2-dev  # for R
 fi
 
 command -v dnf

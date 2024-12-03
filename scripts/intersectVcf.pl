@@ -45,6 +45,8 @@ MAIN:
 
 		chomp;
                 my @F=split /\t/;
+		($F[3],$F[4])=(uc($F[3]),uc($F[4]));
+
 		my $SM="";
 
                 if($opt{sm})
@@ -79,6 +81,7 @@ MAIN:
 
 		chomp;
                 my @F=split /\t/;
+		($F[3],$F[4])=(uc($F[3]),uc($F[4]));
                	my $SM="";
 
 		if($opt{sm})
