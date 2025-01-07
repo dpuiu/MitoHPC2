@@ -87,4 +87,5 @@
 # 2025/01/07 #
 
 * RefSeq/{CDS,RNR,TRN}.bed.gz*         : use Hugo gene names (MT-*)  
-* scripts/install_sysprerequisites.sh  : repace "default-jdk default-jre" with "openjdk-18-jdk"
+* scripts/install_sysprerequisites.sh  : repace java packages with "openjdk-17-jdk"  and "java-17-openjdk"
+* Dockerfile                           : added Dockerfile
