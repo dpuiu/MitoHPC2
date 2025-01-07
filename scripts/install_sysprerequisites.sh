@@ -22,6 +22,7 @@ if [ "$?" == 0 ] ; then
   dnf -y update
   dnf install -y which nano git wget java-17-openjdk bzip2 gcc gcc-c++ zlib-devel ncurses-devel bzip2-devel xz-devel unzip perl perl-Data-Dumper perl-ExtUtils-MakeMaker perl-Test-Simple python3 python3-pip make libcurl-devel openssl-devel
   alternatives --install /usr/bin/python python /usr/bin/python3 60
+  dnf install gcc-gfortran readline-devel pcre2-devel
 fi
 
 command -v yum
@@ -30,4 +31,5 @@ if [ "$?" == 0 ] ; then
   #yum install -y which nano git wget java-1.8.0-openjdk bzip2 gcc gcc-c++ zlib-devel ncurses-devel bzip2-devel xz-devel  unzip perl perl-Data-Dumper  perl-ExtUtils-MakeMaker perl-Test-Simple python parallel
   yum install -y which nano git wget java-17-openjdk bzip2 gcc gcc-c++ zlib-devel ncurses-devel bzip2-devel xz-devel  unzip perl perl-Data-Dumper  perl-ExtUtils-MakeMaker perl-Test-Simple python3 python3-pip make libcurl-devel openssl-devel # removed parallel python
   alternatives --install /usr/bin/python python /usr/bin/python3 60
+  yum install gcc-gfortran readline-devel pcre2-devel
 fi

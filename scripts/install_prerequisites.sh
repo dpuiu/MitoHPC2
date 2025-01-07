@@ -189,7 +189,8 @@ fi
 
 #if [ ! -s $HP_RDIR/$HP_RNAME.fa ] ; then # 2023/04/26
 if [[ ! -s $HP_RDIR/$HP_RNAME.fa.fai || $# == 1 && $1 == "-f" ]] ; then
-  wget -qO- $HP_RURL | zcat -f > $HP_RDIR/$HP_RNAME.fa
+  #wget -qO- $HP_RURL | zcat -f > $HP_RDIR/$HP_RNAME.fa
+  wget -q $HP_RURL -O $HP_RDIR/$HP_RNAME.fa
   samtools faidx $HP_RDIR/$HP_RNAME.fa
 fi
 exit 0
