@@ -74,13 +74,17 @@
                                          gatk-4.3.0.0    => 4.6.0.0
                                          freebayes-1.3.6 => 1.3.8
                                          delly_v1.2.9    => 1.3.1
-* ls2in.pl                              : added "-word" parameter : word only sample names
+* ls2in.pl                             : added "-word" parameter : word only sample names
 
 * examples/HPRC/Illumina/in.url        : URLs of 40 HPRC Illumina samples
 * examples/HPRC/HiFi/in.url            : URLs of	40 HPRC	HiFi     samples
 
 # 2024/12/03 #
 
-* scripts/uniqVcf.pl			: convert REF/ALT to upper case
-* scripts/maxVcf.pl			: convert REF/ALT to upper case
+* scripts/uniqVcf.pl		       : convert REF/ALT to upper case
+* scripts/maxVcf.pl		       : convert REF/ALT to upper case
 
+# 2025/01/07 #
+
+* RefSeq/{CDS,RNR,TRN}.bed.gz*         : use Hugo gene names (MT-*)  
+* scripts/install_sysprerequisites.sh  : repace "default-jdk default-jre" with "openjdk-18-jdk"
