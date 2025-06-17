@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
-#set -eux
-set -x
+set -eux
+#set -x
 #########################################################################################################################################
 
 # Program that runs the heteroplasmy pipeline on a single sample
@@ -41,7 +41,7 @@ MAXDP=2000
 #########################################################################################################################################
 # test if count and VCF output files exist; exit if they do
 
-if [ $HP_I -lt 1 ] && [ -s $O.bam ]    ; then exit 0 ; fi
+if [ $HP_I -lt 1 ] && [ -s $O.bam ]      ; then exit 0 ; fi
 if [ $HP_I -eq 1 ] && [ -s $OS.00.vcf  ] ; then exit 0 ; fi
 if [ $HP_I -ge 2 ] && [ -s $OSS.00.vcf ] ; then exit 0 ; fi
 
@@ -49,8 +49,8 @@ if [ $HP_I -ge 2 ] && [ -s $OSS.00.vcf ] ; then exit 0 ; fi
 # test alignment file exists and is sorted by coordinates
 
 # test alignment input file exists , is indexed and sorted 
-test -s $2
-test -s $2.bai || test -s $2.crai
+#test -s $2
+#test -s $2.bai || test -s $2.crai
 samtools view -H $2 | grep -m 1 -P "^@HD.+coordinate$" > /dev/null
 
 # test references match
@@ -65,7 +65,11 @@ if [ ! -s $O.idxstats ] ; then
 fi
 
 # get read counts
-if [ ! -s $O.count ]; then cat $O.idxstats | idxstats2count.pl -sample $S -chrM $HP_RMT > $O.count ; fi
+if [ ! -s $O.count ]; then
+  if [ ! -s $I.count ] ; then  cat $O.idxstats | idxstats2count.pl -sample $S -chrM $HP_RMT > $O.count
+                         else  cp  $I.count $O.count
+  fi
+fi
 
 # test if there are any MT reads
 MTCOUNT=`tail -1 $O.count| cut -f4`
@@ -113,15 +117,16 @@ if  [ ! -s $O.bam ] ; then
   cat $O.sam | \
      circSam.pl -ref_len $HP_RDIR/$HP_MT.fa.fai -offset 0 | \
      samtools view -bu | \
-     samtools sort -m $HP_MM -@ $HP_P -o $O.bam 
+     samtools sort -m $HP_MM -@ $HP_P -o $O.bam
   samtools index $O.bam
+  pileup2count.py $O.bam > $O.pileup2count
 
   cat $O.sam | \
      circSam.pl -ref_len $HP_RDIR/$HP_MT.fa.fai -offset $HP_E | \
      samtools view -bu | \
-     samtools sort -m $HP_MM -@ $HP_P -o $OR.bam 
+     samtools sort -m $HP_MM -@ $HP_P -o $OR.bam
   samtools index $OR.bam
-  rm -f $O.*sam $O.score 
+  rm -f $O.*sam $O.score
 fi
 
 #########################################################################################################################################
@@ -144,12 +149,11 @@ if [ ! -s $OS.vcf ] ; then
     java $HP_JOPT -jar $HP_JDIR/gatk.jar Mutect2           -R $HP_RDIR/$HP_MTR.fa -I $OR.bam        -O $OSR.orig.vcf $HP_GOPT --native-pair-hmm-threads $HP_P  --callable-depth 6 --max-reads-per-alignment-start 0 -L "$HP_MT:285-315" -min-AF $MINAF # "$HP_MT:16254-16284"  
     java $HP_JOPT -jar $HP_JDIR/gatk.jar FilterMutectCalls -R $HP_RDIR/$HP_MTR.fa -V $OSR.orig.vcf  -O $OSR.vcf --min-reads-per-strand 2
     cat $OSR.vcf | perl -ane 'next if(/^#/) ; $F[1]=($F[1]-$ENV{HP_E})%$ENV{HP_MTLEN} ; print join "\t",@F; print "\n" ' >> $OS.vcf
-    rm -f $OS.orig.* $OS.vcf.*
+    rm -f $OS.orig.* $OS.vcf.* $OSR.*
 
   elif [ "$M" == "mutserve" ] ; then
     if [ "$HP_MT" == "chrM" ] ||  [ "$HP_MT" == "rCRS" ] ||  [ "$HP_MT" == "RSRS" ] ; then
       java $HP_JOPT -jar $HP_JDIR/mutserve.jar call --deletions --insertions --level $MINAF --output $OS.vcf --reference $HP_RDIR/$HP_MT.fa $O.bam
-      #mv $O.txt $OS.txt
     else
       echo "Wrong mutserve reference"
       exit 1
@@ -157,15 +161,15 @@ if [ ! -s $OS.vcf ] ; then
   elif [ "$M" == "freebayes" ] ; then
     freebayes -p 1 --pooled-continuous --min-alternate-fraction $MINAF $O.bam -f $HP_RDIR/$HP_MT.fa  > $OS.vcf
   elif [ "$M" == "varscan" ] ; then
-    #samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | tee \
-    #  >(java -jar $HP_JDIR/VarScan.jar pileup2snp   -B  --variants --min-var-freq $MINAF > $OS.snp.txt) \
-    #  >(java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants --min-var-freq $MINAF > $OS.indel.txt) > /dev/null
-    samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar pileup2snp   -B  --variants --min-var-freq $MINAF > $OS.txt
-    samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants --min-var-freq $MINAF | grep -v "^#" >> $OS.txt
-
-    cat $HP_SDIR/$M.vcf  > $OS.vcf
-    fa2Vcf.pl $HP_RDIR/$HP_MT.fa >> $OS.vcf
-    cat $OS.txt| varscan2Vcf.pl | uniqVcf.pl | sort -k1,1 -k2,2n >> $OS.vcf
+    # new 2025:05:30
+    samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar mpileup2snp   --min-coverage $HP_DP -B --variants --min-var-freq $MINAF --output-vcf 1 > $OS.orig.vcf
+    samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar mpileup2indel --min-coverage $HP_DP -B --variants --min-var-freq $MINAF --output-vcf 1 | grep -v "^#" >> $OS.orig.vcf
+    cat $HP_SDIR/$M.vcf >  $OS.vcf
+    cat $HP_RDIR/$HP_MT.fa.fai | perl -ane 'print "##contig=<ID=$F[0],length=$F[1]>\n"' >> $OS.vcf
+    echo -e "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t$S" >> $OS.vcf
+    bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t.\tGT:DP:AD:AF\t[%GT:%DP:%AD:%FREQ]\n'  $OS.orig.vcf |  perl -lane 'print "$1:",int($2*100+.5)/10000 if(/(.+):(.+)%$/);' | sort -k2,2n >> $OS.vcf
+  elif [ "$M" == "bcftools" ] ; then
+    bcftools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -d $MAXDP | bcftools call --ploidy 2 -mv -Ov > $OS.vcf
   else
     echo "Unsuported SNV caller 1"
     exit 1
@@ -235,7 +239,6 @@ if  [ ! -s $OS.fa ]  ; then
   circFasta.sh   $S $OS $HP_E $OSC
   rotateFasta.sh $S $OS $HP_E $OSR
 fi
-
 ########################################################################################################################################
 # realign reads; check coverage
 
@@ -301,15 +304,16 @@ if [ ! -s $OSS.vcf ] ; then
     freebayes -p 1 --pooled-continuous --min-alternate-fraction $MINAF $OS.bam -f $OS.fa  > $OSS.vcf
 
   elif [ "$M" == "varscan" ] ; then
-    samtools mpileup -f $OS.fa $OS.bam -B -d $MAXDP | java -jar $HP_JDIR/VarScan.jar pileup2snp   -B  --variants  --min-var-freq $MINAF > $OSS.txt
-    samtools mpileup -f $OS.fa $OS.bam -B -d $MAXDP | java -jar $HP_JDIR/VarScan.jar pileup2indel -B  --variants  --min-var-freq $MINAF | grep -v "^#" >> $OSS.txt
-
-    cat $HP_SDIR/$M.vcf  > $OSS.vcf
+    # new 2025:05:30
+    samtools mpileup -f $OS.fa $OS.bam -r $S -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar mpileup2snp   --min-coverage $HP_DP -B --variants --min-var-freq $MINAF --output-vcf 1 > $OSS.orig.vcf
+    samtools mpileup -f $OS.fa $OS.bam -r $S -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar mpileup2indel --min-coverage $HP_DP -B --variants --min-var-freq $MINAF --output-vcf 1 | grep -v "^#" >> $OSS.orig.vcf
+    cat $HP_SDIR/$M.vcf >  $OSS.vcf
     echo "##sample=$S" >> $OSS.vcf
-    fa2Vcf.pl $OS.fa | grep -m 1 contig= >> $OSS.vcf
-    fa2Vcf.pl $HP_RDIR/$HP_MT.fa >> $OSS.vcf
-
-    cat $OSS.txt| varscan2Vcf.pl | uniqVcf.pl | sort -k1,1 -k2,2n >> $OSS.vcf
+    cat $OS.fa.fai | perl -ane 'print "##contig=<ID=$F[0],length=$F[1]>\n"' >> $OSS.vcf
+    echo -e "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t$S" >> $OSS.vcf
+    bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t.\tGT:DP:AD:AF\t[%GT:%DP:%AD:%FREQ]\n'  $OSS.orig.vcf |  perl -lane 'print "$1:",int($2*100+.5)/10000 if(/(.+):(.+)%$/);' | sort -k2,2n >> $OSS.vcf
+  elif [ "$M" == "bcftools" ] ; then
+    bcftools mpileup -f $OS.fa $OS.bam -d $MAXDP | bcftools call --ploidy 2 -mv -Ov > $OSS.vcf
   else
     echo "Unsuported SNV caller 2"
     exit 1
@@ -333,5 +337,6 @@ if [ ! -s $OSS.00.vcf ] ; then
 fi
 
 rm -f $OS.bam*  $OS.dict $OS.fa.fai
-rm -f $O.fq $ON.score $OR.bam* $O.bam* 
+rm -f $O.fq $OR.bam* 
+rm -f $O.bam* $ON.score
 

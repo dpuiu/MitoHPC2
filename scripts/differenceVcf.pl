@@ -21,11 +21,12 @@ Program that prints all the SNV's present in one VCF file but missing from anoth
 MAIN:
 {
         my (%opt,%h);
+	$opt{af};	
 
         # validate input parameters
         my $result = GetOptions(
 		"sm"      =>      \$opt{sm},
-               	"af" 	  =>      \$opt{af},
+               	"af=s" 	  =>      \$opt{af},
 		"help"	  =>	  \$opt{help}
 	);
 
@@ -42,15 +43,15 @@ MAIN:
 
 		chomp;
                 my @F=split /\t/;
+                die "ERROR $_" if(@F<5);
+
 		my $SM="";
 
 		if($opt{sm})
 		{
-			die unless(@F==10);
-
-			if($F[8] eq "SM")                                 { $SM=$F[9] }
-			elsif($F[7]=~/SM=(\S+?);/ or $F[7]=~/SM=(\S+?)$/) { $SM=$1 }
-			else						  { die "ERROR: $_" }
+			if(@F>8 and $F[8] eq "SM")                                   { $SM=$F[9] }
+			elsif(@F>7 and ($F[7]=~/SM=(\S+?);/ or $F[7]=~/SM=(\S+?)$/)) { $SM=$1 }
+			else						             { die "ERROR: $_" }
 		}
 
 		my $AF=1;
@@ -71,15 +72,14 @@ MAIN:
 
 		chomp;
                 my @F=split /\t/;
+                die "ERROR $_" if(@F<5);
                	my $SM="";
 
 		if($opt{sm})
 		{
-			die unless(@F==10);
-
-	                if($F[8] eq "SM")                                 { $SM=$F[9] }
-        	        elsif($F[7]=~/SM=(\S+?);/ or $F[7]=~/SM=(\S+?)$/) { $SM=$1 }
-			else                                              { die "ERROR: $_" }
+	                if(@F>8 and $F[8] eq "SM")                                   { $SM=$F[9] }
+        	        elsif(@F>7 and ($F[7]=~/SM=(\S+?);/ or $F[7]=~/SM=(\S+?)$/)) { $SM=$1 }
+			else                                                         { die "ERROR: $_" }
 		}
 
 		($F[3],$F[4])=(uc($F[3]),uc($F[4]));
@@ -89,13 +89,13 @@ MAIN:
 			{
 				if(/(.+;AF=)(0\.\d+)(.+)/ or /(.+;AF=)(1)(.+)/)
 				{
-					my $AF=abs($2-$h{"$F[0] $F[1] $F[3] $F[4] $SM"});
-					print "$1$AF$3\n" if($AF);
+					my $AF=$2-$h{"$F[0] $F[1] $F[3] $F[4] $SM"};
+					print "$1$AF$3\n" if($AF>$opt{af});
 				}	
 				elsif(/(.+:)(\d.*)$/)
 				{
- 				 	 my $AF=abs($2-$h{"$F[0] $F[1] $F[3] $F[4] $SM"});
-					 print "$1$AF\n" if($AF);
+ 				 	 my $AF=$2-$h{"$F[0] $F[1] $F[3] $F[4] $SM"};
+					 print "$1$AF\n" if($AF>$opt{af});
 				}
 			}
 		}

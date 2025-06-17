@@ -36,7 +36,8 @@ export HP_RMT=chrM
 export HP_RNUMT="chr1:629084-634672 chr17:22521208-22521639"										                          # 150bp reads chr2:32916199-32916630
 #export HP_RNUMT="chr1:629080-634925 chr1:76971223-76971280 chr2:148881723-148881858 chr5:80651184-80651597 chr11:10508892-10509738 chr13:109424123-109424381 chr17:22521208-22521639"   # 100bp reads
 export HP_RCOUNT=3366																		  # 195(hs38DH-no_alt); 194 (hs38DH-no_alt_EBV)
-export HP_RURL=ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa
+#export HP_RURL=ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa
+export HP_RURL=https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
 
 #hg19
 #export HP_RNAME=hg19

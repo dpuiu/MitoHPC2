@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-#set -e
-set -x
+set -eux
+
 #########################################################################################################################################
 
 # Program that runs the heteroplasmy pipeline on a single HiFi sample
@@ -71,7 +71,7 @@ if [ ! -s $O.fa ] ; then
 fi
 
 if [ ! -s $O.bam ] ; then
-  cat $O.fa | minimap2 -x map-hifi $HP_RDIR/$HP_MT.fa /dev/stdin -R $RG -a --eqx | samtools view -b | samtools sort | samtools view -h > $O.sam
+  cat $O.fa | minimap2 -x map-ont $HP_RDIR/$HP_MT.fa /dev/stdin -R $RG -a --eqx | samtools view -b | samtools sort | samtools view -h > $O.sam
   samtools view -b $O.sam | bedtools bamtobed | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4 | sort | join $O.len -  -a 1 --nocheck-order | \
     perl -ane 'print "$F[0]\t$F[1]\t$F[2]\t",$F[2]/$F[1],"\n"' | sort -k4,4nr | tee $O.score  | perl -ane 'print  if($F[-1]>$ENV{PC});' | cut -f1 | \
     samtools view -N /dev/stdin $O.sam  -b > $O.bam
@@ -89,6 +89,13 @@ if [ ! -s $OS.vcf ] ; then
     bcftools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -d $MAXDP | bcftools call --ploidy 2 -mv -Ov > $OS.vcf
   elif [ "$M" == "freebayes" ] ; then
     freebayes -p 1 --pooled-continuous --min-alternate-fraction $MINAF $O.bam -f $HP_RDIR/$HP_MT.fa  > $OS.vcf
+  elif [ "$M" == "varscan" ] ; then
+    samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar mpileup2snp   --min-coverage $HP_DP -B --variants --min-var-freq $MINAF --output-vcf 1 > $OS.orig.vcf
+    samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar mpileup2indel --min-coverage $HP_DP -B --variants --min-var-freq $MINAF --output-vcf 1 | grep -v "^#" >> $OS.orig.vcf
+    cat $HP_SDIR/$M.vcf >  $OS.vcf
+    cat $HP_RDIR/$HP_MT.fa.fai | perl -ane 'print "##contig=<ID=$F[0],length=$F[1]>\n"' >> $OS.vcf
+    echo -e "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t$S" >> $OS.vcf
+    bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t.\tGT:DP:AD:AF\t[%GT:%DP:%AD:%FREQ]\n'  $OS.orig.vcf |  perl -lane 'print "$1:",int($2*100+.5)/10000 if(/(.+):(.+)%$/);' | sort -k2,2n >> $OS.vcf
   else
     echo "Unsuported SNV caller 1"
     exit 1
@@ -120,7 +127,7 @@ fi
 #################################################
 
 if [ ! -s $OS.bam ] ; then
-   cat $O.fa |  minimap2 -x map-hifi $OS.fa /dev/stdin -R $RG -a  --eqx | samtools view -b | samtools sort | samtools view -h > $OS.sam
+   cat $O.fa |  minimap2 -x map-ont $OS.fa /dev/stdin -R $RG -a  --eqx | samtools view -b | samtools sort | samtools view -h > $OS.sam
    bedtools bamtobed -i $OS.sam | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4  | sort | join $O.len -  -a 1 --nocheck-order | \
      perl -ane 'print "$F[0]\t$F[1]\t$F[2]\t",$F[2]/$F[1],"\n"' | perl -ane 'print  if($F[-1]>$ENV{PC});'  | cut -f1 | \
      samtools view -N /dev/stdin $OS.sam  -b > $OS.bam
@@ -129,8 +136,8 @@ if [ ! -s $OS.bam ] ; then
 fi
 
 if [ ! -s $OS.cvg ]   ; then bedtools genomecov -d -ibam $OS.bam | tee $OS.cvg  | cut -f3 | st.pl -sample $S > $OS.cvg.stat  ; fi
-if [ ! -f $Os.sa.bed ] ; then samtools view -h $OS.bam | sam2bed.pl | sort -k1,1 -k2,2n -k3,3n  | tee $OS.bed | grep -P '\d\d+D\t|\d\d+I\t'  > $OS.sa.bed ; fi
-if [ ! -f $Os.merge.bed ] ; then cat $OS.bed | grep -P '\d=\t|\d\M\t' | bedtools merge | bed2bed.pl > $OS.merge.bed ; fi
+if [ ! -f $OS.sa.bed ] ; then samtools view -h $OS.bam | sam2bed.pl | sort -k1,1 -k2,2n -k3,3n  | tee $OS.bed | grep -P '\d\d+D\t|\d\d+I\t'  > $OS.sa.bed ; fi
+if [ ! -f $OS.merge.bed ] ; then cat $OS.bed | grep -P '\d=\t|\d\M\t' | bedtools merge | bed2bed.pl > $OS.merge.bed ; fi
 
 
 if [ ! -s $OSS.00.vcf ] ; then
@@ -142,6 +149,14 @@ if [ ! -s $OSS.00.vcf ] ; then
     bcftools mpileup -f $OS.fa $OS.bam -d $MAXDP | bcftools call --ploidy 2 -mv -Ov > $OSS.vcf
   elif [ "$M" == "freebayes" ] ; then
     freebayes -p 1 --pooled-continuous --min-alternate-fraction $MINAF $OS.bam -f $OS.fa  > $OSS.vcf
+ elif [ "$M" == "varscan" ] ; then
+    samtools mpileup -f $OS.fa $OS.bam -r $S -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar mpileup2snp   --min-coverage $HP_DP -B --variants --min-var-freq $MINAF --output-vcf 1 > $OSS.orig.vcf
+    samtools mpileup -f $OS.fa $OS.bam -r $S -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar mpileup2indel --min-coverage $HP_DP -B --variants --min-var-freq $MINAF --output-vcf 1 | grep -v "^#" >> $OSS.orig.vcf
+    cat $HP_SDIR/$M.vcf >  $OSS.vcf
+    echo "##sample=$S" >> $OSS.vcf
+    cat $OS.fa.fai | perl -ane 'print "##contig=<ID=$F[0],length=$F[1]>\n"' >> $OSS.vcf
+    echo -e "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t$S" >> $OSS.vcf
+    bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t.\tGT:DP:AD:AF\t[%GT:%DP:%AD:%FREQ]\n'  $OSS.orig.vcf |  perl -lane 'print "$1:",int($2*100+.5)/10000 if(/(.+):(.+)%$/);' | sort -k2,2n >> $OSS.vcf
   else
     echo "Unsuported SNV caller 1"
     exit 1
