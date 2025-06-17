@@ -25,7 +25,8 @@ OSS=$OS.$M
 #RG="@RG\tID:$S\tSM:$S\tPL:LR"
  RG="@RG\tID:$S\tSM:$S\tPL:LR"
 
-export PC="0.95"
+export MINLEN=6000  # min total alignment (> longest NUMT)
+export MINPC="0.95" # min alignment coverage
 
 ODIR=`dirname "$3"`; mkdir -p $ODIR
 
@@ -78,7 +79,7 @@ fi
 if [ ! -s $O.bam ] ; then
   cat $O.fa | minimap2 $HP_RDIR/$HP_MT.fa /dev/stdin -R $RG -a --eqx | samtools view -b | samtools sort | samtools view -h > $O.sam
   samtools view -b $O.sam | bedtools bamtobed | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4 | sort | join $O.len -  -a 1 --nocheck-order | \
-    perl -ane 'print "$F[0]\t$F[1]\t$F[2]\t",$F[2]/$F[1],"\n"' | sort -k4,4nr | tee $O.score  | perl -ane 'print  if($F[-1]>$ENV{PC});' | cut -f1 | \
+    perl -ane 'print "$F[0]\t$F[1]\t$F[2]\t",$F[2]/$F[1],"\n"' | sort -k4,4nr | tee $O.score  | perl -ane 'print  if($F[-2]>$ENV{MINLEN} && $F[-1]>$ENV{MINPC});' | cut -f1 | \
     samtools view -N /dev/stdin $O.sam  -b > $O.bam
   samtools index $O.bam
   rm $O.sam
@@ -96,13 +97,13 @@ if [ ! -s $OS.vcf ] ; then
     freebayes -p 1 --pooled-continuous --min-alternate-fraction $MINAF $O.bam -f $HP_RDIR/$HP_MT.fa  > $OS.vcf
   elif [ "$M" == "varscan" ] ; then
     samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar mpileup2snp   --min-coverage $HP_DP -B --variants --min-var-freq $MINAF --output-vcf 1 > $OS.orig.vcf
-    samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar mpileup2indel --min-coverage $HP_DP -B --variants --min-var-freq $MINAF_INDEL --output-vcf 1 | grep -v "^#" >> $OS.orig.vcf
+    samtools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -r $HP_MT -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar mpileup2indel --min-coverage $HP_DP -B --variants --min-var-freq $MINAF --output-vcf 1 | grep -v "^#" >> $OS.orig.vcf
     cat $HP_SDIR/$M.vcf >  $OS.vcf
     cat $HP_RDIR/$HP_MT.fa.fai | perl -ane 'print "##contig=<ID=$F[0],length=$F[1]>\n"' >> $OS.vcf
     echo -e "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t$S" >> $OS.vcf
     bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t.\tGT:DP:AD:AF\t[%GT:%DP:%AD:%FREQ]\n'  $OS.orig.vcf |  \
       perl -lane 'print "$1:",int($2*100+.5)/10000 if(/(.+):(.+)%$/);' | \
-      perl -ane '@F=split/\t/; next if(length($F[3])>length($F[4]) and /.+:(.+)/ and $1<$ENV{MINAF_INDEL});print;' | \
+      perl -ane '@F=split/\t/; next if(length($F[3])>length($F[4]) and /.+:(.+)/ and $1<$ENV{MINAF_DEL});print;' | \
       sort -k2,2n >> $OS.vcf
   else
     echo "Unsuported SNV caller 1"
@@ -131,7 +132,7 @@ fi
 
 # get consensus using the dominant SNVs
 if  [ ! -s $OS.fa ]  ; then
-  bcftools consensus -f $HP_RDIR/$HP_MT.fa $OS.max.vcf.gz | perl -ane 'chomp; if($.==1) { print ">$ENV{S}\n" } else { s/N//g; print } END {print "\n"}' > $OS.fa
+  bcftools consensus -f $HP_RDIR/$HP_MT.fa $OS.max.vcf.gz -H A | perl -ane 'chomp; if($.==1) { print ">$ENV{S}\n" } else { s/N//g; print } END {print "\n"}' > $OS.fa
   samtools faidx $OS.fa
 fi
 
@@ -142,7 +143,7 @@ fi
 if [ ! -s $OS.bam ] ; then
    cat $O.fa |  minimap2 $OS.fa /dev/stdin -R $RG -a  --eqx | samtools view -b | samtools sort | samtools view -h > $OS.sam
    bedtools bamtobed -i $OS.sam | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4  | sort | join $O.len -  -a 1 --nocheck-order | \
-     perl -ane 'print "$F[0]\t$F[1]\t$F[2]\t",$F[2]/$F[1],"\n"' | perl -ane 'print  if($F[-1]>$ENV{PC});'  | cut -f1 | \
+     perl -ane 'print "$F[0]\t$F[1]\t$F[2]\t",$F[2]/$F[1],"\n"' | perl -ane 'print  if($F[-2]>$ENV{MINLEN} && $F[-1]>$ENV{MINPC});'  | cut -f1 | \
      samtools view -N /dev/stdin $OS.sam  -b > $OS.bam
   samtools index $OS.bam
   rm $OS.sam $O.fa $O.len
@@ -173,7 +174,7 @@ if [ ! -s $OSS.00.vcf ] ; then
     echo -e "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t$S" >> $OSS.vcf
     bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t.\tGT:DP:AD:AF\t[%GT:%DP:%AD:%FREQ]\n'  $OSS.orig.vcf |  \
       perl -lane 'print "$1:",int($2*100+.5)/10000 if(/(.+):(.+)%$/);' | \
-      perl -ane '@F=split/\t/; next if(length($F[3])>length($F[4]) and /.+:(.+)/ and $1<$ENV{MINAF_INDEL});print;' | \
+      perl -ane '@F=split/\t/; next if(length($F[3])>length($F[4]) and /.+:(.+)/ and $1<$ENV{MINAF_DEL});print;' | \
       sort -k2,2n >> $OSS.vcf
   else
     echo "Unsuported SNV caller 1"

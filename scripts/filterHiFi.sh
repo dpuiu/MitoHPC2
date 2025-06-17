@@ -120,7 +120,7 @@ if [ ! -s $OS.haplogroup ] ; then
 fi
 
 if  [ ! -s $OS.fa ]  ; then
-  bcftools consensus -f $HP_RDIR/$HP_MT.fa $OS.max.vcf.gz | perl -ane 'chomp; if($.==1) { print ">$ENV{S}\n" } else { s/N//g; print } END {print "\n"}' > $OS.fa
+  bcftools consensus -f $HP_RDIR/$HP_MT.fa $OS.max.vcf.gz -H A | perl -ane 'chomp; if($.==1) { print ">$ENV{S}\n" } else { s/N//g; print } END {print "\n"}' > $OS.fa
   samtools faidx $OS.fa
 fi
 
