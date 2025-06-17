@@ -78,25 +78,32 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
     # output
     $ ls $HP_ODIR/merge3.*
 
-## SINGLE SNV CALLER (PacBio HiFi)
+## SINGLE SNV CALLER (PacBio HiFi/ONT)
 
     # copy init file to work directory
-    $ cp $HP_SDIR/init.hifi.sh .
+    $ cp $HP_SDIR/init.lr.sh .
+
+    # edit init.lr.sh; set the SNV caller
+    $ nano init.lr.sh
+      HP_M=bcftools  # or
+      HP_M=varscan
 
     # init
-    $ . ./init.hifi.sh
+    $ . ./init.lr.sh
 
     # run
-    $ $HP_SDIR/run.hifi.sh | tee run.hifi.all.sh | bash       
+    $ $HP_SDIR/run.lp.sh | tee run.lr.all.sh | bash       
 
     # check output
-    $ ls $HP_ODIR/mutect2.*
+    $ ls $HP_ODIR/.*
 
 # Examples #
 
-40 HPRC samples; Illumina vs PacBio HiFi 
+## 40 HPRC samples ##
 
-## Illumina ##
+Illumina vs PacBio HiFi 
+
+### Illumina ###
 
     $ cd examples/HPRC/Illumina/
     $ cat in.url | ls2in.pl -word -out $PWD/out | sort | head -n 5 > in.txt
@@ -105,11 +112,16 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
     $ $HP_SDIR/run.sh | tee run.all.sh | bash
     $ ls $HP_ODIR/
 
-## PacBio HiFi ##
+### PacBio HiFi ###
 
     $ cd examples/HPRC/HiFi/
     $ cat in.url | ls2in.pl -word -out $PWD/out | sort | head -n 5 > in.txt
-    $ cp $HP_SDIR/init.hifi.sh .
-    $ . ./init.hifi.sh
-    $ $HP_SDIR/run.hifi.sh | tee run.all.sh | bash
+    $ cp $HP_SDIR/init.lr.sh .
+    $ . ./init.lr.sh
+    $ $HP_SDIR/run.lr.sh | tee run.lr.all.sh | bash
     $ ls $HP_ODIR/         
+
+## 30 Simulated samples ##
+
+Illumina vs ONT R10
+
