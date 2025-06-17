@@ -11,8 +11,7 @@ set -eux
 #  3: output prefix; full path
 
 #########################################################################################################################################
-
-#set variables
+# set variables
 
 export S=$1             # sample name
 IDIR=`dirname "$2"`     # dir path
@@ -31,8 +30,9 @@ export PC="0.95"
 ODIR=`dirname "$3"`; mkdir -p $ODIR
 
 MAXDP=2000
-MINAF=0.05			# updated
-export MINAF_DEL=0.15		# new
+MINAF=0.05			# updated 2025/05/17 (from 0.01)
+export MINAF_DEL=0.15		# increatse deletion AF thold; deletions seem to dominate both HiFi and ONT reads
+
 #########################################################################################################################################
 # test if count and VCF output files exist; exit if they do
 
@@ -59,7 +59,7 @@ if [ ! -s $O.count ]; then cat $O.idxstats | idxstats2count.pl -sample $S -chrM 
 MTCOUNT=`tail -1 $O.count| cut -f4`
 if [ $MTCOUNT -lt 1 ]; then echo "ERROR: There are no MT reads in $2; plese remove it from $HP_IN" ; exit 1 ; fi
 
-
+# dump reads
 if [ ! -s $O.fa ] ; then
   if [ "$X" == "cram" ] ; then T="-T $HP_RFILE.fa" ; else T="" ; fi
   #MTCOUNT=`samtools view -F 0x900 $2 $HP_RMT $T -c`
@@ -71,6 +71,10 @@ if [ ! -s $O.fa ] ; then
   samtools view -F 0x900 $R $2 $HP_RMT $T -b | samtools fasta > $O.fa
 fi
 
+#################################################
+# 1st iteration
+
+# align reads to MT reference using minimap2
 if [ ! -s $O.bam ] ; then
   cat $O.fa | minimap2 $HP_RDIR/$HP_MT.fa /dev/stdin -R $RG -a --eqx | samtools view -b | samtools sort | samtools view -h > $O.sam
   samtools view -b $O.sam | bedtools bamtobed | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4 | sort | join $O.len -  -a 1 --nocheck-order | \
@@ -81,10 +85,10 @@ if [ ! -s $O.bam ] ; then
 fi
 
 # count aligned reads; compute cvg; get coverage stats; get split alignments
-
 if [ ! -s $O.cvg ]    ; then cat $O.bam | bedtools bamtobed | bedtools genomecov -i - -g $HP_RDIR/$HP_MT.fa.fai  -d | tee $O.cvg  | cut -f3 | st.pl -sample $S > $O.cvg.stat ; fi
 if [ ! -f $O.sa.bed ] ; then samtools view -h $O.bam | sam2bed.pl | sort -k1,1 -k2,2n -k3,3n | tee $O.bed | grep -P '\d\d+D\t|\d\d+I\t' > $O.sa.bed ; fi
 
+# run SNV caller: HP_M set in init.lr.sh: one of bcftools, freebayes, varscan
 if [ ! -s $OS.vcf ] ; then
   if [ "$M" == "bcftools" ] ; then
     bcftools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -d $MAXDP | bcftools call --ploidy 2 -mv -Ov > $OS.vcf
@@ -106,6 +110,7 @@ if [ ! -s $OS.vcf ] ; then
   fi
 fi
 
+# normalize and standardize VCF output files
 if [ ! -s $OS.00.vcf ] ; then
   #cat $HP_SDIR/$M.vcf  > $OS.vcf
   #fa2Vcf.pl $HP_RDIR/$HP_MT.fa >> $OS.vcf
@@ -115,6 +120,7 @@ if [ ! -s $OS.00.vcf ] ; then
   annotateVcf.sh $OS.00.vcf
 fi
 
+# get haplogroup 
 if [ ! -s $OS.haplogroup ] ; then
   if [ "$HP_O" == "Human" ] ; then
     if [ "$HP_MT" == "rCRS" ] ||  [ "$HP_MT" == "chrM" ] ; then  java $HP_JOPT -jar $HP_JDIR/haplogrep.jar classify --in $OS.vcf  --format  vcf  --out $OS.haplogroup
@@ -123,13 +129,16 @@ if [ ! -s $OS.haplogroup ] ; then
   fi
 fi
 
+# get consensus using the dominant SNVs
 if  [ ! -s $OS.fa ]  ; then
   bcftools consensus -f $HP_RDIR/$HP_MT.fa $OS.max.vcf.gz | perl -ane 'chomp; if($.==1) { print ">$ENV{S}\n" } else { s/N//g; print } END {print "\n"}' > $OS.fa
   samtools faidx $OS.fa
 fi
 
 #################################################
+# 2nd iteration
 
+# realign reads using the new consensus as reference
 if [ ! -s $OS.bam ] ; then
    cat $O.fa |  minimap2 $OS.fa /dev/stdin -R $RG -a  --eqx | samtools view -b | samtools sort | samtools view -h > $OS.sam
    bedtools bamtobed -i $OS.sam | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4  | sort | join $O.len -  -a 1 --nocheck-order | \
@@ -139,11 +148,13 @@ if [ ! -s $OS.bam ] ; then
   rm $OS.sam $O.fa $O.len
 fi
 
+# recompute coverage, split alignments
 if [ ! -s $OS.cvg ]   ; then bedtools genomecov -d -ibam $OS.bam | tee $OS.cvg  | cut -f3 | st.pl -sample $S > $OS.cvg.stat  ; fi
 if [ ! -f $OS.sa.bed ] ; then samtools view -h $OS.bam | sam2bed.pl | sort -k1,1 -k2,2n -k3,3n  | tee $OS.bed | grep -P '\d\d+D\t|\d\d+I\t'  > $OS.sa.bed ; fi
 if [ ! -f $OS.merge.bed ] ; then cat $OS.bed | grep -P '\d=\t|\d\M\t' | bedtools merge | bed2bed.pl > $OS.merge.bed ; fi
 
 
+# rerun the SNV caller
 if [ ! -s $OSS.00.vcf ] ; then
   cat $HP_SDIR/$M.vcf > $OSS.00.vcf
   echo "##sample=$S" >> $OSS.00.vcf
