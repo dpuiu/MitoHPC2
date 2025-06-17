@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -x
+set -eux
 
 ##############################################################################################################
 
@@ -107,6 +107,12 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c http://opengene.org/fastp/fastp
   cp fastp $HP_BDIR/
   chmod a+x $HP_BDIR/fastp
+  #wget -N -c https://github.com/OpenGene/fastp/archive/refs/tags/v0.24.1.tar.gz
+  #tar -xzvf v0.24.1.tar.gz 
+  #cd fastp-0.24.1/
+  #make
+  #make install prefix=$HP_HDIR/
+  #cd -
 fi
 
 #########################################################################################
@@ -128,8 +134,9 @@ fi
 
 which freebayes
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
-  wget -N -c https://github.com/freebayes/freebayes/releases/download/v1.3.8/freebayes-1.3.8-linux-amd64-static.gz
-  gunzip freebayes-1.3.8-linux-amd64-static.gz  -c >  $HP_BDIR/freebayes
+ 
+  wget -N -c https://github.com/freebayes/freebayes/releases/download/v1.3.6/freebayes-1.3.6-linux-amd64-static.gz
+  gunzip freebayes-1.3.6-linux-amd64-static.gz  -c >  $HP_BDIR/freebayes
   chmod a+x $HP_BDIR/freebayes
 fi
 
@@ -158,7 +165,7 @@ fi
 
 #which delly
 #if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
-#  wget -N -c https://github.com/dellytools/delly/releases/download/v1.3.1/delly_v1.3.1_linux_x86_64bit
+  #wget -N -c https://github.com/dellytools/delly/releases/download/v1.3.1/delly_v1.3.1_linux_x86_64bit
 #  cp delly_v1.3.1_linux_x86_64bit $HP_BDIR/delly
 #fi
 
@@ -189,17 +196,17 @@ fi
 
 #if [ ! -s $HP_RDIR/$HP_RNAME.fa ] ; then # 2023/04/26
 if [[ ! -s $HP_RDIR/$HP_RNAME.fa.fai || $# == 1 && $1 == "-f" ]] ; then
-  #wget -qO- $HP_RURL | zcat -f > $HP_RDIR/$HP_RNAME.fa
+  wget -qO- $HP_RURL | zcat -f > $HP_RDIR/$HP_RNAME.fa
   #wget -q $HP_RURL -O $HP_RDIR/$HP_RNAME.fa  # wget on fedora does not download ftp links
-  curl -L $HP_RURL -o $HP_RDIR/$HP_RNAME.fa
+  #curl -L $HP_RURL -o $HP_RDIR/$HP_RNAME.fa
   samtools faidx $HP_RDIR/$HP_RNAME.fa
 fi
-exit 0
 
 #if [ ! -s $HP_RDIR/$HP_MT.fa ] ; then  # 2023/04/26
 if [[ ! -s $HP_RDIR/$HP_MT.dict || $# == 1 && $1 == "-f"  ]] ; then
   samtools faidx $HP_RDIR/$HP_RNAME.fa $HP_RMT > $HP_RDIR/$HP_MT.fa
   samtools faidx $HP_RDIR/$HP_MT.fa
+  rm $HP_RDIR/$HP_MT.dict
   java $HP_JOPT -jar $HP_JDIR/gatk.jar CreateSequenceDictionary --REFERENCE $HP_RDIR/$HP_MT.fa --OUTPUT $HP_RDIR/$HP_MT.dict
 fi
 

@@ -1,0 +1,38 @@
+PLINK v2.0.0-a.6.13LM 64-bit Intel (15 May 2025)
+Options in effect:
+  --make-bed
+  --out /data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//bcftools.bcftools.05.merge
+  --vcf /data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//bcftools.bcftools.05.merge.vcf
+
+Hostname: c646
+Working directory: /data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT
+Start time: Tue Jun 17 06:54:19 2025
+
+Random number seed: 1750157659
+193096 MiB RAM detected, ~160694 available; reserving 96548 MiB for main
+workspace.
+Using 1 compute thread.
+--vcf: 657 variants scanned.
+--vcf:
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//bcftools.bcftools.05.merge-temporary.pgen
++
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//bcftools.bcftools.05.merge-temporary.pvar.zst
++
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//bcftools.bcftools.05.merge-temporary.psam
+written.
+30 samples (0 females, 0 males, 30 ambiguous; 30 founders) loaded from
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//bcftools.bcftools.05.merge-temporary.psam.
+657 variants loaded from
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//bcftools.bcftools.05.merge-temporary.pvar.zst.
+Note: No phenotype data present.
+Writing
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//bcftools.bcftools.05.merge.fam
+... done.
+Writing
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//bcftools.bcftools.05.merge.bim
+... done.
+Writing
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//bcftools.bcftools.05.merge.bed
+... done.
+
+End time: Tue Jun 17 06:54:19 2025

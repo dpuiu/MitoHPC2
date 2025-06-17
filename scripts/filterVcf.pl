@@ -111,6 +111,7 @@ MAIN:
 			}
 			$h{AF}=1 unless(defined($h{AF}));
 			$h{AF}=$1 if($h{AF}=~/(\d\.\d+)/);
+			#$h{AF}>=0 and $h{AF}<=1 or die "ERROR:$_";
 
 			if(!defined($h{AF}) or $h{AF}>1-$opt{percent}) 	{ $h{AF}=1; }
 			elsif($h{AF}<$opt{percent})			{ next;     }

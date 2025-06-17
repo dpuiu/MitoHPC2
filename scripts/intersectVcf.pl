@@ -45,16 +45,17 @@ MAIN:
 
 		chomp;
                 my @F=split /\t/;
+		die "ERROR $_" if(@F<5);
+
 		($F[3],$F[4])=(uc($F[3]),uc($F[4]));
 
 		my $SM="";
 
                 if($opt{sm})
 		{
-			die unless(@F==10);
-			if($F[8] eq "SM")                                 { $SM=$F[9] }
-			elsif($F[7]=~/SM=(\S+?);/ or $F[7]=~/SM=(\S+?)$/) { $SM=$1 }
-			else						  { die "ERROR: $_" }
+			if(@F>8 and $F[8] eq "SM")                                   { $SM=$F[9] }
+			elsif(@F>7 and ($F[7]=~/SM=(\S+?);/ or $F[7]=~/SM=(\S+?)$/)) { $SM=$1 }
+			else						             { die "ERROR: $_" }
 		}
 
 		if($opt{m2} or $opt{M2})
@@ -81,15 +82,16 @@ MAIN:
 
 		chomp;
                 my @F=split /\t/;
+                die "ERROR $_" if(@F<5);
+
 		($F[3],$F[4])=(uc($F[3]),uc($F[4]));
                	my $SM="";
 
 		if($opt{sm})
 		{
-			die "ERROR:$_\n" unless(@F==10);
-			if($F[8] eq "SM")                                 { $SM=$F[9] }
-                	elsif($F[7]=~/SM=(\S+?);/ or $F[7]=~/SM=(\S+?)$/) { $SM=$1 }
-			else                                              { die "ERROR: $_" }
+			if(@F>8 and $F[8] eq "SM")                                   { $SM=$F[9] }
+                	elsif(@F>7 and ($F[7]=~/SM=(\S+?);/ or $F[7]=~/SM=(\S+?)$/)) { $SM=$1 }
+			else                                                         { die "ERROR: $_" }
 		}
 
 		if($opt{m1} or $opt{M1})
