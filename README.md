@@ -92,7 +92,7 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
     $ . ./init.lr.sh
 
     # run
-    $ $HP_SDIR/run.lp.sh | tee run.lr.all.sh | bash       
+    $ $HP_SDIR/run.lr.sh | tee run.lr.all.sh | bash       
 
     # check output
     $ ls $HP_ODIR/.*
