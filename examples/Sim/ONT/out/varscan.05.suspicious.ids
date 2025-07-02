@@ -13,7 +13,7 @@ sample_J	multiple_NUMTs
 sample_K	multiple_NUMTs
 sample_L0	multiple_NUMTs
 sample_L1	multiple_NUMTs
-sample_L2	mismatch_HG;multiple_NUMTs
+sample_L2	multiple_NUMTs
 sample_L3	multiple_NUMTs
 sample_L4	multiple_NUMTs
 sample_L5	multiple_NUMTs

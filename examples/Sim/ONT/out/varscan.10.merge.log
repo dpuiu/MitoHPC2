@@ -4,15 +4,15 @@ Options in effect:
   --out /data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//varscan.10.merge
   --vcf /data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//varscan.10.merge.vcf
 
-Hostname: c646
+Hostname: c378
 Working directory: /data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT
-Start time: Tue Jun 17 15:39:12 2025
+Start time: Thu Jun 19 18:24:03 2025
 
-Random number seed: 1750189152
-193096 MiB RAM detected, ~156251 available; reserving 96548 MiB for main
+Random number seed: 1750371843
+193096 MiB RAM detected, ~165083 available; reserving 96548 MiB for main
 workspace.
 Using 1 compute thread.
---vcf: 728 variants scanned.
+--vcf: 679 variants scanned.
 --vcf:
 /data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//varscan.10.merge-temporary.pgen
 +
@@ -22,7 +22,7 @@ Using 1 compute thread.
 written.
 30 samples (0 females, 0 males, 30 ambiguous; 30 founders) loaded from
 /data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//varscan.10.merge-temporary.psam.
-728 variants loaded from
+679 variants loaded from
 /data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//varscan.10.merge-temporary.pvar.zst.
 Note: No phenotype data present.
 Writing
@@ -35,4 +35,4 @@ Writing
 /data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/Sim/ONT/out//varscan.10.merge.bed
 ... done.
 
-End time: Tue Jun 17 15:39:12 2025
+End time: Thu Jun 19 18:24:03 2025

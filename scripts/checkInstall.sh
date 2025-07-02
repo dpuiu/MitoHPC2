@@ -25,8 +25,10 @@ which tabix
 which freebayes
 which minimap2
 which plink2
+which singularity
 #which gridss
 #which delly
+
 
 test -f $HP_JDIR/gatk.jar
 test -f $HP_JDIR/mutserve.jar
@@ -39,6 +41,8 @@ java -jar $HP_JDIR/mutserve.jar >& /dev/null
 java -jar $HP_JDIR/haplogrep.jar >& /dev/null
 java -jar $HP_JDIR/haplocheck.jar >& /dev/null
 java -jar $HP_JDIR/VarScan.jar >& /dev/null
+
+test -s $HP_BDIR/clair3_latest.sif
 
 ######################################################
 
