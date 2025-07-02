@@ -35,13 +35,13 @@ test -s $HP_RDIR/$HP_RMT.fa.fai
 #downcrample and index
 if [ ! -s $OUT ] ; then
   samtools view -h $IN $R -F 0x90C -T $HP_RDIR/$HP_RNAME.fa | \
-    downsampleSam.pl -max $MCOUNT -hg38 | grep -v "^\@" | cut -f1 | sort | uniq -d  > $OUT.ids
-  cat $OUT.ids | samtools view -b -N /dev/stdin  $IN $R  -T $HP_RDIR/$HP_RNAME.fa > $OUT
+    downsampleSam.pl -max $MCOUNT -hg38 | grep -v "^\@" | cut -f1 | sort | uniq -d  > $OP.ids
+  cat $OP.ids | samtools view -b -N /dev/stdin  $IN $R  -T $HP_RDIR/$HP_RNAME.fa > $OUT
 
   samtools index    $OUT
   samtools idxstats $OUT > $OP.idxstats
 
-  cat $IN  | bedtools bamtobed -cigar | grep ^$HP_RMT | bedtools genomecov -d -i - -g $HP_RDIR/$HP_RMT.fa.fai > $IN.cvg #| getSummary.pl -i -1 -t $IP > $IP.cvg.summary
+  cat $IN  | bedtools bamtobed -cigar | grep ^$HP_RMT | bedtools genomecov -d -i - -g $HP_RDIR/$HP_RMT.fa.fai > $IP.cvg #| getSummary.pl -i -1 -t $IP > $IP.cvg.summary
   cat $OUT | bedtools bamtobed -cigar | grep ^$HP_RMT | bedtools genomecov -d -i - -g $HP_RDIR/$HP_RMT.fa.fai > $OP.cvg #| getSummary.pl -i -1 -t $OP > $OP.cvg.summary
 fi
 

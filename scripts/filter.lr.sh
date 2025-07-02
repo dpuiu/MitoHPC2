@@ -32,7 +32,7 @@ ODIR=`dirname "$3"`; mkdir -p $ODIR
 
 MAXDP=2000
 MINAF=0.05			# updated 2025/05/17 (from 0.01)
-export MINAF_DEL=0.15		# increatse deletion AF thold; deletions seem to dominate both HiFi and ONT reads
+export MINAF_DEL=0.15		# increatse deletion AF thold; deletions seem to dominate both HiFi and ONT reads ; 0.15 before
 
 #########################################################################################################################################
 # test if count and VCF output files exist; exit if they do
@@ -80,14 +80,15 @@ if [ ! -s $O.bam ] ; then
   cat $O.fa | minimap2 $HP_RDIR/$HP_MT.fa /dev/stdin -R $RG -a --eqx | samtools view -b | samtools sort | samtools view -h > $O.sam
   samtools view -b $O.sam | bedtools bamtobed | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4 | sort | join $O.len -  -a 1 --nocheck-order | \
     perl -ane 'print "$F[0]\t$F[1]\t$F[2]\t",$F[2]/$F[1],"\n"' | sort -k4,4nr | tee $O.score  | perl -ane 'print  if($F[-2]>$ENV{MINLEN} && $F[-1]>$ENV{MINPC});' | cut -f1 | \
-    samtools view -N /dev/stdin $O.sam  -b > $O.bam
-  samtools index $O.bam
+    samtools view -N /dev/stdin $O.sam -b > $O.bam;  samtools index $O.bam
   rm $O.sam
 fi
 
 # count aligned reads; compute cvg; get coverage stats; get split alignments
 if [ ! -s $O.cvg ]    ; then cat $O.bam | bedtools bamtobed | bedtools genomecov -i - -g $HP_RDIR/$HP_MT.fa.fai  -d | tee $O.cvg  | cut -f3 | st.pl -sample $S > $O.cvg.stat ; fi
 if [ ! -f $O.sa.bed ] ; then samtools view -h $O.bam | sam2bed.pl | sort -k1,1 -k2,2n -k3,3n | tee $O.bed | grep -P '\d\d+D\t|\d\d+I\t' > $O.sa.bed ; fi
+
+echo "M:",$M
 
 # run SNV caller: HP_M set in init.lr.sh: one of bcftools, freebayes, varscan
 if [ ! -s $OS.vcf ] ; then
@@ -105,11 +106,18 @@ if [ ! -s $OS.vcf ] ; then
       perl -lane 'print "$1:",int($2*100+.5)/10000 if(/(.+):(.+)%$/);' | \
       perl -ane '@F=split/\t/; next if(length($F[3])>length($F[4]) and /.+:(.+)/ and $1<$ENV{MINAF_DEL});print;' | \
       sort -k2,2n >> $OS.vcf
+  elif [ "$M" == "clair3" ] ; then
+     singularity exec -B $IDIR,$ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$2 --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir --enable_long_indel
+     zcat $ODIR/pileup.vcf.gz       > $OS.pileup.vcf
+     zcat $ODIR/merge_output.vcf.gz > $OS.full_alignment.vcf
+     zcat $ODIR/merge_output.vcf.gz > $OS.merge_output.vcf ; ln -s $OS.merge_output.vcf $OS.vcf
+     rm $ODIR/*tbi
   else
     echo "Unsuported SNV caller 1"
     exit 1
   fi
 fi
+
 
 # normalize and standardize VCF output files
 if [ ! -s $OS.00.vcf ] ; then
@@ -166,16 +174,25 @@ if [ ! -s $OSS.00.vcf ] ; then
   elif [ "$M" == "freebayes" ] ; then
     freebayes -p 1 --pooled-continuous --min-alternate-fraction $MINAF $OS.bam -f $OS.fa  > $OSS.vcf
  elif [ "$M" == "varscan" ] ; then
-    samtools mpileup -f $OS.fa $OS.bam -r $S -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar mpileup2snp   --min-coverage $HP_DP -B --variants --min-var-freq $MINAF --output-vcf 1 > $OSS.orig.vcf
-    samtools mpileup -f $OS.fa $OS.bam -r $S -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar mpileup2indel --min-coverage $HP_DP -B --variants --min-var-freq $MINAF --output-vcf 1 | grep -v "^#" >> $OSS.orig.vcf
-    cat $HP_SDIR/$M.vcf >  $OSS.vcf
-    echo "##sample=$S" >> $OSS.vcf
-    cat $OS.fa.fai | perl -ane 'print "##contig=<ID=$F[0],length=$F[1]>\n"' >> $OSS.vcf
-    echo -e "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t$S" >> $OSS.vcf
-    bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t.\tGT:DP:AD:AF\t[%GT:%DP:%AD:%FREQ]\n'  $OSS.orig.vcf |  \
-      perl -lane 'print "$1:",int($2*100+.5)/10000 if(/(.+):(.+)%$/);' | \
-      perl -ane '@F=split/\t/; next if(length($F[3])>length($F[4]) and /.+:(.+)/ and $1<$ENV{MINAF_DEL});print;' | \
-      sort -k2,2n >> $OSS.vcf
+      samtools mpileup -f $OS.fa $OS.bam -r $S -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar mpileup2snp   --min-coverage $HP_DP -B --variants --min-var-freq $MINAF --output-vcf 1 > $OSS.orig.vcf
+      samtools mpileup -f $OS.fa $OS.bam -r $S -B -d $MAXDP  | java -jar $HP_JDIR/VarScan.jar mpileup2indel --min-coverage $HP_DP -B --variants --min-var-freq $MINAF --output-vcf 1 | grep -v "^#" >> $OSS.orig.vcf
+      cat $HP_SDIR/$M.vcf >  $OSS.vcf
+      echo "##sample=$S" >> $OSS.vcf
+      cat $OS.fa.fai | perl -ane 'print "##contig=<ID=$F[0],length=$F[1]>\n"' >> $OSS.vcf
+      echo -e "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t$S" >> $OSS.vcf
+      bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t.\tGT:DP:AD:AF\t[%GT:%DP:%AD:%FREQ]\n'  $OSS.orig.vcf |  \
+        perl -lane 'print "$1:",int($2*100+.5)/10000 if(/(.+):(.+)%$/);' | \
+        perl -ane '@F=split/\t/; next if(length($F[3])>length($F[4]) and /.+:(.+)/ and $1<$ENV{MINAF_DEL});print;' | \
+        sort -k2,2n >> $OSS.vcf
+  elif [ "$M" == "clair3" ] ; then
+     singularity exec -B $ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$OS.bam --output=${ODIR} --sample_name=$S --ref_fn=$OS.fa --ctg_name=$S --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir --enable_long_indel
+
+     zcat $ODIR/pileup.vcf.gz       > $OSS.pileup.vcf
+     zcat $ODIR/merge_output.vcf.gz > $OSS.full_alignment.vcf
+     zcat $ODIR/merge_output.vcf.gz > $OSS.merge_output.vcf ; ln -s $OSS.merge_output.vcf $OSS.vcf
+
+     rm $ODIR/*tbi
+
   else
     echo "Unsuported SNV caller 1"
     exit 1

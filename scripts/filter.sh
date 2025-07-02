@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
-set -eux
-#set -x
+#set -eux
+set -x
 #########################################################################################################################################
 
 # Program that runs the heteroplasmy pipeline on a single sample
@@ -119,7 +119,7 @@ if  [ ! -s $O.bam ] ; then
      samtools view -bu | \
      samtools sort -m $HP_MM -@ $HP_P -o $O.bam
   samtools index $O.bam
-  pileup2count.py $O.bam > $O.pileup2count
+  #pileup2count.py $O.bam > $O.pileup2count
 
   cat $O.sam | \
      circSam.pl -ref_len $HP_RDIR/$HP_MT.fa.fai -offset $HP_E | \

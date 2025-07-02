@@ -176,6 +176,11 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   cp plink2 $HP_BDIR/
 fi
 
+test -s $HP_BDIR/clair3_latest.sif
+if [[ $? != 0 ]] ; then
+  singularity pull docker://hkubal/clair3:latest
+fi
+
 ####################################################################################
 
 #if [ ! -s $HP_JDIR/haplogrep.jar ] ; then # 2023/04/26

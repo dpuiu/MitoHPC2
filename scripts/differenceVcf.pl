@@ -21,7 +21,7 @@ Program that prints all the SNV's present in one VCF file but missing from anoth
 MAIN:
 {
         my (%opt,%h);
-	$opt{af};	
+	$opt{af}=0;	
 
         # validate input parameters
         my $result = GetOptions(
@@ -73,6 +73,11 @@ MAIN:
 		chomp;
                 my @F=split /\t/;
                 die "ERROR $_" if(@F<5);
+
+	       next if($F[1]==3105);	# new 
+                next if($F[1]==3106);	# new
+                next if($F[3]=~/N/);	# new
+
                	my $SM="";
 
 		if($opt{sm})
