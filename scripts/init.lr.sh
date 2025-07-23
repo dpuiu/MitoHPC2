@@ -92,6 +92,6 @@ fi
 
 ####
 
-export HP_PLATFORM="ont"
-export HP_MODEL="r941_prom_sup_g5014"
+export HP_PLATFORM="ont"  			# ont,hifi,ilmn
+export HP_MODEL="r941_prom_sup_g5014"		# hifi,hifi_revio,hifi_sequel2,ilmn,ont,ont_guppy5,r941_prom_hac_g360+g422,r941_prom_sup_g5014,r1041_e82_400bps_hac_v410,r1041_e82_400bps_hac_v500,r1041_e82_400bps_sup_v410,r1041_e82_400bps_sup_v430_bacteria_finetuned,r1041_e82_400bps_sup_v500
 

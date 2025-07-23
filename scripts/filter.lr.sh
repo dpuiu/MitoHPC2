@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eux
+set -ux
 
 #########################################################################################################################################
 
@@ -107,7 +107,7 @@ if [ ! -s $OS.vcf ] ; then
       perl -ane '@F=split/\t/; next if(length($F[3])>length($F[4]) and /.+:(.+)/ and $1<$ENV{MINAF_DEL});print;' | \
       sort -k2,2n >> $OS.vcf
   elif [ "$M" == "clair3" ] ; then
-     singularity exec -B $IDIR,$ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$2 --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir --enable_long_indel
+     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$2 --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
      zcat $ODIR/pileup.vcf.gz       > $OS.pileup.vcf
      zcat $ODIR/merge_output.vcf.gz > $OS.full_alignment.vcf
      zcat $ODIR/merge_output.vcf.gz > $OS.merge_output.vcf ; ln -s $OS.merge_output.vcf $OS.vcf
@@ -185,7 +185,7 @@ if [ ! -s $OSS.00.vcf ] ; then
         perl -ane '@F=split/\t/; next if(length($F[3])>length($F[4]) and /.+:(.+)/ and $1<$ENV{MINAF_DEL});print;' | \
         sort -k2,2n >> $OSS.vcf
   elif [ "$M" == "clair3" ] ; then
-     singularity exec -B $ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$OS.bam --output=${ODIR} --sample_name=$S --ref_fn=$OS.fa --ctg_name=$S --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir --enable_long_indel
+     singularity exec --tmpdir /tmp/ -B $ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$OS.bam --output=${ODIR} --sample_name=$S --ref_fn=$OS.fa --ctg_name=$S --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
 
      zcat $ODIR/pileup.vcf.gz       > $OSS.pileup.vcf
      zcat $ODIR/merge_output.vcf.gz > $OSS.full_alignment.vcf
