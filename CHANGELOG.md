@@ -1,5 +1,6 @@
-# 2025/05/17 #
-* ... to be updated
+
+# 2025/07/23 #
+* Added clair3 as one of the long read SNV callers
 
 # 2025/01/08 #
 * Translating multiple PERL scripts to PYTHON

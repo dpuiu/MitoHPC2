@@ -51,7 +51,7 @@ MAIN:
 		print join "\t",("count","min","q1","median","q3","max","mean"); print "\n";
 
 		print("$opt{sample}\t") if(defined($opt{sample}));
-		print join "\t",(scalar(@c),$c[0],$c[int($n/4+.5)],$c[int($n/2+.5)],$c[int($n*3/4+.5)],$c[-1],int($s*100/$n+.5)/100); print "\n";
+		print join "\t",(scalar(@c),$c[0],$c[int($n/4+.5)],$c[int($n/2+.5)],$c[int($n*3/4+.5)],$c[-1],int($s*1000/$n+.5)/1000); print "\n";
 	}
 
 	exit 0;

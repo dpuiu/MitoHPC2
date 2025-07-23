@@ -68,7 +68,8 @@ MAIN:
 		 my @P=split /\t/,$line2{$POS};
 		 my $DIFF=abs(length($P[3])-length($P[4]));
 
-		 if($POS>=$POSMAX and !($P[6]=~/multiallelic/ and $DIFF))
+		 #if($POS>=$POSMAX and !($P[6]=~/multiallelic/ and $DIFF))
+                 if($POS>=$POSMAX)
 		 {
 			print $line2{$POS},"\n";
 		 }			
