@@ -9,23 +9,23 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/
 
 # Prerequisites # 
 
-[bwa](https://github.com/lh3/bwa/releases/download/v0.7.17/bwa-0.7.17.tar.bz2) 
-[minimap2](https://github.com/lh3/minimap2/releases/download/v2.28/minimap2-2.28.tar.bz2) 
-[htslib](https://github.com/samtools/htslib/releases/download/1.21/htslib-1.21.tar.bz2) 
-[samtools](https://github.com/samtools/samtools/releases/download/1.21/samtools-1.21.tar.bz2) 
-[bcftools](https://github.com/samtools/bcftools/releases/download/1.21/bcftools-1.21.tar.bz2) 
-[bedtools](https://github.com/arq5x/bedtools2/releases/download/v2.31.1/bedtools-2.31.1.tar.gz) 
-[samblaster](https://github.com/GregoryFaust/samblaster/releases/download/v.0.1.26/samblaster-v.0.1.26.tar.gz) 
-[gatk](https://github.com/broadinstitute/gatk/releases/download/4.6.0.0/gatk-4.6.0.0.zip) 
-[mutserve](https://github.com/seppinho/mutserve/releases/download/v2.0.0-rc15/mutserve.zip) 
-[freebayes](https://github.com/freebayes/freebayes/releases/download/v1.3.6/freebayes-1.3.6-linux-amd64-static.gz) 
-[VarScan](https://github.com/dkoboldt/varscan/releases/download/v2.4.6/VarScan.v2.4.6.jar) 
-[clair3](docker://hkubal/clair3:latest) 
-[gridss](https://github.com/PapenfussLab/gridss/releases/download/v2.13.2/gridss-2.13.2.tar.gz) 
-[haplogrep](https://github.com/seppinho/haplogrep-cmd/releases/download/v2.4.0/haplogrep.zip) 
-[haplocheck](https://github.com/genepi/haplocheck/releases/download/v1.3.3/haplocheck.zip) 
-[fastp](http://opengene.org/fastp/fastp) 
-[R](https://cran.r-project.org/src/base/R-4/R-4.3.0.tar.gz) 
+[bwa](https://github.com/lh3/bwa/releases) 0.7.17, 
+[minimap2](https://github.com/lh3/minimap2/releases) 2.28, 
+[htslib](https://github.com/samtools/htslib/releases) 1.21, 
+[samtools](https://github.com/samtools/samtools/releases) 1.21, 
+[bcftools](https://github.com/samtools/bcftools/releases) 1.21, 
+[bedtools](https://github.com/arq5x/bedtools2/releases) 2.31.1,
+[samblaster](https://github.com/GregoryFaust/samblaster/releases) 0.1.26,  
+[gatk](https://github.com/broadinstitute/gatk/releases/) 4.6.0.0, 
+[mutserve](https://github.com/seppinho/mutserve/releases) 2.0.0-rc15, 
+[freebayes](https://github.com/freebayes/freebayes/releases) 1.3.6, 
+[VarScan](https://github.com/dkoboldt/varscan/releases) 2.4.6,
+[clair3](docker://hkubal/clair3:latest), 
+[gridss](https://github.com/PapenfussLab/gridss/releases) 2.13.2.  
+[haplogrep](https://github.com/seppinho/haplogrep-cmd/releases) v2.4.0,
+[haplocheck](https://github.com/genepi/haplocheck/releases) 1.3.3,
+[fastp](http://opengene.org/fastp/fastp), 
+[R](https://cran.r-project.org/src/base/) 4.3.0
 [plink2](https://s3.amazonaws.com/plink2-assets/plink2_linux_x86_64_latest.zip) 
 
 # INSTALL # 
