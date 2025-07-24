@@ -20,13 +20,13 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/
 [mutserve](https://github.com/seppinho/mutserve/releases) 2.0.0-rc15, 
 [freebayes](https://github.com/freebayes/freebayes/releases) 1.3.6, 
 [VarScan](https://github.com/dkoboldt/varscan/releases) 2.4.6,
-[clair3](docker://hkubal/clair3:latest), 
+[clair3](https://github.com/HKU-BAL/Clair3/releases) 1.1.1, 
 [gridss](https://github.com/PapenfussLab/gridss/releases) 2.13.2.  
 [haplogrep](https://github.com/seppinho/haplogrep-cmd/releases) v2.4.0,
 [haplocheck](https://github.com/genepi/haplocheck/releases) 1.3.3,
-[fastp](http://opengene.org/fastp/fastp), 
+[fastp](http://opengene.org/fastp/fastp) 0.24.0, 
 [R](https://cran.r-project.org/src/base/) 4.3.0
-[plink2](https://s3.amazonaws.com/plink2-assets/plink2_linux_x86_64_latest.zip) 
+[plink2](https://www.cog-genomics.org/plink/2.0/) 2.0 
 
 # INSTALL # 
     
