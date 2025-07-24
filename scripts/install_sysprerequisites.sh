@@ -13,7 +13,7 @@ if [ "$?" == 0 ] ; then
   apt-get -y update # && apt-get upgrade
   apt-get install -y git wget curl openjdk-17-jdk zlib1g libz-dev libncurses5-dev libbz2-dev pkg-config liblzma-dev build-essential unzip  parallel # make gcc python
   apt-get install -y libcurl4-gnutls-dev libssl-dev zlib1g-dev
-  apt-get install -y python-is-python3
+  apt-get install -y python3 python-is-python3
   apt-get install -y gfortran libreadline-dev libpcre2-dev  # for R
 fi
 
@@ -22,7 +22,7 @@ if [ "$?" == 0 ] ; then
   dnf -y update
   dnf install -y which nano git wget curl java-17-openjdk bzip2 gcc gcc-c++ zlib-devel ncurses-devel bzip2-devel xz-devel unzip perl perl-Data-Dumper perl-ExtUtils-MakeMaker perl-Test-Simple python3 python3-pip make libcurl-devel openssl-devel
   alternatives --install /usr/bin/python python /usr/bin/python3 60
-  dnf install gcc-gfortran readline-devel pcre2-devel
+  dnf install -y gcc-gfortran readline-devel pcre2-devel
 fi
 
 command -v yum
@@ -31,5 +31,22 @@ if [ "$?" == 0 ] ; then
   #yum install -y which nano git wget java-1.8.0-openjdk bzip2 gcc gcc-c++ zlib-devel ncurses-devel bzip2-devel xz-devel  unzip perl perl-Data-Dumper  perl-ExtUtils-MakeMaker perl-Test-Simple python parallel
   yum install -y which nano git wget curl java-17-openjdk bzip2 gcc gcc-c++ zlib-devel ncurses-devel bzip2-devel xz-devel  unzip perl perl-Data-Dumper  perl-ExtUtils-MakeMaker perl-Test-Simple python3 python3-pip make libcurl-devel openssl-devel # removed parallel python
   alternatives --install /usr/bin/python python /usr/bin/python3 60
-  yum install gcc-gfortran readline-devel pcre2-devel
+  yum install -y gcc-gfortran readline-devel pcre2-devel
 fi
+
+command -v go
+if [ $? != 0 ] ; then
+  wget  https://go.dev/dl/go1.21.3.linux-amd64.tar.gz
+  tar -xzvf  go1.21.3.linux-amd64.tar.gz
+  tar -C /usr/local -xzf go1.21.3.linux-amd64.tar.gz
+  ln -s /usr/local/go/bin/go /usr/bin/go
+fi
+
+
+command -v singularity
+if [ $? != 0 ] ; then
+  git clone https://github.com/apptainer/apptainer.git
+  cd apptainer
+  ./mconfig
+  make -C builddir install
+fi  
