@@ -34,6 +34,7 @@ if [ "$?" == 0 ] ; then
   yum install -y gcc-gfortran readline-devel pcre2-devel
 fi
 
+
 command -v go
 if [ $? != 0 ] ; then
   wget  https://go.dev/dl/go1.21.3.linux-amd64.tar.gz
@@ -42,11 +43,11 @@ if [ $? != 0 ] ; then
   ln -s /usr/local/go/bin/go /usr/bin/go
 fi
 
-
 command -v singularity
 if [ $? != 0 ] ; then
-  git clone https://github.com/apptainer/apptainer.git
+  git clone --branch v1.3.0 https://github.com/apptainer/apptainer.git
   cd apptainer
+  #  git checkout v1.3.0
   ./mconfig
   make -C builddir install
 fi  

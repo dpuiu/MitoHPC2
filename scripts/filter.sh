@@ -170,6 +170,17 @@ if [ ! -s $OS.vcf ] ; then
     bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t.\tGT:DP:AD:AF\t[%GT:%DP:%AD:%FREQ]\n'  $OS.orig.vcf |  perl -lane 'print "$1:",int($2*100+.5)/10000 if(/(.+):(.+)%$/);' | sort -k2,2n >> $OS.vcf
   elif [ "$M" == "bcftools" ] ; then
     bcftools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -d $MAXDP | bcftools call --ploidy 2 -mv -Ov > $OS.vcf
+  elif [ "$M" == "clair3" ] ; then
+     #singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=ilmn --model_path="/opt/models/ilmn" --bam_fn=$2 --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
+     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/clair3_sandbox/ /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$O.bam --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
+
+     zcat $ODIR/pileup.vcf.gz         > $OS.pileup.vcf ; ln -s $OS.pileup.vcf $OS.vcf
+     zcat $ODIR/full_alignment.vcf.gz > $OS.full_alignment.vcf
+     zcat $ODIR/merge_output.vcf.gz   > $OS.merge_output.vcf
+     rm $ODIR/*tbi
+  elif [ "$M" == "deepvariant" ] ; then
+     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/deepvariant_sandbox /opt/deepvariant/bin/run_deepvariant --model_type=$HP_MODELTYPE --ref=${HP_RDIR}/$HP_MT.fa  --reads=$O.bam  --output_vcf=$OS.vcf.gz 
+     gunzip $OS.vcf.gz
   else
     echo "Unsuported SNV caller 1"
     exit 1
@@ -314,11 +325,23 @@ if [ ! -s $OSS.vcf ] ; then
     bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t.\tGT:DP:AD:AF\t[%GT:%DP:%AD:%FREQ]\n'  $OSS.orig.vcf |  perl -lane 'print "$1:",int($2*100+.5)/10000 if(/(.+):(.+)%$/);' | sort -k2,2n >> $OSS.vcf
   elif [ "$M" == "bcftools" ] ; then
     bcftools mpileup -f $OS.fa $OS.bam -d $MAXDP | bcftools call --ploidy 2 -mv -Ov > $OSS.vcf
+  elif [ "$M" == "clair3" ] ; then
+     #singularity exec --tmpdir /tmp/ -B $ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=ilmn --model_path="/opt/models/ilmn" --bam_fn=$OS.bam --output=${ODIR} --sample_name=$S --ref_fn=$OS.fa --ctg_name=$S --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
+     singularity exec --tmpdir /tmp/ -B $ODIR ~/clair3_sandbox/ /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$OS.bam --output=${ODIR} --sample_name=$S --ref_fn=$OS.fa --ctg_name=$S --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir # --pileup_model_call_threshold 1.1  --full_alignment_model_call_threshold 0.0  # --enable_long_indel
+
+     zcat $ODIR/pileup.vcf.gz         > $OSS.pileup.vcf ; ln -s $OSS.pileup.vcf $OSS.vcf
+     zcat $ODIR/full_alignment.vcf.gz > $OSS.full_alignment.vcf
+     zcat $ODIR/merge_output.vcf.gz   > $OSS.merge_output.vcf
+
+     rm $ODIR/*tbi
+  elif [ "$M" == "deepvariant" ] ; then
+     singularity exec --tmpdir /tmp/ -B $ODIR ~/deepvariant_sandbox /opt/deepvariant/bin/run_deepvariant --model_type=$HP_MODELTYPE --ref=$OS.fa  --reads=$OS.bam  --output_vcf=$OSS.vcf.gz
+     gunzip $OSS.vcf.gz
   else
     echo "Unsuported SNV caller 2"
     exit 1
   fi
-   rm  $OSR.* 
+   rm  $OSR.*
 fi
 
 if [ ! -s $OSS.00.vcf ] ; then

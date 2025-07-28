@@ -37,6 +37,10 @@ test -w $HP_ODIR
 printf "#!/usr/bin/env bash\n"
 printf "set -eux\n\n"
 
+printf "export HP_PLATFORM=$HP_PLATFORM\n"
+printf "export HP_MODEL=$HP_MODEL\n"
+printf "export HP_MODELTYPE=$HP_MODELTYPE\n"
+
 printf "export HP_SDIR=$HP_SDIR\n"
 printf "export HP_BDIR=$HP_BDIR\n"
 printf "export HP_JDIR=$HP_JDIR\n"

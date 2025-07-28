@@ -61,7 +61,7 @@ MTCOUNT=`tail -1 $O.count| cut -f4`
 if [ $MTCOUNT -lt 1 ]; then echo "ERROR: There are no MT reads in $2; plese remove it from $HP_IN" ; exit 1 ; fi
 
 # dump reads
-if [ ! -s $O.fa ] ; then
+if [ ! -s $O.fq ] ; then
   if [ "$X" == "cram" ] ; then T="-T $HP_RFILE.fa" ; else T="" ; fi
   #MTCOUNT=`samtools view -F 0x900 $2 $HP_RMT $T -c`
   #COUNT=`samtools view -F 0x900 $2 $T -c`
@@ -69,7 +69,7 @@ if [ ! -s $O.fa ] ; then
   #if [ $MTCOUNT -lt 1 ]; then echo "ERROR: There are no MT reads in $2; plese remove it from $HP_IN" ; exit 1 ; fi
   if [ $HP_L ]; then R=`tail -1 $O.count | perl -ane '$R=$ENV{HP_L}/($F[-1]+1);  if($R<1) { print "-s $R"} else {print ""} '` ; else R="" ; fi
   samtools view -F 0x900 $R $2 $HP_RMT $T    | perl -ane 'print "$F[0]\t",length($F[9]),"\n";' | sort > $O.len
-  samtools view -F 0x900 $R $2 $HP_RMT $T -b | samtools fasta > $O.fa
+  samtools view -F 0x900 $R $2 $HP_RMT $T -b | samtools fastq > $O.fq
 fi
 
 #################################################
@@ -77,7 +77,7 @@ fi
 
 # align reads to MT reference using minimap2
 if [ ! -s $O.bam ] ; then
-  cat $O.fa | minimap2 $HP_RDIR/$HP_MT.fa /dev/stdin -R $RG -a --eqx | samtools view -b | samtools sort | samtools view -h > $O.sam
+  cat $O.fq | minimap2 $HP_RDIR/$HP_MT.fa /dev/stdin -R $RG -a --eqx | samtools view -b | samtools sort | samtools view -h > $O.sam
   samtools view -b $O.sam | bedtools bamtobed | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4 | sort | join $O.len -  -a 1 --nocheck-order | \
     perl -ane 'print "$F[0]\t$F[1]\t$F[2]\t",$F[2]/$F[1],"\n"' | sort -k4,4nr | tee $O.score  | perl -ane 'print  if($F[-2]>$ENV{MINLEN} && $F[-1]>$ENV{MINPC});' | cut -f1 | \
     samtools view -N /dev/stdin $O.sam -b > $O.bam;  samtools index $O.bam
@@ -107,11 +107,15 @@ if [ ! -s $OS.vcf ] ; then
       perl -ane '@F=split/\t/; next if(length($F[3])>length($F[4]) and /.+:(.+)/ and $1<$ENV{MINAF_DEL});print;' | \
       sort -k2,2n >> $OS.vcf
   elif [ "$M" == "clair3" ] ; then
-     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$2 --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
-     zcat $ODIR/pileup.vcf.gz       > $OS.pileup.vcf
-     zcat $ODIR/merge_output.vcf.gz > $OS.full_alignment.vcf
-     zcat $ODIR/merge_output.vcf.gz > $OS.merge_output.vcf ; ln -s $OS.merge_output.vcf $OS.vcf
+     #singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$2 --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
+     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/clair3_sandbox/ /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$O.bam --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
+     zcat $ODIR/pileup.vcf.gz         > $OS.pileup.vcf
+     zcat $ODIR/full_alignment.vcf.gz > $OS.full_alignment.vcf
+     zcat $ODIR/merge_output.vcf.gz   > $OS.merge_output.vcf ; ln -s $OS.merge_output.vcf $OS.vcf
      rm $ODIR/*tbi
+  elif [ "$M" == "deepvariant" ] ; then
+     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/deepvariant_sandbox /opt/deepvariant/bin/run_deepvariant --model_type=$HP_MODELTYPE --ref=${HP_RDIR}/$HP_MT.fa  --reads=$O.bam  --output_vcf=$OS.vcf.gz
+     gunzip $OS.vcf.gz
   else
     echo "Unsuported SNV caller 1"
     exit 1
@@ -149,12 +153,12 @@ fi
 
 # realign reads using the new consensus as reference
 if [ ! -s $OS.bam ] ; then
-   cat $O.fa |  minimap2 $OS.fa /dev/stdin -R $RG -a  --eqx | samtools view -b | samtools sort | samtools view -h > $OS.sam
+   cat $O.fq |  minimap2 $OS.fa /dev/stdin -R $RG -a  --eqx | samtools view -b | samtools sort | samtools view -h > $OS.sam
    bedtools bamtobed -i $OS.sam | cut -f 1-4 | bed2bed.pl  | count.pl -i 3 -j 4  | sort | join $O.len -  -a 1 --nocheck-order | \
      perl -ane 'print "$F[0]\t$F[1]\t$F[2]\t",$F[2]/$F[1],"\n"' | perl -ane 'print  if($F[-2]>$ENV{MINLEN} && $F[-1]>$ENV{MINPC});'  | cut -f1 | \
      samtools view -N /dev/stdin $OS.sam  -b > $OS.bam
   samtools index $OS.bam
-  rm $OS.sam $O.fa $O.len
+  rm $OS.sam $O.fq $O.len
 fi
 
 # recompute coverage, split alignments
@@ -185,13 +189,17 @@ if [ ! -s $OSS.00.vcf ] ; then
         perl -ane '@F=split/\t/; next if(length($F[3])>length($F[4]) and /.+:(.+)/ and $1<$ENV{MINAF_DEL});print;' | \
         sort -k2,2n >> $OSS.vcf
   elif [ "$M" == "clair3" ] ; then
-     singularity exec --tmpdir /tmp/ -B $ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$OS.bam --output=${ODIR} --sample_name=$S --ref_fn=$OS.fa --ctg_name=$S --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
+     # singularity exec --tmpdir /tmp/ -B $ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$OS.bam --output=${ODIR} --sample_name=$S --ref_fn=$OS.fa --ctg_name=$S --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
+     singularity exec --tmpdir /tmp/ -B $ODIR ~/clair3_sandbox/ /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$OS.bam --output=${ODIR} --sample_name=$S --ref_fn=$OS.fa --ctg_name=$S --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
 
      zcat $ODIR/pileup.vcf.gz       > $OSS.pileup.vcf
      zcat $ODIR/merge_output.vcf.gz > $OSS.full_alignment.vcf
      zcat $ODIR/merge_output.vcf.gz > $OSS.merge_output.vcf ; ln -s $OSS.merge_output.vcf $OSS.vcf
 
      rm $ODIR/*tbi
+  elif [ "$M" == "deepvariant" ] ; then
+     singularity exec --tmpdir /tmp/ -B $ODIR ~/deepvariant_sandbox /opt/deepvariant/bin/run_deepvariant --model_type=$HP_MODELTYPE --ref=$OS.fa  --reads=$OS.bam  --output_vcf=$OSS.vcf.gz
+     gunzip $OSS.vcf.gz
 
   else
     echo "Unsuported SNV caller 1"

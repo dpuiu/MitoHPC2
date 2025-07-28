@@ -27,7 +27,7 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
     tar -xjvf bwa-0.7.17.tar.bz2
     cd bwa-0.7.17
     make  CFLAGS="-g -Wall -Wno-unused-function -O2 -fcommon"  # compiling using gcc v10.+ fails unless "-fcommon" is added
-    cp bwa $HP_BDIR/
+    mv bwa $HP_BDIR/
     cd -
   fi
 fi
@@ -37,7 +37,7 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://github.com/lh3/minimap2/releases/download/v2.28/minimap2-2.28.tar.bz2
   tar -xjvf minimap2-2.28.tar.bz2 
   cd minimap2-2.28/
-  make ;  cp minimap2 $HP_BDIR
+  make ;  mv minimap2 $HP_BDIR
   cd -
 fi
 
@@ -86,7 +86,7 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   if [ ! -s $HP_BDIR/samblaster ] ; then
     tar -xzvf samblaster-v.0.1.26.tar.gz
     cd samblaster-v.0.1.26
-    make ; cp samblaster $HP_BDIR/
+    make ; mv samblaster $HP_BDIR/
     cd -
   fi
 fi
@@ -105,7 +105,7 @@ fi
 which fastp
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c http://opengene.org/fastp/fastp
-  cp fastp $HP_BDIR/
+  mv fastp $HP_BDIR/
   chmod a+x $HP_BDIR/fastp
   #wget -N -c https://github.com/OpenGene/fastp/archive/refs/tags/v0.24.1.tar.gz
   #tar -xzvf v0.24.1.tar.gz 
@@ -121,15 +121,15 @@ fi
 if [[ ! -s $HP_JDIR/gatk.jar || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://github.com/broadinstitute/gatk/releases/download/4.6.0.0/gatk-4.6.0.0.zip
   unzip -o gatk-4.6.0.0.zip
-  cp gatk-4.6.0.0/gatk-package-4.6.0.0-local.jar $HP_JDIR/gatk.jar
-  cp gatk-4.6.0.0/gatk $HP_BDIR/
+  mv gatk-4.6.0.0/gatk-package-4.6.0.0-local.jar $HP_JDIR/gatk.jar
+  mv gatk-4.6.0.0/gatk $HP_BDIR/
 fi
 
 #if [ ! -s $HP_JDIR/mutserve.jar ] ; then  # 2023/04/26
 if [[ ! -s $HP_JDIR/mutserve.jar || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://github.com/seppinho/mutserve/releases/download/v2.0.0-rc15/mutserve.zip
   unzip -o mutserve.zip
-  cp mutserve.jar $HP_JDIR/
+  mv mutserve.jar $HP_JDIR/
 fi
 
 which freebayes
@@ -142,7 +142,7 @@ fi
 
 if [[ ! -s $HP_JDIR/VarScan.jar || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c  https://github.com/dkoboldt/varscan/releases/download/v2.4.6/VarScan.v2.4.6.jar
-  cp VarScan.v2.4.6.jar $HP_JDIR/VarScan.jar
+  mv VarScan.v2.4.6.jar $HP_JDIR/VarScan.jar
 fi
 
 which Rscript
@@ -159,27 +159,37 @@ which gridss
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://github.com/PapenfussLab/gridss/releases/download/v2.13.2/gridss-2.13.2.tar.gz
   tar -xzvf gridss-2.13.2.tar.gz
-  cp gridss $HP_BDIR/
-  cp gridss-2.13.2-gridss-jar-with-dependencies.jar $HP_JDIR/gridss.jar
+  mv gridss $HP_BDIR/
+  mv gridss-2.13.2-gridss-jar-with-dependencies.jar $HP_JDIR/gridss.jar
 fi
 
 #which delly
 #if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   #wget -N -c https://github.com/dellytools/delly/releases/download/v1.3.1/delly_v1.3.1_linux_x86_64bit
-#  cp delly_v1.3.1_linux_x86_64bit $HP_BDIR/delly
+  #mv delly_v1.3.1_linux_x86_64bit $HP_BDIR/delly
 #fi
 
 which plink2
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://s3.amazonaws.com/plink2-assets/plink2_linux_x86_64_latest.zip
   unzip plink2_linux_x86_64_latest.zip
-  cp plink2 $HP_BDIR/
+  mv plink2 $HP_BDIR/
 fi
 
-test -s $HP_BDIR/clair3_latest.sif
-if [[ $? != 0 ]] ; then
-  singularity pull docker://hkubal/clair3:latest
-fi
+#test -s $HP_BDIR/clair3_latest.sif
+#test -d ~/clair3_sandbox
+#if [[ $? != 0 ]] ; then
+#  singularity pull docker://hkubal/clair3:latest
+#  mv -i clair3_latest.sif $HP_BDIR
+#  singularity build --sandbox ~/clair3_sandbox $HP_BDIR/clair3_latest.sif
+#fi
+
+#test -d ~/deepvariant_sandbox
+#if [[ $? != 0 ]] ; then
+#  singularity pull docker://google/deepvariant:latest
+#  mv -i deepvariant_latest.sif $HP_BDIR
+#  singularity build --sandbox ~/deepvariant_sandbox $HP_BDIR/deepvariant_latest.sif
+#fi
 
 ####################################################################################
 
@@ -187,14 +197,14 @@ fi
 if [[ ! -s $HP_JDIR/haplogrep.jar || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://github.com/seppinho/haplogrep-cmd/releases/download/v2.4.0/haplogrep.zip
   unzip -o haplogrep.zip
-  cp haplogrep.jar $HP_JDIR/
+  mv haplogrep.jar $HP_JDIR/
 fi
 
 #if [ ! -s $HP_JDIR/haplocheck.jar ] ; then # 2023/04/26
 if [[ ! -s $HP_JDIR/haplocheck.jar || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://github.com/genepi/haplocheck/releases/download/v1.3.3/haplocheck.zip
   unzip -o haplocheck.zip
-  cp haplocheck.jar $HP_JDIR/
+  mv haplocheck.jar $HP_JDIR/
 fi
 
 #####################################################################################

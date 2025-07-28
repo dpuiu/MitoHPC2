@@ -43,9 +43,8 @@ export HP_NUMT=NUMT
 ################################################################
 #PARAMETERS
 
-export HP_TYPE="hifi"            # paired/single/hifi
 export HP_L=4000                 # maximum number of alignments; increased from 2000 to 4000
-export HP_M=bcftools 	         # SNV caller: bcftools
+export HP_M=clair3 	         # SNV caller: varscan,bcftools,clair3
 
 export HP_CN=1                   # do compute mtDNA copy number
 export HP_I=2		         # number of SNV iterations : 0: compute read counts,mtDNA-CN; 1:1 iteration (mutect2,mutserve) ;  2:2 iterations (mutect2)
@@ -63,8 +62,8 @@ export HP_P=1				       		            # number of processors
 export HP_MM="3G"                                                   # maximum memory
 export HP_JOPT="-Xms$HP_MM -Xmx$HP_MM -XX:ParallelGCThreads=$HP_P"  # JAVA options
 
-export HP_SH="bash" ;                                                                        export HP_SHS="$HP_SH"                     # bash
-#export HP_SH="sbatch -J HP_$$ --cpus-per-task=$HP_P --nodes=1 --mem=$HP_MM --time=20:00" ;  export HP_SHS="$HP_SH -d singleton"        # SLURM job scheduling
+#export HP_SH="bash" ;                                                                        export HP_SHS="$HP_SH"                     # bash
+export HP_SH="sbatch -J HP_$$ --cpus-per-task=$HP_P --nodes=1 --mem=$HP_MM --time=20:00" ;  export HP_SHS="$HP_SH -d singleton"        # SLURM job scheduling
 #export HP_SH="qsub -V -N HP_$$ -l mem_free=$HP_MM,h_vmem=$HP_MM -pe local $HP_P -cwd" ;     export HP_SHS="$HP_SH -hold_jid HP_$$"     # SGE job scheduling
 
 ################################################################
@@ -90,4 +89,10 @@ if [ -d $HP_ADIR ] ; then
     find $HP_ADIR/  -name "*.bam" -o -name "*.cram" -readable | ls2in.pl -out $HP_ODIR | sort -V > $HP_IN
   fi
 fi
+
+####
+
+export HP_PLATFORM="hifi"  	# clair3:hifi
+export HP_MODEL="hifi"		# clair3:hifi,hifi_revio,hifi_sequel2
+export HP_MODELTYPE="PACBIO"    #deepvariant
 
