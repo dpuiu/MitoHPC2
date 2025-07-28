@@ -14,6 +14,8 @@ which perl	        #usually available on Linux
 which gcc	        #module load gcc
 which java	        #module load java
 which python		#module load python
+which go
+which singularity
 
 which bwa	        #module load bwa
 which samtools          #module load samtools
@@ -25,7 +27,6 @@ which tabix
 which freebayes
 which minimap2
 which plink2
-which singularity
 #which gridss
 #which delly
 

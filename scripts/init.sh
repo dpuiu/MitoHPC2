@@ -102,7 +102,7 @@ export HP_FOPT="-q 15 -e 0"      # FASTP options: Ex: " -q 20 -e 30 "; -q: min b
 export HP_DOPT="--removeDups"    # samblaster option; leave empty if no deduplication should be done
 export HP_GOPT=                  # gatk mutect2 additional options : Ex "-max-reads-per-alignment-start 50" , "--mitochondria-mode"
 
-export HP_M=mutect2   	         # SNV caller: mutect2,mutserve,freebayes or varscan
+export HP_M=mutect2   	         # SNV caller: mutect2,mutserve,freebayes, varscan, clair3
 export HP_I=2		         # number of SNV iterations : 0,1,2
 				 #  0: compute read counts,mtDNA-CN
                                  #  1:1 iteration (mutect2,mutserve)
@@ -144,3 +144,9 @@ export HP_SH="bash" ;                                                           
 #export HP_SH="sbatch -J HP_$$ --cpus-per-task=$HP_P --nodes=1 --mem=$HP_MM --time=20:00" ;  export HP_SHS="$HP_SH -d singleton"        # SLURM
 #export HP_SH="bsub  -J HP_$$ -n $HP_P -R \"rusage[mem=$HP_MM]\" -W 00:20" ;  export HP_SHS="$HP_SH -w \"done(HP_$$)\""        # SLURM
 #export HP_SH="qsub -V -N HP_$$ -l mem_free=$HP_MM,h_vmem=$HP_MM -pe local $HP_P -cwd" ;     export HP_SHS="$HP_SH -hold_jid HP_$$"     # SGE
+
+export HP_PLATFORM="ilmn"        # clair3:ilmn
+export HP_MODEL="ilmn"           # clair3:ilmn
+export HP_MODELTYPE="WGS"        # deepvariant:WGS|WES
+
+

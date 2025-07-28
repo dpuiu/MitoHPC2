@@ -92,7 +92,6 @@ fi
 
 ####
 
-export HP_PLATFORM="ont"        # clair3:ont,hifi,ilmn  
-export HP_MODEL="ont"	        # clair3:hifi,hifi_revio,hifi_sequel2,ilmn,ont,ont_guppy5,r941_prom_hac_g360+g422,r941_prom_sup_g5014,r1041_e82_400bps_hac_v410,r1041_e82_400bps_hac_v500,r1041_e82_400bps_sup_v410,r1041_e82_400bps_sup_v430_bacteria_finetuned,r1041_e82_400bps_sup_v500
-export HP_MODELTYPE="ONT_R104"	# deepvariant:WGS|WES|PACBIO|ONT_R104|HYBRID_PACBIO_ILLUMINA|MASSEQ
-
+export HP_PLATFORM="ont"  			# clair3:ont 
+export HP_MODEL="r941_prom_sup_g5014"		# clair3:ont,ont_guppy5,r941_prom_hac_g360+g422,r941_prom_sup_g5014,r1041_e82_400bps_hac_v410,r1041_e82_400bps_hac_v500,r1041_e82_400bps_sup_v410,r1041_e82_400bps_sup_v430_bacteria_finetuned,r1041_e82_400bps_sup_v500
+export HP_MODELTYPE="ONT_R104"			# deepvariant:ONT_R104
