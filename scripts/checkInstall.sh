@@ -43,7 +43,10 @@ java -jar $HP_JDIR/haplogrep.jar >& /dev/null
 java -jar $HP_JDIR/haplocheck.jar >& /dev/null
 java -jar $HP_JDIR/VarScan.jar >& /dev/null
 
-test -s $HP_BDIR/clair3_latest.sif
+####################################################################################
+#uncomment the following lines if you want clair3/deepvariant support
+#test -d $HP_BDIR/clair3_sandbox
+#test -d $HP_BDIR/deepvariant_sandbox
 
 ######################################################
 

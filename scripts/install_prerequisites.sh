@@ -176,12 +176,16 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   mv plink2 $HP_BDIR/
 fi
 
+####################################################################################
+#uncomment the following lines if you want clair3/deepvariant support
+
 #test -s $HP_BDIR/clair3_latest.sif
 #test -d ~/clair3_sandbox
 #if [[ $? != 0 ]] ; then
 #  singularity pull docker://hkubal/clair3:latest
 #  mv -i clair3_latest.sif $HP_BDIR
 #  singularity build --sandbox ~/clair3_sandbox $HP_BDIR/clair3_latest.sif
+#  cp -r ~/clair3_sandbox $HP_BDIR
 #fi
 
 #test -d ~/deepvariant_sandbox
@@ -189,6 +193,7 @@ fi
 #  singularity pull docker://google/deepvariant:latest
 #  mv -i deepvariant_latest.sif $HP_BDIR
 #  singularity build --sandbox ~/deepvariant_sandbox $HP_BDIR/deepvariant_latest.sif
+# cp -r ~/deepvariant_sandbox $HP_BDIR
 #fi
 
 ####################################################################################
