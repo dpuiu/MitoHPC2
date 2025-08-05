@@ -14,17 +14,22 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/
 [htslib](https://github.com/samtools/htslib/releases) 1.21, 
 [samtools](https://github.com/samtools/samtools/releases) 1.21, 
 [bcftools](https://github.com/samtools/bcftools/releases) 1.21, 
-[bedtools](https://github.com/arq5x/bedtools2/releases) 2.31.1,
-[samblaster](https://github.com/GregoryFaust/samblaster/releases) 0.1.26,  
-[gatk](https://github.com/broadinstitute/gatk/releases/) 4.6.0.0, 
+[bedtools](https://github.com/arq5x/bedtools2/releases) 2.31.1,  
+
+[fastp](http://opengene.org/fastp/fastp) 0.24.0,
+[samblaster](https://github.com/GregoryFaust/samblaster/releases) 0.1.26,    
+
+[gatk Mutect2](https://github.com/broadinstitute/gatk/releases/) 4.6.0.0, 
 [mutserve](https://github.com/seppinho/mutserve/releases) 2.0.0-rc15, 
 [freebayes](https://github.com/freebayes/freebayes/releases) 1.3.6, 
 [VarScan](https://github.com/dkoboldt/varscan/releases) 2.4.6,
 [clair3](https://github.com/HKU-BAL/Clair3/releases) 1.1.1, 
+[deepvariant](https://github.com/google/deepvariant) 1.9.0,
 [gridss](https://github.com/PapenfussLab/gridss/releases) 2.13.2.  
+
 [haplogrep](https://github.com/seppinho/haplogrep-cmd/releases) v2.4.0,
 [haplocheck](https://github.com/genepi/haplocheck/releases) 1.3.3,
-[fastp](http://opengene.org/fastp/fastp) 0.24.0, 
+
 [R](https://cran.r-project.org/src/base/) 4.3.0
 [plink2](https://www.cog-genomics.org/plink/2.0/) 2.0 
 
