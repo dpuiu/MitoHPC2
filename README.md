@@ -37,7 +37,7 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/
      # clone and init MitoHPC2
      git clone https://github.com/dpuiu/MitoHPC2.git
      cd MitoHPC2/scripts
-     export HP_SDIR=`pwd`
+     export HP_SDIR=`pwd -P`
      . ./init.sh
 
      # install system prerequisites (if admin or checkInstall.sh below fails)

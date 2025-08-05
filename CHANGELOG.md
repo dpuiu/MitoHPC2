@@ -1,9 +1,10 @@
+# 2025/08/05 #
+* Added deepvariant as one of the SNV callers
 
 # 2025/07/23 #
-* Added clair3 as one of the long read SNV callers
+* Added clair3 as one of the SNV callers
 
 # 2025/01/08 #
-* Translating multiple PERL scripts to PYTHON
 * MitoHPC2/examples/Sim/Illumina/ <- MitoHPC/examples2   : 30 WGS simulated Illumina samples
 * MitoHPC2/examples/HPRC/{Illumina,HiFi}                 : 40 WGS HPRC Illumina/HiFi samples; direct MT filtering using "samtools view s3://"
 

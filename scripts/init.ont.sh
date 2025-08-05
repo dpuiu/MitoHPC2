@@ -1,7 +1,7 @@
 #!/usr/bin/env bash 
 #set -e
 
-#if [ -z $HP_HDIR ] ; then echo "Variable HP_HDIR not defined. Make sure you followed the SETUP ENVIRONMENT instructions" ;  fi
+if [ -z $HP_SDIR ] ; then echo "Variable HP_SDIR not defined. Make sure you followed the SETUP ENVIRONMENT instructions" ;  fi
 
 ##############################################################################################################
 
@@ -12,8 +12,7 @@
 ##############################################################################################################
 #DIRECTORY PATHS
 
-#export HP_HDIR=`readlink -f $HP_SDIR/..`	#HP home directory
-export HP_SDIR=$HP_HDIR/scripts/
+export HP_HDIR=`readlink -f $HP_SDIR/..`	#HP home directory
 export HP_BDIR=$HP_HDIR/bin/			#bin directory
 export HP_JDIR=$HP_HDIR/java/			#java directory
 export HP_RDIR=$HP_HDIR/RefSeq/			#Human reference directory
@@ -44,7 +43,7 @@ export HP_NUMT=NUMT
 #PARAMETERS
 
 export HP_L=4000                 # maximum number of alignments; increased from 2000 to 4000
-export HP_M=clair3 	         # SNV caller: varscan,bcftools,clair3
+export HP_M=deepvariant          # SNV caller: varscan,bcftools,clair3,deepvariant
 
 export HP_CN=1                   # do compute mtDNA copy number
 export HP_I=2		         # number of SNV iterations : 0: compute read counts,mtDNA-CN; 1:1 iteration (mutect2,mutserve) ;  2:2 iterations (mutect2)

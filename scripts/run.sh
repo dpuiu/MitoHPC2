@@ -20,9 +20,9 @@ fi
 test -s $HP_IN
 
 #check SNV and SV callers
-if [ $HP_I != "0" ]       && [ $HP_I != "1" ]        && [ $HP_I != "2" ] ;                                                              then  echo "Incorrect HP_I parameter" > /dev/stderr ; exit 1 ; fi
-if [ $HP_M != "mutect2" ] && [ $HP_M != "mutserve" ] && [ $HP_M != "freebayes" ] && [ $HP_M != "varscan" ] && [ $HP_M != "bcftools" ] ; then  echo "Incorrect HP_M parameter" > /dev/stderr ; exit 1 ; fi
-if [ $HP_V ] && [ $HP_V != "gridss" ] ;                                                                                                 then  echo "Incorrect HP_V parameter" > /dev/stderr ; exit 1 ; fi
+if [ $HP_I != "0" ]       && [ $HP_I != "1" ]        && [ $HP_I != "2" ] ;                                                                                                                     then  echo "Incorrect HP_I parameter" > /dev/stderr ; exit 1 ; fi
+if [ $HP_M != "mutect2" ] && [ $HP_M != "mutserve" ] && [ $HP_M != "freebayes" ] && [ $HP_M != "varscan" ] && [ $HP_M != "bcftools" ] && [ $HP_M != "clair3" ] && [ $HP_M != "deepvariant" ] ; then  echo "Incorrect HP_M parameter" > /dev/stderr ; exit 1 ; fi
+if [ $HP_V ] && [ $HP_V != "gridss" ] ;                                                                                                                                                        then  echo "Incorrect HP_V parameter" > /dev/stderr ; exit 1 ; fi
 
 #check THOLDs
 perl -e '!$ENV{HP_T1} or $ENV{HP_T1}=~/^\d\d$/ or die "ERROR : HP_T1 between 00 and 99\n"'

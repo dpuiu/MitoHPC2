@@ -102,7 +102,7 @@ export HP_FOPT="-q 15 -e 0"      # FASTP options: Ex: " -q 20 -e 30 "; -q: min b
 export HP_DOPT="--removeDups"    # samblaster option; leave empty if no deduplication should be done
 export HP_GOPT=                  # gatk mutect2 additional options : Ex "-max-reads-per-alignment-start 50" , "--mitochondria-mode"
 
-export HP_M=mutect2   	         # SNV caller: mutect2,mutserve,freebayes, varscan, clair3
+export HP_M=mutect2   	         # SNV caller: mutect2,mutserve,freebayes,varscan,clair3,deepvariant
 export HP_I=2		         # number of SNV iterations : 0,1,2
 				 #  0: compute read counts,mtDNA-CN
                                  #  1:1 iteration (mutect2,mutserve)
