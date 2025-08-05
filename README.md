@@ -64,6 +64,12 @@ Check https://github.com/dpuiu/MitoHPC/blob/main/README.md first !!!
 
     # copy init file to work directory
     cp $HP_SDIR/init.sh .
+  
+    # edit SNV caller if needed
+    nano ./init.sh 
+      ...
+      export HP_M=mutect2          # or mutserve,freebayes,varscan,clair3,deepvariant
+      ...
 
     # init
     . ./init.sh
