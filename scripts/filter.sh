@@ -171,15 +171,17 @@ if [ ! -s $OS.vcf ] ; then
   elif [ "$M" == "bcftools" ] ; then
     bcftools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -d $MAXDP | bcftools call --ploidy 2 -mv -Ov > $OS.vcf
   elif [ "$M" == "clair3" ] ; then
-     #singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=ilmn --model_path="/opt/models/ilmn" --bam_fn=$2 --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
-     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/clair3_sandbox/ /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$O.bam --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
+     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=ilmn --model_path="/opt/models/ilmn" --bam_fn=$2 --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
+     #singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/clair3_sandbox/ /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$O.bam --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
 
      zcat $ODIR/pileup.vcf.gz         > $OS.pileup.vcf ; ln -s $OS.pileup.vcf $OS.vcf
      zcat $ODIR/full_alignment.vcf.gz > $OS.full_alignment.vcf
      zcat $ODIR/merge_output.vcf.gz   > $OS.merge_output.vcf
      rm $ODIR/*tbi
   elif [ "$M" == "deepvariant" ] ; then
-     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/deepvariant_sandbox /opt/deepvariant/bin/run_deepvariant --model_type=$HP_MODELTYPE --ref=${HP_RDIR}/$HP_MT.fa  --reads=$O.bam  --output_vcf=$OS.vcf.gz 
+     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR $HP_BDIR/deepvariant_sandbox /opt/deepvariant/bin/run_deepvariant --model_type=$HP_MODELTYPE --ref=${HP_RDIR}/$HP_MT.fa  --reads=$O.bam  --output_vcf=$OS.vcf.gz 
+     #singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/deepvariant_sandbox /opt/deepvariant/bin/run_deepvariant --model_type=$HP_MODELTYPE --ref=${HP_RDIR}/$HP_MT.fa  --reads=$O.bam  --output_vcf=$OS.vcf.gz 
+
      gunzip $OS.vcf.gz
   else
     echo "Unsuported SNV caller 1"
@@ -361,5 +363,5 @@ fi
 
 rm -f $OS.bam*  $OS.dict $OS.fa.fai
 rm -f $O.fq $OR.bam* 
-rm -f $O.bam* $ON.score
+#rm -f $O.bam* $ON.score	
 
