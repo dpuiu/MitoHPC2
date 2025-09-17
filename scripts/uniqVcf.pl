@@ -54,7 +54,8 @@ MAIN:
 			elsif($F[7]=~/SM=(.+?);/ or $F[7]=~/SM=(.+)$/) { $SM=$1}
 		}
 	
-		my $key=join "\t",(@F[0..4],$SM);
+		#my $key=join "\t",(@F[0..4],$SM);
+                my $key=join "\t",(@F[0,1,3,4],$SM); 		# 2025-09-10
 		$line{$key}="$_\n" unless($line{$key});		
 		$count{$key}++;
 	}
