@@ -21,8 +21,10 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/
 [mutserve](https://github.com/seppinho/mutserve/releases) 2.0.0-rc15, 
 [freebayes](https://github.com/freebayes/freebayes/releases) 1.3.6, 
 [VarScan](https://github.com/dkoboldt/varscan/releases) 2.4.6, 
-[clair3](https://github.com/HKU-BAL/Clair3/releases) 1.1.1, 
-[deepvariant](https://github.com/google/deepvariant) 1.9.0, 
+[Clair3](https://github.com/HKU-BAL/Clair3/releases) 1.1.1, 
+[ClairS-TO](https://github.com/HKU-BAL/ClairS-TO) 0.4.2,
+[deepvariant](https://github.com/google/deepvariant) 1.10.0-beta, 
+[deepsomatic](https://github.com/google/deepsomatic/) 1.9.0,
 [gridss](https://github.com/PapenfussLab/gridss/releases) 2.13.2, 
 [haplogrep](https://github.com/seppinho/haplogrep-cmd/releases) v2.4.0, 
 [haplocheck](https://github.com/genepi/haplocheck/releases) 1.3.3, 
@@ -136,7 +138,7 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
     ls $HP_ODIR/.*
 
     # evaluate results(compare to Illumina mutect2 T=10)             
-    $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf  $HP_M.10.concat.vcf
+    $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf $HP_M.10.concat.vcf
 
 # Examples #
 
