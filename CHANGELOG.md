@@ -1,4 +1,8 @@
 # 2025/08/05 #
+* Added deepsomatic and clairs-to as one of the SNV callers
+* Added new examples/HPRC/{ONT10,HIFI10} sample alignments
+
+# 2025/08/05 #
 * Added deepvariant as one of the SNV callers
 
 # 2025/07/23 #

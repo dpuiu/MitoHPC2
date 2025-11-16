@@ -1,0 +1,25 @@
+##fileformat=VCFv4.2
+##source=Clair3
+##FILTER=<ID=LowAltBQ,Description="Average alt allele base quality <20">
+##FILTER=<ID=LowAltMQ,Description="Average alt allele read mapping quality <20">
+##FILTER=<ID=LowQual,Description="Low-quality variant">
+##FILTER=<ID=LowSeqEntropy,Description="Sequence entropy <0.9">
+##FILTER=<ID=MultiHap,Description="Alt alleles existed in multiple haplotypes">
+##FILTER=<ID=NoAncestry,Description="Variant without an ancestral haplotype support">
+##FILTER=<ID=NonSomatic,Description="Non-somatic variant tagged by panel of normals">
+##FILTER=<ID=PASS,Description="All filters passed">
+##FILTER=<ID=ReadStartEnd,Description=">30% of the supporting alt alleles are within 100bp of the start or end of a read">
+##FILTER=<ID=Realignment,Description="For short-read, both the count of supporting alt alleles and AF decreased after realignment">
+##FILTER=<ID=RefCall,Description="Reference call">
+##FILTER=<ID=StrandBias,Description="Strand bias p-value <0.001">
+##FILTER=<ID=VariantCluster,Description="Three or more variants clustered within 200bp">
+##INFO=<ID=SM,Number=1,Type=String,Description="Sample">
+##INFO=<ID=P,Number=0,Type=Flag,Description="Result from pileup calling">
+##INFO=<ID=F,Number=0,Type=Flag,Description="Result from full-alignment calling">
+##INFO=<ID=SNP,Number=0,Type=Flag,Description="SNP">
+##INFO=<ID=INDEL,Number=0,Type=Flag,Description="INDEL">
+##FORMAT=<ID=SM,Number=1,Type=String,Description="Sample">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Approximate read depth (reads 1. with MQ below 5 or an user-specified threshold, or 2. selected by 'samtools view -F 2316', are filtered)">
+##FORMAT=<ID=AD,Number=R,Type=Integer,Description="Allelic depths for the ref and alt alleles in the order listed">
+##FORMAT=<ID=AF,Number=A,Type=Float,Description="Observed allele frequency in reads, for each ALT allele, in the same order as listed, or the REF allele for a RefCall">

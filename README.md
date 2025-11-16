@@ -103,35 +103,31 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
     # output
     ls $HP_ODIR/merge3.*
 
-## SINGLE SNV CALLER (PacBio HiFi)
+## SNV CALLER IINIT PacBio HiFi
 
     # copy init file to work directory
     cp $HP_SDIR/init.hifi.sh .
 
     # edit init.lr.sh; set the SNV caller
     nano init.hifi.sh
-      HP_M=deepvariant  # or varscan,bcftools,clair3
+      HP_M=deepsomatic  # or varscan,bcftools,clair3,clairs-to,deepvariant,deepsomatic
 
     # init
     . ./init.hifi.sh
 
-    # run
-    $HP_SDIR/run.lr.sh | tee run.lr.all.sh | bash       
-
-    # check output
-    ls $HP_ODIR/.*
-
-## SINGLE SNV CALLER (ONT)
+## SNV CALLER INIT ONT
 
     # copy init file to work directory
     cp $HP_SDIR/init.ont.sh .
 
     # edit init.lr.sh; set the SNV caller
     nano init.ont.sh
-      HP_M=deepvariant  # or varscan,bcftools,clair3
+      HP_M=clairs-to  # or varscan,bcftools,clair3,clairs-to,deepvariant,deepsomatic
 
     # init
     . ./init.ont.sh
+
+## SNV CALLER LONG READS
 
     # run
     $HP_SDIR/run.lr.sh | tee run.lr.all.sh | bash
@@ -139,9 +135,12 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
     # check output
     ls $HP_ODIR/.*
 
+    # evaluate results(compare to Illumina mutect2 T=10)             
+    $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf  $HP_M.10.concat.vcf
+
 # Examples #
 
 ## 30 Simulated samples ##
 
-## 40 HPRC samples ##
+## 39 HPRC samples ##
 
