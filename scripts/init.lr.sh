@@ -43,7 +43,7 @@ export HP_NUMT=NUMT
 #PARAMETERS
 
 export HP_L=4000                 # maximum number of alignments; increased from 2000 to 4000
-export HP_M=deepvariant          # SNV caller: varscan,bcftools,clair3,deepvariant
+export HP_M=clairs-to          # SNV caller: varscan,bcftools,clair3,clairs-to,deepvariant,deepsomatic
 
 export HP_CN=1                   # do compute mtDNA copy number
 export HP_I=2		         # number of SNV iterations : 0: compute read counts,mtDNA-CN; 1:1 iteration (mutect2,mutserve) ;  2:2 iterations (mutect2)
@@ -85,13 +85,23 @@ printenv | egrep '^HP_|^PATH=' | sed 's|=|="|' | sed 's|$|"|' | sort > env.txt
 
 if [ -d $HP_ADIR ] ; then
   if [ ! -s $HP_IN ] ; then
-    find $HP_ADIR/  -name "*.bam" -o -name "*.cram" -readable | ls2in.pl -out $HP_ODIR | sort -V > $HP_IN
+    find $HP_ADIR/ \( -name "*.bam" -o -name "*.cram" \) -readable | ls2in.pl -out $HP_ODIR | sort -V > $HP_IN
   fi
 fi
 
 ####
 
-export HP_PLATFORM="ont"        # clair3:ont,hifi,ilmn  
-export HP_MODEL="ont"	        # clair3:hifi,hifi_revio,hifi_sequel2,ilmn,ont,ont_guppy5,r941_prom_hac_g360+g422,r941_prom_sup_g5014,r1041_e82_400bps_hac_v410,r1041_e82_400bps_hac_v500,r1041_e82_400bps_sup_v410,r1041_e82_400bps_sup_v430_bacteria_finetuned,r1041_e82_400bps_sup_v500
-export HP_MODELTYPE="ONT_R104"	# deepvariant:WGS|WES|PACBIO|ONT_R104|HYBRID_PACBIO_ILLUMINA|MASSEQ
+#export HP_PLATFORM="ont"                     # clair3:ont,hifi,ilmn  
+#export HP_PLATFORM="ont_r10_dorado_sup_5khz"  # clars-to  {ont_r10_dorado_sup_4khz, ont_r10_dorado_hac_4khz, ont_r10_dorado_sup_5khz, ont_r10_dorado_sup_5khz_ss, ont_r10_dorado_sup_5khz_ssrs, ont_r10_guppy_sup_4khz, ont_r10_guppy_hac_5khz, ilmn, ilmn_ss, ilmn_ssrs, hifi_revio, hifi_revio_ss, hifi_revio_ssrs}
+export HP_PLATFORM="hifi_revio"		       # clars-to
+
+#export HP_PLATFORM=""                         # deep*
+
+#export HP_MODEL="ont"	                      # clair3:hifi,hifi_revio,hifi_sequel2,ilmn,ont,ont_guppy5,r941_prom_hac_g360+g422,r941_prom_sup_g5014,r1041_e82_400bps_hac_v410,r1041_e82_400bps_hac_v500,r1041_e82_400bps_sup_v410,r1041_e82_400bps_sup_v430_bacteria_finetuned,r1041_e82_400bps_sup_v500
+export HP_MODEL=""			      # clars-to,deep*
+
+export HP_MODELTYPE=""                       # clair*
+#export HP_MODELTYPE="ONT_R104"	              # deepvariant:WGS|WES|PACBIO|ONT_R104|HYBRID_PACBIO_ILLUMINA|MASSEQ
+#export HP_MODELTYPE="ONT_TUMOR_ONLY"	      # deepsomatic:WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+#export HP_MODELTYPE="PACBIO_TUMOR_ONLY"       # deepsomatic:WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
 

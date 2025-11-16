@@ -37,7 +37,11 @@ MAIN:
 	while(<>)
 	{
 		chomp;
-		if(defined($i))
+		if(/^$/)
+		{
+			print "\n";
+		}
+		elsif(defined($i))
 		{
 			if(/^#/ or /^$/) { print "$_\n"}
 			elsif(/^@/) { print "$_\n"}

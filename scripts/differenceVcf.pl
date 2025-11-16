@@ -21,13 +21,18 @@ Program that prints all the SNV's present in one VCF file but missing from anoth
 MAIN:
 {
         my (%opt,%h);
-	$opt{af}=0;	
 
         # validate input parameters
         my $result = GetOptions(
 		"sm"      =>      \$opt{sm},
-               	"af=s" 	  =>      \$opt{af},
-		"help"	  =>	  \$opt{help}
+		"help"	  =>	  \$opt{help},
+		"pos"   =>	\$opt{pos},
+                "snp"    =>     \$opt{snp},
+                "ins"    =>     \$opt{ins},
+                "del"    =>     \$opt{del},
+                "het"    =>     \$opt{het},
+                "hom"    =>     \$opt{hom},
+
 	);
 
 	if(!$result)            { die "ERROR: $! "}
@@ -45,6 +50,13 @@ MAIN:
                 my @F=split /\t/;
                 die "ERROR $_" if(@F<5);
 
+                if($opt{snp})   { next if(length($F[3]) ne length($F[4])) }
+                if($opt{ins} )  { next if(length($F[3]) ge length($F[4])) }
+                if($opt{del})   { next if(length($F[3]) le length($F[4])) }
+                next if($opt{het} and !(/\tAF=0/ or /;AF=0/ or /:0\.\d+$/));
+                next if($opt{hom} and (/\tAF=0/ or /;AF=0/ or /:0\.\d+$/));
+
+
 		my $SM="";
 
 		if($opt{sm})
@@ -57,7 +69,12 @@ MAIN:
 		my $AF=1;
 		$AF=$1 if(/AF=(0\.\d+)/ or /.+:(1)$/ or /.+:(0\.\d+)/);
 		($F[3],$F[4])=(uc($F[3]),uc($F[4]));
-                $h{"$F[0] $F[1] $F[3] $F[4] $SM"}=$AF;
+
+		my $key;
+                if($opt{pos}) { $key="$F[0] $F[1] $SM"}
+                else          { $key="$F[0] $F[1] $F[3] $F[4] $SM" }
+                $h{$key}=$AF;
+
         }
 	close(IN);
         #last unless(%h);
@@ -74,9 +91,15 @@ MAIN:
                 my @F=split /\t/;
                 die "ERROR $_" if(@F<5);
 
-	       next if($F[1]==3105);	# new 
+ 	        next if($F[1]==3105);	# new 
                 next if($F[1]==3106);	# new
                 next if($F[3]=~/N/);	# new
+
+                if($opt{snp})   { next if(length($F[3]) ne length($F[4])) }
+                if($opt{ins} )  { next if(length($F[3]) ge length($F[4])) }
+                if($opt{del})   { next if(length($F[3]) le length($F[4])) }
+                next if($opt{het} and !(/\tAF=0/ or /;AF=0/ or /:0\.\d+$/));
+                next if($opt{hom} and (/\tAF=0/ or /;AF=0/ or /:0\.\d+$/));
 
                	my $SM="";
 
@@ -88,26 +111,13 @@ MAIN:
 		}
 
 		($F[3],$F[4])=(uc($F[3]),uc($F[4]));
-		if($h{"$F[0] $F[1] $F[3] $F[4] $SM"})
-		{
-			if($opt{sm} and $opt{af})
-			{
-				if(/(.+;AF=)(0\.\d+)(.+)/ or /(.+;AF=)(1)(.+)/)
-				{
-					my $AF=$2-$h{"$F[0] $F[1] $F[3] $F[4] $SM"};
-					print "$1$AF$3\n" if($AF>$opt{af});
-				}	
-				elsif(/(.+:)(\d.*)$/)
-				{
- 				 	 my $AF=$2-$h{"$F[0] $F[1] $F[3] $F[4] $SM"};
-					 print "$1$AF\n" if($AF>$opt{af});
-				}
-			}
-		}
-		else
-		{
-	                print "$_\n" unless $h{"$F[0] $F[1] $F[3] $F[4] $SM"};
-		}
+
+		my $key;	# 2025/11/14
+
+                if($opt{pos}) { $key="$F[0] $F[1] $SM"}
+                else          { $key="$F[0] $F[1] $F[3] $F[4] $SM" }
+
+	        print "$_\n" unless $h{$key};
         }
 
 	exit 0;

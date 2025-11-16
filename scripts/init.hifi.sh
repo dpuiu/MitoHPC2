@@ -43,7 +43,7 @@ export HP_NUMT=NUMT
 #PARAMETERS
 
 export HP_L=4000                 # maximum number of alignments; increased from 2000 to 4000
-export HP_M=deepvariant          # SNV caller: varscan,bcftools,clair3,deepvariant
+export HP_M=deepsomatic          # SNV caller: varscan,bcftools,clair3,clairs-to,deepvariant,deepsomatic
 
 export HP_CN=1                   # do compute mtDNA copy number
 export HP_I=2		         # number of SNV iterations : 0: compute read counts,mtDNA-CN; 1:1 iteration (mutect2,mutserve) ;  2:2 iterations (mutect2)
@@ -85,13 +85,13 @@ printenv | egrep '^HP_|^PATH=' | sed 's|=|="|' | sed 's|$|"|' | sort > env.txt
 
 if [ -d $HP_ADIR ] ; then
   if [ ! -s $HP_IN ] ; then
-    find $HP_ADIR/  -name "*.bam" -o -name "*.cram" -readable | ls2in.pl -out $HP_ODIR | sort -V > $HP_IN
+    find $HP_ADIR/ \( -name "*.bam" -o -name "*.cram" \) -readable | ls2in.pl -out $HP_ODIR | sort -V > $HP_IN
   fi
 fi
 
 ####
 
-export HP_PLATFORM="hifi"  	# clair3:hifi
-export HP_MODEL="hifi"		# clair3:hifi,hifi_revio,hifi_sequel2
-export HP_MODELTYPE="PACBIO"    #deepvariant
+export HP_PLATFORM="hifi_revio"		      # clars-to
+export HP_MODEL=""			      # clars-to,deep*
+export HP_MODELTYPE="PACBIO_TUMOR_ONLY"       # deepsomatic:WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
 

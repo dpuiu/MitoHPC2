@@ -171,18 +171,25 @@ if [ ! -s $OS.vcf ] ; then
   elif [ "$M" == "bcftools" ] ; then
     bcftools mpileup -f $HP_RDIR/$HP_MT.fa $O.bam -d $MAXDP | bcftools call --ploidy 2 -mv -Ov > $OS.vcf
   elif [ "$M" == "clair3" ] ; then
-     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=ilmn --model_path="/opt/models/ilmn" --bam_fn=$2 --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
-     #singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/clair3_sandbox/ /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$O.bam --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
+     #singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR $HP_BDIR/clair3_latest.sif /opt/bin/run_clair3.sh --threads=1 --platform=ilmn --model_path="/opt/models/ilmn" --bam_fn=$2 --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
+     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/clair3_sandbox/ /opt/bin/run_clair3.sh --threads=1 --platform=$HP_PLATFORM --model_path="/opt/models/${HP_MODEL}" --bam_fn=$O.bam --output=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN --no_phasing_for_fa --remove_intermediate_dir  # --enable_long_indel
 
      zcat $ODIR/pileup.vcf.gz         > $OS.pileup.vcf ; ln -s $OS.pileup.vcf $OS.vcf
      zcat $ODIR/full_alignment.vcf.gz > $OS.full_alignment.vcf
      zcat $ODIR/merge_output.vcf.gz   > $OS.merge_output.vcf
      rm $ODIR/*tbi
-  elif [ "$M" == "deepvariant" ] ; then
-     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR $HP_BDIR/deepvariant_sandbox /opt/deepvariant/bin/run_deepvariant --model_type=$HP_MODELTYPE --ref=${HP_RDIR}/$HP_MT.fa  --reads=$O.bam  --output_vcf=$OS.vcf.gz 
-     #singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/deepvariant_sandbox /opt/deepvariant/bin/run_deepvariant --model_type=$HP_MODELTYPE --ref=${HP_RDIR}/$HP_MT.fa  --reads=$O.bam  --output_vcf=$OS.vcf.gz 
 
-     gunzip $OS.vcf.gz
+  elif [ "$M" == "clairs-to" ] ; then
+     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/clairs-to_sandbox/ /opt/bin/run_clairs_to --threads=1 --platform=$HP_PLATFORM  --tumor_bam_fn=$O.bam --output_dir=${ODIR} --sample_name=$S --ref_fn=${HP_RDIR}/$HP_MT.fa --ctg_name=$HP_MT  --chunk_size=$HP_MTLEN  --remove_intermediate_dir  # --enable_long_indel phasing ...
+     zcat $ODIR/{snv,indel}.vcf.gz  | bedtools sort -header  > $OS.vcf ; rm $ODIR/{snv,indel}.vcf.gz*
+
+  elif [ "$M" == "deepvariant" ] ; then
+     #singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR $HP_BDIR/deepvariant_sandbox /opt/deepvariant/bin/run_deepvariant --model_type=$HP_MODELTYPE --ref=${HP_RDIR}/$HP_MT.fa  --reads=$O.bam  --output_vcf=$OS.vcf.gz 
+     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/deepvariant_sandbox /opt/deepvariant/bin/run_deepvariant --model_type=$HP_MODELTYPE --ref=${HP_RDIR}/$HP_MT.fa  --reads=$O.bam  --output_vcf=$OS.vcf.gz 
+     gunzip $OS.vcf.gz ; rm $OS.vcf.gz.tbi
+  elif [ "$M" == "deepsomatic" ] ; then
+     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/deepsomatic_sandbox /opt/deepvariant/bin/deepsomatic/run_deepsomatic --model_type=$HP_MODELTYPE  --ref=${HP_RDIR}/$HP_MT.fa  --reads_tumor=$O.bam  --output_vcf=$OS.vcf.gz  --sample_name_tumor=$S
+     gunzip $OS.vcf.gz ; rm $OS.vcf.gz.tbi
   else
     echo "Unsuported SNV caller 1"
     exit 1
@@ -334,11 +341,17 @@ if [ ! -s $OSS.vcf ] ; then
      zcat $ODIR/pileup.vcf.gz         > $OSS.pileup.vcf ; ln -s $OSS.pileup.vcf $OSS.vcf
      zcat $ODIR/full_alignment.vcf.gz > $OSS.full_alignment.vcf
      zcat $ODIR/merge_output.vcf.gz   > $OSS.merge_output.vcf
-
-     rm $ODIR/*tbi
+  elif [ "$M" == "clairs-to" ] ; then
+     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/clairs-to_sandbox/ /opt/bin/run_clairs_to --threads=1 --platform=$HP_PLATFORM  --tumor_bam_fn=$OS.bam --output_dir=${ODIR} --sample_name=$S --ref_fn=$OS.fa --ctg_name=$S  --chunk_size=$HP_MTLEN  --remove_intermediate_dir  # --enable_long_indel phasing ...
+     zcat $ODIR/{snv,indel}.vcf.gz  | bedtools sort -header  > $OSS.vcf ; rm $ODIR/{snv,indel}.vcf.gz*
   elif [ "$M" == "deepvariant" ] ; then
      singularity exec --tmpdir /tmp/ -B $ODIR ~/deepvariant_sandbox /opt/deepvariant/bin/run_deepvariant --model_type=$HP_MODELTYPE --ref=$OS.fa  --reads=$OS.bam  --output_vcf=$OSS.vcf.gz
-     gunzip $OSS.vcf.gz
+     gunzip $OSS.vcf.gz ; rm $OSS.vcf.gz.tbi
+
+  elif [ "$M" == "deepsomatic" ] ; then
+     singularity exec --tmpdir /tmp/ -B $IDIR,$ODIR ~/deepsomatic_sandbox /opt/deepvariant/bin/deepsomatic/run_deepsomatic --model_type=$HP_MODELTYPE  --ref=$OS.fa  --reads_tumor=$OS.bam  --output_vcf=$OSS.vcf.gz  --sample_name_tumor=$S
+     gunzip $OSS.vcf.gz; rm $OSS.vcf.gz.tbi
+
   else
     echo "Unsuported SNV caller 2"
     exit 1
@@ -350,7 +363,7 @@ if [ ! -s $OSS.00.vcf ] ; then
   # filter SNP
   cat $OSS.vcf | bcftools norm -m-any -f $OS.fa   | fix${M}Vcf.pl -file $HP_RDIR/$HP_MT.fa | bedtools sort -header | tee $OSS.fix.vcf |\
     fixsnpPos.pl -ref $HP_MT -rfile $HP_RDIR/$HP_MT.fa -rlen $HP_MTLEN -mfile $OS.max.vcf  | \
-    filterVcf.pl -sample $S -source $M -header $HP_SDIR/$M.vcf  -depth $HP_DP | bedtools sort  -header | tee $OSS.00.orig.vcf  > $OSS.00.vcf
+    filterVcf.pl -sample $S -source $M -header $HP_SDIR/$M.vcf  -depth $HP_DP | bedtools sort  -header   > $OSS.00.vcf
 
   #cat $OSS.vcf | bcftools norm -m-any -f $OS.fa   | fix${M}Vcf.pl -file $HP_RDIR/$HP_MT.fa | bedtools sort -header | tee $OSS.fix.vcf |\
   #  fixsnpPos2.pl -ref $HP_MT -rfile $HP_RDIR/$HP_MT.fa -rlen $HP_MTLEN -mfile $OS.max.vcf  | \
@@ -363,5 +376,5 @@ fi
 
 rm -f $OS.bam*  $OS.dict $OS.fa.fai
 rm -f $O.fq $OR.bam* 
-#rm -f $O.bam* $ON.score	
+#rm -f $O.bam* $ON.score
 
