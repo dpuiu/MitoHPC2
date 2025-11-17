@@ -184,6 +184,3 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 [10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.10.05.eval), 
 [05.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.05.05.eval)
 
-* clairs-to intersect deepsomatic:
-[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to_deepsomatic.10.10.eval)
-
