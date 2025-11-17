@@ -15,6 +15,7 @@ if [ "$?" == 0 ] ; then
   apt-get install -y libcurl4-gnutls-dev libssl-dev zlib1g-dev
   apt-get install -y python3 python-is-python3
   apt-get install -y gfortran libreadline-dev libpcre2-dev  # for R
+  apt-get install -y podman squashfs-tools squashfuse
 fi
 
 command -v dnf

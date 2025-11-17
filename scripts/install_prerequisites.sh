@@ -179,40 +179,15 @@ fi
 ####################################################################################
 #uncomment the following lines if you want clair3/deepvariant support
 
-#test -d ~/clair3_sandbox
-#if [[ $? != 0 ]] ; then
-#  singularity pull docker://hkubal/clair3:latest
-#  singularity pull docker://hkubal/clair3:v1.1.1
-#  singularity pull docker://hkubal/clair3:v1.2.0
-#  mv -i clair3_latest.sif $HP_BDIR
-#  singularity build --sandbox ~/clair3_sandbox $HP_BDIR/clair3_latest.sif
-#  cp -r ~/clair3_sandbox $HP_BDIR
-#fi
+#wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/clair3_v1.2.0.sif -O $HP_BDIR/clair3.sif
+#wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/clairs-to_v0.4.2.sif -O $HP_BDIR/clairs-to.sif
+#wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/deepsomatic_1.9.0.sif -O $HP_BDIR/deepsomatic.sif
+#wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/deepvariant_1.10.0-beta.sif -O $HP_BDIR/deepvariant.sif
 
-#test -d ~/clairs-to_sandbox
-#if [[ $? != 0 ]] ; then
-#  singularity pull docker://hkubal/clairs-to:v0.4.2
-#  mv -i clairs-to_v0.4.2_latest.sif $HP_BDIR
-#  singularity build --sandbox ~/clairs-to_sandbox $HP_BDIR/clairs-to_v0.4.2_latest.sif
-#  cp -r ~/clairs-to_sandbox $HP_BDIR
-#fi
-
-#test -d ~/deepvariant_sandbox
-#if [[ $? != 0 ]] ; then
-#  singularity pull docker://google/deepvariant:latest
-#  singularity pull docker://google/deepvariant:1.10.0-beta
-#  singularity build --sandbox ~/deepvariant_1.10.0-beta_sandbox deepvariant_1.10.0-beta.sif
-#  ln -s ~/deepvariant_1.10.0-beta_sandbox ~/deepvariant_sandbox
-#  cp -r ~/deepvariant_sandbox $HP_BDIR
-#fi
-
-#test -d ~/deepsomatic_sandbox
-#if [[ $? != 0 ]] ; then
-#  singularity pull docker://google/deepsomatic:1.9.0
-#  singularity build --sandbox ~/deepsomatic_1.9.0_sandbox deepsomatic_1.9.0.sif
-#  ln -s ~/deepsomatic_1.9.0_sandbox  ~/deepsomatic_sandbox 
-#  cp -r ~/deepsomatic_sandbox $HP_BDIR
-#fi
+#singularity pull $HP_BDIR/clair3.sif      docker://hkubal/clair3:v1.2.0
+#singularity pull $HP_BDIR/clairs.sif      docker://hkubal/clairs-to:v0.4.2
+#singularity pull $HP_BDIR/deepvariant.sif docker://google/deepvariant:1.10.0-beta
+#singularity pull $HP_BDIR/deepsomatic.sif docker://google/deepsomatic:1.9.0
 
 ####################################################################################
 
