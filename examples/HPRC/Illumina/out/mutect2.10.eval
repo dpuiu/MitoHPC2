@@ -1,0 +1,16 @@
+:all                                            
+qry                    snv  TP    FN  FP  S  P  F1
+mutect2.10.concat.vcf  .    1839  0   0   1  1  1
+mutect2.10.concat.vcf  snp  1721  0   0   1  1  1
+mutect2.10.concat.vcf  ins  81    0   0   1  1  1
+mutect2.10.concat.vcf  del  39    0   0   1  1  1
+:hom                                            
+mutect2.10.concat.vcf  .    1789  0   0   1  1  1
+mutect2.10.concat.vcf  snp  1694  0   0   1  1  1
+mutect2.10.concat.vcf  ins  59    0   0   1  1  1
+mutect2.10.concat.vcf  del  36    0   0   1  1  1
+:het                                            
+mutect2.10.concat.vcf  .    50    0   0   1  1  1
+mutect2.10.concat.vcf  snp  27    0   0   1  1  1
+mutect2.10.concat.vcf  ins  22    0   0   1  1  1
+mutect2.10.concat.vcf  del  3     0   0   1  1  1

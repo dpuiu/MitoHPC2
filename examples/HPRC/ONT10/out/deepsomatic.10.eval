@@ -1,0 +1,16 @@
+:all                                                       
+qry                        snv  TP    FN  FP   S     P     F1
+deepsomatic.10.concat.vcf  .    1831  8   460  1     0.8   0.89
+deepsomatic.10.concat.vcf  snp  1715  6   79   1     0.96  0.98
+deepsomatic.10.concat.vcf  ins  77    4   2    0.95  0.97  0.96
+deepsomatic.10.concat.vcf  del  37    2   381  0.95  0.09  0.16
+:hom                                                       
+deepsomatic.10.concat.vcf  .    1747  42  9    0.98  0.99  0.99
+deepsomatic.10.concat.vcf  snp  1689  5   9    1     0.99  1
+deepsomatic.10.concat.vcf  ins  22    37  2    0.37  0.92  0.53
+deepsomatic.10.concat.vcf  del  34    2   0    0.94  1     0.97
+:het                                                       
+deepsomatic.10.concat.vcf  .    43    7   494  0.86  0.08  0.15
+deepsomatic.10.concat.vcf  snp  21    6   75   0.78  0.22  0.34
+deepsomatic.10.concat.vcf  ins  19    3   38   0.86  0.33  0.48
+deepsomatic.10.concat.vcf  del  3     0   381  1     0.01  0.02

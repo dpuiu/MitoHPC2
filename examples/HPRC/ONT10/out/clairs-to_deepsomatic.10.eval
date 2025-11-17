@@ -1,0 +1,16 @@
+clairs-to_deepsomatic.10:all                                        
+qry                                  snv  TP    FN  FP  S     P     F1
+clairs-to_deepsomatic.10.concat.vcf  .    1826  13  11  0.99  0.99  0.99
+clairs-to_deepsomatic.10.concat.vcf  snp  1714  7   12  1     0.99  0.99
+clairs-to_deepsomatic.10.concat.vcf  ins  75    6   1   0.93  0.99  0.96
+clairs-to_deepsomatic.10.concat.vcf  del  35    4   0   0.9   1     0.95
+clairs-to_deepsomatic.10:hom                                        
+clairs-to_deepsomatic.10.concat.vcf  .    1725  64  6   0.96  1     0.98
+clairs-to_deepsomatic.10.concat.vcf  snp  1688  6   8   1     1     1
+clairs-to_deepsomatic.10.concat.vcf  ins  1     58  0   0.02  1     0.03
+clairs-to_deepsomatic.10.concat.vcf  del  34    2   0   0.94  1     0.97
+clairs-to_deepsomatic.10:het                                        
+clairs-to_deepsomatic.10.concat.vcf  .    40    10  66  0.8   0.38  0.51
+clairs-to_deepsomatic.10.concat.vcf  snp  21    6   9   0.78  0.7   0.74
+clairs-to_deepsomatic.10.concat.vcf  ins  18    4   57  0.82  0.24  0.37
+clairs-to_deepsomatic.10.concat.vcf  del  1     2   0   0.33  1     0.5
