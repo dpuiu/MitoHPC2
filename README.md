@@ -62,13 +62,9 @@ Make sure the VCF/BED files are gzipped and indexed.
 
 Check https://github.com/dpuiu/MitoHPC/blob/main/README.md first !!!
 
-Copies of the  Clair3, ClairS-To, DeepVarian, DeepSomatic SIF files can be found at:
+Copies of the  Clair3, ClairS-To, DeepVarian, DeepSomatic SIF files can be found at [ftp](ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/)
 
-    ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/
-
-Copies of the HPRC BAM alignments  can be found at:
-  
-    ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/examples/HPRC/
+Copies of the HPRC samples BAM alignments can be found at [ftp](ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/examples/HPRC/)
 
 ## SINGLE SNV CALLER (Illumina)
 
