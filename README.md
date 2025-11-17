@@ -157,8 +157,8 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 ### HiFi10 ###
 
 * Note: 
-** 1st number: short read heteroplasmy thold
-** 2nd: long read heteroplasmy thold
+** 1st number: short read heteroplasmy thold  
+** 2nd: long read heteroplasmy thold  
 
 * clairs-to: 
 [10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.10.10.eval), 
