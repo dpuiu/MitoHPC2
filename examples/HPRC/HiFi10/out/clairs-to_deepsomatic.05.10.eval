@@ -1,0 +1,16 @@
+HiFi10                                                     
+:all                                                       
+qry                       snv  TP    FN  FP  S      P      F1
+clairs-to_deepsomatic.10  .    1799  54  7   0.971  0.996  0.983
+clairs-to_deepsomatic.10  snp  1688  45  8   0.974  0.995  0.985
+clairs-to_deepsomatic.10  ins  75    7   1   0.915  0.987  0.949
+clairs-to_deepsomatic.10  del  34    6   0   0.85   1      0.919
+:homoplasmies                                              
+clairs-to_deepsomatic.10  .    1739  42  18  0.976  0.99   0.983
+clairs-to_deepsomatic.10  snp  1660  33  10  0.981  0.994  0.987
+clairs-to_deepsomatic.10  ins  43    9   10  0.827  0.811  0.819
+clairs-to_deepsomatic.10  del  34    2   0   0.944  1      0.971
+:heteroplasmies                                            
+clairs-to_deepsomatic.10  snp  24    16  2   0.6    0.923  0.727
+clairs-to_deepsomatic.10  ins  16    14  7   0.533  0.696  0.604
+clairs-to_deepsomatic.10  del  0     4   0   0      .      .

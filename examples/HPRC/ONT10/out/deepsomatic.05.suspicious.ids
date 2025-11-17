@@ -1,0 +1,8 @@
+Run	Suspicious
+HG00741	multiple_NUMTs
+HG01071	mean_cvg_less_500
+HG01891	mean_cvg_less_500
+HG01978	mismatch_HG
+HG02257	multiple_NUMTs
+HG02572	multiple_NUMTs
+HG03540	mismatch_HG;multiple_NUMTs
