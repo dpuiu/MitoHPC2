@@ -1,0 +1,57 @@
+##fileformat=VCFv4.2
+##FILTER=<ID=PASS,Description="All filters passed">
+##source=deepsomatic
+##FILTER=<ID=RefCall,Description="Genotyping model thinks this site is reference.">
+##FILTER=<ID=LowQual,Description="Confidence in this variant being real is below calling threshold.">
+##FILTER=<ID=NoCall,Description="Site has depth=0 resulting in no call.">
+##FILTER=<ID=GERMLINE,Description="Non somatic variants">
+##INFO=<ID=END,Number=1,Type=Integer,Description="End position (for use with symbolic alleles)">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Read depth">
+##FORMAT=<ID=AD,Number=R,Type=Integer,Description="Read depth for each allele">
+##FORMAT=<ID=AF,Number=A,Type=Float,Description="Variant allele fractions.">
+##INFO=<ID=SM,Number=1,Type=String,Description="Sample">
+##INFO=<ID=SNP,Number=0,Type=Flag,Description="SNP">
+##INFO=<ID=INDEL,Number=0,Type=Flag,Description="INDEL">
+##FORMAT=<ID=SM,Number=1,Type=String,Description="Sample">
+##DeepVariant_version=1.9.0
+##contig=<ID=chrM>
+##INFO=<ID=CLNDN,Number=.,Type=String,Description="Preferred ClinVar disease name">
+##INFO=<ID=CDS,Number=1,Type=String,Description=CDS>
+##INFO=<ID=COMPLEX,Number=1,Type=String,Description=COMPLEX>
+##INFO=<ID=DLOOP,Number=1,Type=String,Description=DLOOP>
+##INFO=<ID=homopolymer,Number=1,Type=String,Description=homopolymer>
+##INFO=<ID=Homopolymer,Number=1,Type=String,Description=Homopolymer>
+##INFO=<ID=Hotspot,Number=1,Type=String,Description=Hotspot>
+##INFO=<ID=Hypervariable,Number=1,Type=String,Description=Hypervariable>
+##INFO=<ID=MCC,Number=1,Type=String,Description=MCC>
+##INFO=<ID=RNR,Number=1,Type=String,Description=RNR>
+##INFO=<ID=TRN,Number=1,Type=String,Description=TRN>
+##INFO=<ID=gnomAD31_AC_hom,Number=1,Type=Integer,Description="gnomAD31_AC_hom">
+##INFO=<ID=gnomAD31_AC_het,Number=1,Type=Integer,Description="gnomAD31_AC_het">
+##INFO=<ID=gnomAD31_AF_hom,Number=1,Type=Float,Description="gnomAD31_AF_hom">
+##INFO=<ID=gnomAD31_AF_het,Number=1,Type=Float,Description="gnomAD31_AF_het">
+##INFO=<ID=gnomAD31_AN,Number=1,Type=Integer,Description="gnomAD31_AN">
+##INFO=<ID=gnomAD31_max_ARF,Number=1,Type=Float,Description="gnomAD31_max_ARF">
+##INFO=<ID=HelixMTdb_AC_hom,Number=1,Type=Integer,Description="HelixMTdb_AC_hom">
+##INFO=<ID=HelixMTdb_AC_het,Number=1,Type=Integer,Description="HelixMTdb_AC_het">
+##INFO=<ID=HelixMTdb_AF_hom,Number=1,Type=Float,Description="HelixMTdb_AF_hom">
+##INFO=<ID=HelixMTdb_AF_het,Number=1,Type=Float,Description="HelixMTdb_AF_het">
+##INFO=<ID=HelixMTdb_AN,Number=1,Type=Integer,Description="HelixMTdb_AN">
+##INFO=<ID=HelixMTdb_max_ARF,Number=1,Type=Float,Description="HelixMTdb_max_ARF">
+##INFO=<ID=HG,Number=1,Type=String,Description="haplogroup">
+##INFO=<ID=MitImpact_APOGEE1_score,Number=1,Type=Float,Description="MitImpact_APOGEE1_score">
+##INFO=<ID=MitImpact_APOGEE1,Number=1,Type=String,Description="MitImpact_APOGEE1">
+##INFO=<ID=MITOMAP_Disease,Number=1,Type=String,Description="MITOMAP_Disease">
+##INFO=<ID=MITOMAP_Status,Number=1,Type=String,Description="MITOMAP_Status">
+##INFO=<ID=MITOMAP_Update,Number=1,Type=String,Description="MITOMAP_Update">
+##INFO=<ID=MLC_consq,Number=2,Type=String,Description="New YALE Mito_score(consequence)">
+##INFO=<ID=MLC_score,Number=1,Type=String,Description="New YALE Mito_score(mito_lc_score)">
+##INFO=<ID=NONSYN,Number=0,Type=Flag,Description="NONSYN mutation">
+##INFO=<ID=NUMT,Number=1,Type=String,Description="NUMT">
+##INFO=<ID=UKB_mutect2_Nature_20230816_AC_hom,Number=1,Type=Integer,Description="UKB_mutect2_Nature_20230816_AC_hom">
+##INFO=<ID=UKB_mutect2_Nature_20230816_AC_het,Number=1,Type=Integer,Description="UKB_mutect2_Nature_20230816_AC_het">
+##INFO=<ID=UKB_mutect2_Nature_20230816_AF_hom,Number=1,Type=Integer,Description="UKB_mutect2_Nature_20230816_AF_hom">
+##INFO=<ID=UKB_mutect2_Nature_20230816_AF_het,Number=1,Type=Float,Description="UKB_mutect2_Nature_20230816_AF_het">
+##INFO=<ID=UKB_mutect2_Nature_20230816_AN,Number=1,Type=Integer,Description="UKB_mutect2_Nature_20230816_AN">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	SAMPLE

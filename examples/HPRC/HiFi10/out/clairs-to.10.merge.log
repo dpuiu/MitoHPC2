@@ -1,0 +1,38 @@
+PLINK v2.0.0-a.6.13LM 64-bit Intel (15 May 2025)
+Options in effect:
+  --make-bed
+  --out /data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/HPRC/HiFi10/out//clairs-to.10.merge
+  --vcf /data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/HPRC/HiFi10/out//clairs-to.10.merge.vcf
+
+Hostname: c696
+Working directory: /data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/HPRC/HiFi10
+Start time: Mon Nov 17 10:06:00 2025
+
+Random number seed: 1763391960
+193096 MiB RAM detected, ~159466 available; reserving 96548 MiB for main
+workspace.
+Using up to 3 compute threads.
+--vcf: 439 variants scanned.
+--vcf:
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/HPRC/HiFi10/out//clairs-to.10.merge-temporary.pgen
++
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/HPRC/HiFi10/out//clairs-to.10.merge-temporary.pvar.zst
++
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/HPRC/HiFi10/out//clairs-to.10.merge-temporary.psam
+written.
+39 samples (0 females, 0 males, 39 ambiguous; 39 founders) loaded from
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/HPRC/HiFi10/out//clairs-to.10.merge-temporary.psam.
+439 variants loaded from
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/HPRC/HiFi10/out//clairs-to.10.merge-temporary.pvar.zst.
+Note: No phenotype data present.
+Writing
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/HPRC/HiFi10/out//clairs-to.10.merge.fam
+... done.
+Writing
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/HPRC/HiFi10/out//clairs-to.10.merge.bim
+... done.
+Writing
+/data/darking1/projects/mito/Heteroplasmy/MitoHPC2/examples/HPRC/HiFi10/out//clairs-to.10.merge.bed
+... done.
+
+End time: Mon Nov 17 10:06:00 2025
