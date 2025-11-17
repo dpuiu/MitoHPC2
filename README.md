@@ -154,12 +154,17 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 
 ## 39 HPRC samples ##
 
-* HiFi10
+### HiFi10 ###
 
-** [clairs-to.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.10.eval)
+** [clairs-to.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.10.eval)  
+
 ** [deepsomatic.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.10.eval)
 
-* ONT10
+### ONT10 ###
 
-** [clairs-to.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.10.eval)
+** [clairs-to.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.10.eval)  
+
 ** [deepsomatic.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.10.eval)
+
+** [clairs-to_deepsomatic.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to_deepsomatic.10.eval)
+
