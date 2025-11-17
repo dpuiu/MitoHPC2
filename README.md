@@ -156,7 +156,8 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 
 ### HiFi10 ###
 
-* Note: 
+* Note:   
+
 ** 1st number: short read heteroplasmy thold  
 ** 2nd: long read heteroplasmy thold  
 
