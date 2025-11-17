@@ -4,8 +4,8 @@ Pipeline for Calling Mitochondrial Homoplasmies and Heteroplasmies
 
 # Citing #
 
-A bioinformatics pipeline for estimating mitochondrial DNA copy number and heteroplasmy levels from whole genome sequencing data, Battle et. al, NAR 2022
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/ 
+A bioinformatics pipeline for estimating mitochondrial DNA copy number and heteroplasmy levels from whole genome sequencing data, Battle et. al, 
+[NAR 2022](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/)
 
 # Prerequisites # 
 
@@ -50,7 +50,7 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/
      ./install_prerequisites.sh
      ./checkInstall.sh
 
-For additional information check https://github.com/dpuiu/MitoHPC/blob/main/README.md
+For additional information check [MitoHPC README](https://github.com/dpuiu/MitoHPC/blob/main/README.md) 
 
 ## CUSTOM ANNOTATION ## 
 
@@ -60,7 +60,7 @@ Make sure the VCF/BED files are gzipped and indexed.
 
 # RUN #
 
-Check https://github.com/dpuiu/MitoHPC/blob/main/README.md first !!!
+Check [MitoHPC README](https://github.com/dpuiu/MitoHPC/blob/main/README.md) first !!!
 
 Copies of the  Clair3, ClairS-To, DeepVarian, DeepSomatic SIF files can be found at [ftp](ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/)
 
