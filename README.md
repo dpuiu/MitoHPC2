@@ -156,15 +156,33 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 
 ### HiFi10 ###
 
-* [clairs-to.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.10.eval)  
 
-* [deepsomatic.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.10.eval)
+* clairs-to: (1st number:sort read heteroplasmy thold, 2nd:long read heteroplasmy thold)
+[clairs-to.10.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.10.10.eval),
+[clairs-to.05.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.05.10.eval),
+[clairs-to.10.05.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.10.05.eval),
+[clairs-to.05.05.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.05.05.eval) 
+
+* deepsomatic:
+[deepsomatic.10.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.10.10.eval),
+[deepsomatic.05.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.05.10.eval),
+[deepsomatic.10.05.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.10.05.eval),
+[deepsomatic.05.05.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.05.05.eval)
 
 ### ONT10 ###
 
-* [clairs-to.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.10.eval)  
+* clairs-to:
+[clairs-to.10.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.10.10.eval),
+[clairs-to.05.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.05.10.eval),
+[clairs-to.10.05.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.10.05.eval),
+[clairs-to.05.05.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.05.05.eval)
 
-* [deepsomatic.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.10.eval)
+* deepsomatic:
+[deepsomatic.10.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.10.10.eval),
+[deepsomatic.05.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.05.10.eval),
+[deepsomatic.10.05.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.10.05.eval),
+[deepsomatic.05.05.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.05.05.eval)
 
-* [clairs-to_deepsomatic.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to_deepsomatic.10.eval)
+* clairs-to intersect deepsomatic:
+[clairs-to_deepsomatic.10.eval](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to_deepsomatic.10.10.eval)
 
