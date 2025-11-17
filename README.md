@@ -62,6 +62,14 @@ Make sure the VCF/BED files are gzipped and indexed.
 
 Check https://github.com/dpuiu/MitoHPC/blob/main/README.md first !!!
 
+Copies of the  Clair3, ClairS-To, DeepVarian, DeepSomatic SIF files can be found at:
+
+    ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/
+
+Copies of the HPRC BAM alignments  can be found at:
+  
+    ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/examples/HPRC/
+
 ## SINGLE SNV CALLER (Illumina)
 
     # copy init file to work directory
@@ -70,8 +78,7 @@ Check https://github.com/dpuiu/MitoHPC/blob/main/README.md first !!!
     # edit SNV caller if needed
     nano ./init.sh 
       ...
-      export HP_M=mutect2          # or mutserve,freebayes,varscan,clair3,deepvariant
-      ...
+      export HP_M=mutect2          # mutect2,mutserve,freebayes,varscan
 
     # init
     . ./init.sh
@@ -95,12 +102,11 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
       export HP_M2=varscan
       export HP_M3=freebayes
       export HP_M=merge3
-      ...
 
     . ./init3.sh
 
     # run
-    $HP_SDIR/run3.sh | tee run3.all.sh | bash       
+    $HP_SDIR/run3.sh | tee run.all.sh | bash       
 
     # output
     ls $HP_ODIR/merge3.*
@@ -111,8 +117,11 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
     cp $HP_SDIR/init.hifi.sh .
 
     # edit init.lr.sh; set the SNV caller
-    nano init.hifi.sh
-      HP_M=deepsomatic  # or varscan,bcftools,clair3,clairs-to,deepvariant,deepsomatic
+    cat init.hifi.sh
+      ...
+      export HP_M=deepsomatic                       # varscan,bcftools,clair3,clairs-to,deepvariant,deepsomatic
+      export HP_PLATFORM="hifi_revio"		    # used by clairs-to
+      export HP_MODELTYPE="PACBIO_TUMOR_ONLY"       # used by deepsomatic
 
     # init
     . ./init.hifi.sh
@@ -123,8 +132,11 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
     cp $HP_SDIR/init.ont.sh .
 
     # edit init.lr.sh; set the SNV caller
-    nano init.ont.sh
-      HP_M=clairs-to  # or varscan,bcftools,clair3,clairs-to,deepvariant,deepsomatic
+    cat init.ont.sh
+      ...
+      export HP_M=clairs-to                         # varscan,bcftools,clair3,clairs-to,deepvariant,deepsomatic
+      export HP_PLATFORM="ont_r10_dorado_sup_5khz"  # used by clairs-to ; ont_r10_dorado_sup_4khz, ont_r10_dorado_hac_4khz, ont_r10_dorado_sup_5khz, ont_r10_dorado_sup_5khz_ss, ont_r10_dorado_sup_5khz_ssrs
+      export HP_MODELTYPE="ONT_TUMOR_ONLY"	    # used by deepsomatic
 
     # init
     . ./init.ont.sh
@@ -132,17 +144,18 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 ## SNV CALLER LONG READS
 
     # run
-    $HP_SDIR/run.lr.sh | tee run.lr.all.sh | bash
+    $HP_SDIR/run.lr.sh | tee run.all.sh | bash
 
     # check output
     ls $HP_ODIR/.*
 
     # evaluate results(compare to Illumina mutect2 T=10)             
-    $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf $HP_M.10.concat.vcf
+    $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf $HP_M.10.concat.vcf | uniq.pl | column -t > $HP_M.10.eval
 
 # Examples #
 
 ## 30 Simulated samples ##
 
 ## 39 HPRC samples ##
+
 
