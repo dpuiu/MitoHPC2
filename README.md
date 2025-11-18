@@ -154,7 +154,7 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 
 ## 39 HPRC samples ##
 
-* Note: 1st number: short read heteroplasmy thold;  2nd: long read heteroplasmy thold
+* [Sequence information](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/examples/HPRC/summary.txt)
 
 ### HiFi10 ###
 
@@ -191,4 +191,6 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 [05.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.05.05.eval),
 [10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.10.00.eval),
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.05.00.eval)
+
+Note: 1st number: short read heteroplasmy thold;  2nd: long read heteroplasmy thold
 
