@@ -154,7 +154,7 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 
 ## 39 HPRC samples ##
 
-* [Sequence information](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/examples/HPRC/summary.txt)
+* [Sequence information](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/summary.txt)
 
 ### HiFi10 ###
 
