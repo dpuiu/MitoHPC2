@@ -154,9 +154,9 @@ MAIN:
 	$P=$TP/($TP+$FP)    if($TP+$FP);
 	$F1=2*$S*$P/($S+$P) if($S=~/\d/ and $P=~/\d/ and $S+$P);
 
-	$S=int($S*100+.5)/100   unless($S eq ".");
-	$P=int($P*100+.5)/100   unless($P eq ".");
-	$F1=int($F1*100+.5)/100 unless($F1 eq ".");
+	$S=int($S*1000+.5)/1000   unless($S eq ".");
+	$P=int($P*1000+.5)/1000   unless($P eq ".");
+	$F1=int($F1*1000+.5)/1000 unless($F1 eq ".");
 
 	my $snv=".";
 	if($opt{snp})      { $snv="snp"}
@@ -165,6 +165,9 @@ MAIN:
 	
 	if($opt{noh}) { $opt{noh}=1}
 	else {$opt{noh}="."}
+
+	$ARGV[1]=~s/out\///;
+	$ARGV[1]=~s/.concat.vcf//;
 
         print join "\t",("qry","snv","TP","FN","FP","S","P","F1"); print "\n";
         print join "\t",($ARGV[1],$snv,$TP,$FN,$FP,$S,$P,$F1); print "\n";

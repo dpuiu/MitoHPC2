@@ -1,0 +1,16 @@
+Run	Suspicious
+HG00438	mean_cvg_less_500
+HG00735	mean_cvg_less_500
+HG00741	mean_cvg_less_500;min_cvg_less_100
+HG01071	mean_cvg_less_500;min_cvg_less_100
+HG01106	mean_cvg_less_500;min_cvg_less_100
+HG01109	mean_cvg_less_500
+HG01175	mean_cvg_less_500
+HG01928	mean_cvg_less_500;min_cvg_less_100
+HG01952	mean_cvg_less_500
+HG01978	mean_cvg_less_500;min_cvg_less_100
+HG02080	mean_cvg_less_500
+HG02622	mean_cvg_less_500;min_cvg_less_100
+HG03098	mean_cvg_less_500;min_cvg_less_100
+HG03516	mean_cvg_less_500
+NA18906	mean_cvg_less_500

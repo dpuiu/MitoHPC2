@@ -1,47 +1,39 @@
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG002/HiFi-to-reference/HG002.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG00438/HiFi-to-reference/HG00438.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG005/HiFi-to-reference/HG005.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG00621/HiFi-to-reference/HG00621.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG00673/HiFi-to-reference/HG00673.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG00733/HiFi-to-reference/HG00733.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG00735/HiFi-to-reference/HG00735.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG00741/HiFi-to-reference/HG00741.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01071/HiFi-to-reference/HG01071.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01106/HiFi-to-reference/HG01106.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01109/HiFi-to-reference/HG01109.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01123/HiFi-to-reference/HG01123.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01175/HiFi-to-reference/HG01175.GRCh38_no_alt.bam
-#s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01243/HiFi-to-reference/HG01243.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01258/HiFi-to-reference/HG01258.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01358/HiFi-to-reference/HG01358.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01361/HiFi-to-reference/HG01361.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01891/HiFi-to-reference/HG01891.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01928/HiFi-to-reference/HG01928.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01952/HiFi-to-reference/HG01952.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01978/HiFi-to-reference/HG01978.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02055/HiFi-to-reference/HG02055.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02080/HiFi-to-reference/HG02080.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02109/HiFi-to-reference/HG02109.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02145/HiFi-to-reference/HG02145.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02148/HiFi-to-reference/HG02148.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02257/HiFi-to-reference/HG02257.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02486/HiFi-to-reference/HG02486.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02559/HiFi-to-reference/HG02559.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02572/HiFi-to-reference/HG02572.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02622/HiFi-to-reference/HG02622.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02630/HiFi-to-reference/HG02630.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02717/HiFi-to-reference/HG02717.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02723/HiFi-to-reference/HG02723.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02818/HiFi-to-reference/HG02818.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02886/HiFi-to-reference/HG02886.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG03098/HiFi-to-reference/HG03098.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG03453/HiFi-to-reference/HG03453.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG03486/HiFi-to-reference/HG03486.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG03492/HiFi-to-reference/HG03492.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG03516/HiFi-to-reference/HG03516.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG03540/HiFi-to-reference/HG03540.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG03579/HiFi-to-reference/HG03579.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/NA18906/HiFi-to-reference/NA18906.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/NA19240/HiFi-to-reference/NA19240.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/NA20129/HiFi-to-reference/NA20129.GRCh38_no_alt.bam
-s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/NA21309/HiFi-to-reference/NA21309.GRCh38_no_alt.bam
+HG00438	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG00438/HiFi-to-reference/HG00438.GRCh38_no_alt.bam
+HG00621	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG00621/HiFi-to-reference/HG00621.GRCh38_no_alt.bam
+HG00673	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG00673/HiFi-to-reference/HG00673.GRCh38_no_alt.bam
+HG00733	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG00733/HiFi-to-reference/HG00733.GRCh38_no_alt.bam
+HG00735	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG00735/HiFi-to-reference/HG00735.GRCh38_no_alt.bam
+HG00741	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG00741/HiFi-to-reference/HG00741.GRCh38_no_alt.bam
+HG01071	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01071/HiFi-to-reference/HG01071.GRCh38_no_alt.bam
+HG01106	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01106/HiFi-to-reference/HG01106.GRCh38_no_alt.bam
+HG01109	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01109/HiFi-to-reference/HG01109.GRCh38_no_alt.bam
+HG01175	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01175/HiFi-to-reference/HG01175.GRCh38_no_alt.bam
+HG01258	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01258/HiFi-to-reference/HG01258.GRCh38_no_alt.bam
+HG01358	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01358/HiFi-to-reference/HG01358.GRCh38_no_alt.bam
+HG01361	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01361/HiFi-to-reference/HG01361.GRCh38_no_alt.bam
+HG01891	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01891/HiFi-to-reference/HG01891.GRCh38_no_alt.bam
+HG01928	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01928/HiFi-to-reference/HG01928.GRCh38_no_alt.bam
+HG01952	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01952/HiFi-to-reference/HG01952.GRCh38_no_alt.bam
+HG01978	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG01978/HiFi-to-reference/HG01978.GRCh38_no_alt.bam
+HG02055	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02055/HiFi-to-reference/HG02055.GRCh38_no_alt.bam
+HG02080	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02080/HiFi-to-reference/HG02080.GRCh38_no_alt.bam
+HG02145	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02145/HiFi-to-reference/HG02145.GRCh38_no_alt.bam
+HG02148	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02148/HiFi-to-reference/HG02148.GRCh38_no_alt.bam
+HG02257	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02257/HiFi-to-reference/HG02257.GRCh38_no_alt.bam
+HG02572	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02572/HiFi-to-reference/HG02572.GRCh38_no_alt.bam
+HG02622	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02622/HiFi-to-reference/HG02622.GRCh38_no_alt.bam
+HG02630	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02630/HiFi-to-reference/HG02630.GRCh38_no_alt.bam
+HG02717	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02717/HiFi-to-reference/HG02717.GRCh38_no_alt.bam
+HG02723	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02723/HiFi-to-reference/HG02723.GRCh38_no_alt.bam
+HG02818	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02818/HiFi-to-reference/HG02818.GRCh38_no_alt.bam
+HG02886	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG02886/HiFi-to-reference/HG02886.GRCh38_no_alt.bam
+HG03098	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG03098/HiFi-to-reference/HG03098.GRCh38_no_alt.bam
+HG03453	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG03453/HiFi-to-reference/HG03453.GRCh38_no_alt.bam
+HG03486	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG03486/HiFi-to-reference/HG03486.GRCh38_no_alt.bam
+HG03492	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG03492/HiFi-to-reference/HG03492.GRCh38_no_alt.bam
+HG03516	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG03516/HiFi-to-reference/HG03516.GRCh38_no_alt.bam
+HG03540	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG03540/HiFi-to-reference/HG03540.GRCh38_no_alt.bam
+HG03579	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/HG03579/HiFi-to-reference/HG03579.GRCh38_no_alt.bam
+NA18906	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/NA18906/HiFi-to-reference/NA18906.GRCh38_no_alt.bam
+NA19240	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/NA19240/HiFi-to-reference/NA19240.GRCh38_no_alt.bam
+NA20129	s3://human-pangenomics/submissions/b56f2db9-e93f-4e1a-99fe-cb66962dd564--Yale_HPP_Year1_Alignments/NA20129/HiFi-to-reference/NA20129.GRCh38_no_alt.bam

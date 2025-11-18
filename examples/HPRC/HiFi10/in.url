@@ -1,39 +1,39 @@
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG00438/alignments/GRCh38_no_alt/hifi_reads/HG00438.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG00621/alignments/GRCh38_no_alt/hifi_reads/HG00621.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG00673/alignments/GRCh38_no_alt/hifi_reads/HG00673.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG00733/alignments/GRCh38_no_alt/hifi_reads/HG00733.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG00735/alignments/GRCh38_no_alt/hifi_reads/HG00735.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG00741/alignments/GRCh38_no_alt/hifi_reads/HG00741.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01071/alignments/GRCh38_no_alt/hifi_reads/HG01071.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01106/alignments/GRCh38_no_alt/hifi_reads/HG01106.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01109/alignments/GRCh38_no_alt/hifi_reads/HG01109.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01175/alignments/GRCh38_no_alt/hifi_reads/HG01175.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01243/alignments/GRCh38_no_alt/hifi_reads/HG01243.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01258/alignments/GRCh38_no_alt/hifi_reads/HG01258.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01358/alignments/GRCh38_no_alt/hifi_reads/HG01358.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01361/alignments/GRCh38_no_alt/hifi_reads/HG01361.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01891/alignments/GRCh38_no_alt/hifi_reads/HG01891.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01928/alignments/GRCh38_no_alt/hifi_reads/HG01928.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01952/alignments/GRCh38_no_alt/hifi_reads/HG01952.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01978/alignments/GRCh38_no_alt/hifi_reads/HG01978.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02055/alignments/GRCh38_no_alt/hifi_reads/HG02055.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02080/alignments/GRCh38_no_alt/hifi_reads/HG02080.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02145/alignments/GRCh38_no_alt/hifi_reads/HG02145.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02148/alignments/GRCh38_no_alt/hifi_reads/HG02148.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02257/alignments/GRCh38_no_alt/hifi_reads/HG02257.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02572/alignments/GRCh38_no_alt/hifi_reads/HG02572.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02622/alignments/GRCh38_no_alt/hifi_reads/HG02622.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02630/alignments/GRCh38_no_alt/hifi_reads/HG02630.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02717/alignments/GRCh38_no_alt/hifi_reads/HG02717.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02723/alignments/GRCh38_no_alt/hifi_reads/HG02723.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02818/alignments/GRCh38_no_alt/hifi_reads/HG02818.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02886/alignments/GRCh38_no_alt/hifi_reads/HG02886.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG03098/alignments/GRCh38_no_alt/hifi_reads/HG03098.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG03453/alignments/GRCh38_no_alt/hifi_reads/HG03453.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG03486/alignments/GRCh38_no_alt/hifi_reads/HG03486.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG03516/alignments/GRCh38_no_alt/hifi_reads/HG03516.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG03540/alignments/GRCh38_no_alt/hifi_reads/HG03540.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG03579/alignments/GRCh38_no_alt/hifi_reads/HG03579.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/NA18906/alignments/GRCh38_no_alt/hifi_reads/NA18906.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/NA19240/alignments/GRCh38_no_alt/hifi_reads/NA19240.GRCh38_no_alt.sorted.bam
-s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/NA20129/alignments/GRCh38_no_alt/hifi_reads/NA20129.GRCh38_no_alt.sorted.bam
+HG00438	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG00438/alignments/GRCh38_no_alt/hifi_reads/HG00438.GRCh38_no_alt.sorted.bam
+HG00621	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG00621/alignments/GRCh38_no_alt/hifi_reads/HG00621.GRCh38_no_alt.sorted.bam
+HG00673	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG00673/alignments/GRCh38_no_alt/hifi_reads/HG00673.GRCh38_no_alt.sorted.bam
+HG00733	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG00733/alignments/GRCh38_no_alt/hifi_reads/HG00733.GRCh38_no_alt.sorted.bam
+HG00735	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG00735/alignments/GRCh38_no_alt/hifi_reads/HG00735.GRCh38_no_alt.sorted.bam
+HG00741	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG00741/alignments/GRCh38_no_alt/hifi_reads/HG00741.GRCh38_no_alt.sorted.bam
+HG01071	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01071/alignments/GRCh38_no_alt/hifi_reads/HG01071.GRCh38_no_alt.sorted.bam
+HG01106	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01106/alignments/GRCh38_no_alt/hifi_reads/HG01106.GRCh38_no_alt.sorted.bam
+HG01109	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01109/alignments/GRCh38_no_alt/hifi_reads/HG01109.GRCh38_no_alt.sorted.bam
+HG01175	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01175/alignments/GRCh38_no_alt/hifi_reads/HG01175.GRCh38_no_alt.sorted.bam
+HG01258	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01258/alignments/GRCh38_no_alt/hifi_reads/HG01258.GRCh38_no_alt.sorted.bam
+HG01358	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01358/alignments/GRCh38_no_alt/hifi_reads/HG01358.GRCh38_no_alt.sorted.bam
+HG01361	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01361/alignments/GRCh38_no_alt/hifi_reads/HG01361.GRCh38_no_alt.sorted.bam
+HG01891	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01891/alignments/GRCh38_no_alt/hifi_reads/HG01891.GRCh38_no_alt.sorted.bam
+HG01928	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01928/alignments/GRCh38_no_alt/hifi_reads/HG01928.GRCh38_no_alt.sorted.bam
+HG01952	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01952/alignments/GRCh38_no_alt/hifi_reads/HG01952.GRCh38_no_alt.sorted.bam
+HG01978	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG01978/alignments/GRCh38_no_alt/hifi_reads/HG01978.GRCh38_no_alt.sorted.bam
+HG02055	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02055/alignments/GRCh38_no_alt/hifi_reads/HG02055.GRCh38_no_alt.sorted.bam
+HG02080	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02080/alignments/GRCh38_no_alt/hifi_reads/HG02080.GRCh38_no_alt.sorted.bam
+HG02145	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02145/alignments/GRCh38_no_alt/hifi_reads/HG02145.GRCh38_no_alt.sorted.bam
+HG02148	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02148/alignments/GRCh38_no_alt/hifi_reads/HG02148.GRCh38_no_alt.sorted.bam
+HG02257	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02257/alignments/GRCh38_no_alt/hifi_reads/HG02257.GRCh38_no_alt.sorted.bam
+HG02572	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02572/alignments/GRCh38_no_alt/hifi_reads/HG02572.GRCh38_no_alt.sorted.bam
+HG02622	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02622/alignments/GRCh38_no_alt/hifi_reads/HG02622.GRCh38_no_alt.sorted.bam
+HG02630	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02630/alignments/GRCh38_no_alt/hifi_reads/HG02630.GRCh38_no_alt.sorted.bam
+HG02717	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02717/alignments/GRCh38_no_alt/hifi_reads/HG02717.GRCh38_no_alt.sorted.bam
+HG02723	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02723/alignments/GRCh38_no_alt/hifi_reads/HG02723.GRCh38_no_alt.sorted.bam
+HG02818	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02818/alignments/GRCh38_no_alt/hifi_reads/HG02818.GRCh38_no_alt.sorted.bam
+HG02886	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG02886/alignments/GRCh38_no_alt/hifi_reads/HG02886.GRCh38_no_alt.sorted.bam
+HG03098	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG03098/alignments/GRCh38_no_alt/hifi_reads/HG03098.GRCh38_no_alt.sorted.bam
+HG03453	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG03453/alignments/GRCh38_no_alt/hifi_reads/HG03453.GRCh38_no_alt.sorted.bam
+HG03486	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG03486/alignments/GRCh38_no_alt/hifi_reads/HG03486.GRCh38_no_alt.sorted.bam
+HG03516	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG03516/alignments/GRCh38_no_alt/hifi_reads/HG03516.GRCh38_no_alt.sorted.bam
+HG03540	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG03540/alignments/GRCh38_no_alt/hifi_reads/HG03540.GRCh38_no_alt.sorted.bam
+HG03579	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/HG03579/alignments/GRCh38_no_alt/hifi_reads/HG03579.GRCh38_no_alt.sorted.bam
+NA18906	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/NA18906/alignments/GRCh38_no_alt/hifi_reads/NA18906.GRCh38_no_alt.sorted.bam
+NA19240	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/NA19240/alignments/GRCh38_no_alt/hifi_reads/NA19240.GRCh38_no_alt.sorted.bam
+NA20129	s3://human-pangenomics/submissions/40399FDD-59DE-43D1-B3A3-DFF0C6E64FAC--YALE_VARIANT_CALLS_R2/samples/NA20129/alignments/GRCh38_no_alt/hifi_reads/NA20129.GRCh38_no_alt.sorted.bam
+HG03492	s3://human-pangenomics/T2T/CHM13/assemblies/alignments/others/v1.0/HG03492vsCHM13v1.0.hifi.mm_2.17.bam

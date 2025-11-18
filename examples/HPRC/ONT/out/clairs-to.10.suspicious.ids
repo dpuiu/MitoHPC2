@@ -1,0 +1,13 @@
+Run	Suspicious
+HG00733	mean_cvg_less_500
+HG00741	multiple_NUMTs
+HG01071	multiple_NUMTs
+HG01106	mean_cvg_less_500
+HG01109	multiple_NUMTs
+HG01175	mean_cvg_less_500
+HG02080	multiple_NUMTs
+HG02148	mean_cvg_less_500
+HG02572	multiple_NUMTs
+HG02723	mean_cvg_less_500;min_cvg_less_100;multiple_NUMTs
+HG03492	mean_cvg_less_500;min_cvg_less_100
+NA18906	mean_cvg_less_500
