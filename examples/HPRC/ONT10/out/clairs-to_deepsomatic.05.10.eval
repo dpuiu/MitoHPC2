@@ -6,11 +6,11 @@ clairs-to_deepsomatic.10  snp  1719  14  7   0.992  0.996  0.994
 clairs-to_deepsomatic.10  ins  76    6   0   0.927  1      0.962
 clairs-to_deepsomatic.10  del  35    5   0   0.875  1      0.933
 :homoplasmies                                              
-clairs-to_deepsomatic.10  .    1725  56  6   0.969  0.997  0.982
-clairs-to_deepsomatic.10  snp  1688  5   8   0.997  0.995  0.996
-clairs-to_deepsomatic.10  ins  1     51  0   0.019  1      0.038
+clairs-to_deepsomatic.10  .    1755  26  19  0.985  0.989  0.987
+clairs-to_deepsomatic.10  snp  1690  3   10  0.998  0.994  0.996
+clairs-to_deepsomatic.10  ins  29    23  11  0.558  0.725  0.63
 clairs-to_deepsomatic.10  del  34    2   0   0.944  1      0.971
 :heteroplasmies                                            
-clairs-to_deepsomatic.10  snp  26    14  4   0.65   0.867  0.743
-clairs-to_deepsomatic.10  ins  26    4   49  0.867  0.347  0.495
+clairs-to_deepsomatic.10  snp  24    16  2   0.6    0.923  0.727
+clairs-to_deepsomatic.10  ins  15    15  21  0.5    0.417  0.455
 clairs-to_deepsomatic.10  del  1     3   0   0.25   1      0.4

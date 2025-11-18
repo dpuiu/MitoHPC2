@@ -1,0 +1,16 @@
+HiFi10                                              
+:all                                                
+qry              snv  TP    FN   FP   S      P      F1
+deepsomatic.00   .    1801  38   121  0.979  0.937  0.958
+deepsomatic.00   snp  1687  34   110  0.98   0.939  0.959
+deepsomatic.00   ins  76    5    2    0.938  0.974  0.956
+deepsomatic.00   del  36    3    11   0.923  0.766  0.837
+:homoplasmies                                       
+deepsomatic.00   .    933   856  0    0.522  1      0.686
+deepsomatic.00   snp  928   766  0    0.548  1      0.708
+deepsomatic.00   ins  0     59   0    0      .      .
+deepsomatic.00   del  5     31   0    0.139  1      0.244
+:heteroplasmies                                     
+deepsomatic.00   snp  26    1    843  0.963  0.03   0.058
+deepsomatic.00   ins  20    2    58   0.909  0.256  0.4
+deepsomatic.00   del  2     1    40   0.667  0.048  0.089

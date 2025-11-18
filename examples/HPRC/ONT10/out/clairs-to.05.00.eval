@@ -1,0 +1,16 @@
+ONT10                                               
+:all                                                
+qry              snv  TP    FN   FP   S      P      F1
+clairs-to.00     .    1845  8    12   0.996  0.994  0.995
+clairs-to.00     snp  1730  3    14   0.998  0.992  0.995
+clairs-to.00     ins  78    4    0    0.951  1      0.975
+clairs-to.00     del  35    5    0    0.875  1      0.933
+:homoplasmies                                       
+clairs-to.00     .    1545  236  0    0.867  1      0.929
+clairs-to.00     snp  1535  158  1    0.907  0.999  0.951
+clairs-to.00     ins  0     52   0    0      .      .
+clairs-to.00     del  9     27   0    0.25   1      0.4
+:heteroplasmies                                     
+clairs-to.00     snp  37    3    171  0.925  0.178  0.298
+clairs-to.00     ins  28    2    50   0.933  0.359  0.519
+clairs-to.00     del  1     3    25   0.25   0.038  0.067

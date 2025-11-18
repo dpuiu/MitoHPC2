@@ -1,0 +1,16 @@
+clairs-to.10:all                                          
+qry                      snv  TP    FN   FP   S     P     F1
+clairs-to.10.concat.vcf  .    1813  26   482  0.99  0.79  0.88
+clairs-to.10.concat.vcf  snp  1715  6    53   1     0.97  0.98
+clairs-to.10.concat.vcf  ins  37    44   1    0.46  0.97  0.62
+clairs-to.10.concat.vcf  del  35    4    454  0.9   0.07  0.13
+clairs-to.10:hom                                          
+clairs-to.10.concat.vcf  .    1594  195  2    0.89  1     0.94
+clairs-to.10.concat.vcf  snp  1583  111  3    0.93  1     0.97
+clairs-to.10.concat.vcf  ins  0     59   0    0     .     .
+clairs-to.10.concat.vcf  del  10    26   0    0.28  1     0.43
+clairs-to.10:het                                          
+clairs-to.10.concat.vcf  .    38    12   661  0.76  0.05  0.1
+clairs-to.10.concat.vcf  snp  21    6    161  0.78  0.12  0.2
+clairs-to.10.concat.vcf  ins  16    6    22   0.73  0.42  0.53
+clairs-to.10.concat.vcf  del  1     2    478  0.33  0     0
