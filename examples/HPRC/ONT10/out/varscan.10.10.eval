@@ -1,0 +1,17 @@
+ONT10                                             
+:all                                              
+qry              snv  TP    FN  FP  S      P      F1
+varscan.10       .    1828  28  24  0.985  0.987  0.986
+varscan.10       snp  1716  5   16  0.997  0.991  0.994
+varscan.10       ins  77    19  2   0.802  0.975  0.88
+varscan.10       del  35    4   6   0.897  0.854  0.875
+:homoplasmies                                     
+varscan.10       .    1726  63  9   0.965  0.995  0.98
+varscan.10       snp  1691  3   9   0.998  0.995  0.996
+varscan.10       ins  1     58  0   0.017  1      0.033
+varscan.10       del  34    2   0   0.944  1      0.971
+:heteroplasmies                                   
+varscan.10       .    42    25  75  0.627  0.359  0.457
+varscan.10       snp  21    6   11  0.778  0.656  0.712
+varscan.10       ins  20    17  58  0.541  0.256  0.348
+varscan.10       del  1     2   6   0.333  0.143  0.2

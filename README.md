@@ -174,6 +174,14 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 [10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.10.00.eval),
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.05.00.eval)
 
+* varscan:
+[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.10.10.eval), 
+[05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.05.10.eval), 
+[10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.10.05.eval), 
+[05.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.05.05.eval),
+[10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.10.00.eval),
+[05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.05.00.eval)
+
 ### ONT10 ###
 
 * clairs-to:
@@ -192,5 +200,12 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 [10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.10.00.eval),
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.05.00.eval)
 
-Note: 1st number: short read heteroplasmy thold;  2nd: long read heteroplasmy thold
+* varscan:
+[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.10.10.eval), 
+[05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.05.10.eval), 
+[10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.10.05.eval), 
+[05.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.05.05.eval),
+[10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.10.00.eval),
+[05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.05.00.eval)
 
+Note: 1st number: short read heteroplasmy thold;  2nd: long read heteroplasmy thold

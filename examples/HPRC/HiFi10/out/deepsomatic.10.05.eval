@@ -1,16 +1,17 @@
-HiFi10                                            
-:all                                              
-qry              snv  TP    FN  FP  S      P      F1
-deepsomatic.05   .    1833  6   51  0.997  0.973  0.985
-deepsomatic.05   snp  1718  3   39  0.998  0.978  0.988
-deepsomatic.05   ins  77    4   3   0.951  0.963  0.957
-deepsomatic.05   del  36    3   11  0.923  0.766  0.837
-:homoplasmies                                     
-deepsomatic.05   .    1730  59  11  0.967  0.994  0.98
-deepsomatic.05   snp  1682  12  9   0.993  0.995  0.994
-deepsomatic.05   ins  12    47  4   0.203  0.75   0.32
-deepsomatic.05   del  34    2   0   0.944  1      0.971
-:heteroplasmies                                   
-deepsomatic.05   snp  24    3   42  0.889  0.364  0.516
-deepsomatic.05   ins  19    3   49  0.864  0.279  0.422
-deepsomatic.05   del  2     1   11  0.667  0.154  0.25
+HiFi10                                             
+:all                                               
+qry              snv  TP    FN  FP   S      P      F1
+deepsomatic.05   .    1832  24  57   0.987  0.97   0.978
+deepsomatic.05   snp  1718  3   39   0.998  0.978  0.988
+deepsomatic.05   ins  79    17  6    0.823  0.929  0.873
+deepsomatic.05   del  35    4   12   0.897  0.745  0.814
+:homoplasmies                                      
+deepsomatic.05   .    1728  61  13   0.966  0.993  0.979
+deepsomatic.05   snp  1682  12  9    0.993  0.995  0.994
+deepsomatic.05   ins  12    47  4    0.203  0.75   0.32
+deepsomatic.05   del  34    2   0    0.944  1      0.971
+:heteroplasmies                                    
+deepsomatic.05   .    43    24  105  0.642  0.291  0.4
+deepsomatic.05   snp  24    3   42   0.889  0.364  0.516
+deepsomatic.05   ins  18    19  51   0.486  0.261  0.34
+deepsomatic.05   del  1     2   12   0.333  0.077  0.125

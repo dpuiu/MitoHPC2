@@ -1,16 +1,17 @@
 HiFi10                                            
 :all                                              
 qry              snv  TP    FN  FP  S      P      F1
-clairs-to.10     .    1834  19  11  0.99   0.994  0.992
+clairs-to.10     .    1832  51  13  0.973  0.993  0.983
 clairs-to.10     snp  1721  12  8   0.993  0.995  0.994
-clairs-to.10     ins  77    5   5   0.939  0.939  0.939
-clairs-to.10     del  34    6   0   0.85   1      0.919
+clairs-to.10     ins  77    32  5   0.706  0.939  0.806
+clairs-to.10     del  34    7   0   0.829  1      0.907
 :homoplasmies                                     
-clairs-to.10     .    1773  8   18  0.996  0.99   0.993
+clairs-to.10     .    1771  10  20  0.994  0.989  0.992
 clairs-to.10     snp  1693  0   10  1      0.994  0.997
 clairs-to.10     ins  44    8   10  0.846  0.815  0.83
 clairs-to.10     del  34    2   0   0.944  1      0.971
 :heteroplasmies                                   
+clairs-to.10     .    41    61  13  0.402  0.759  0.526
 clairs-to.10     snp  24    16  2   0.6    0.923  0.727
-clairs-to.10     ins  17    13  11  0.567  0.607  0.586
-clairs-to.10     del  0     4   0   0      .      .
+clairs-to.10     ins  17    40  11  0.298  0.607  0.4
+clairs-to.10     del  0     5   0   0      .      .

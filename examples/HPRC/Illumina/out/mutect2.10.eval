@@ -1,9 +1,9 @@
 Illumina                                  
 :all                                      
 qry              snv  TP    FN  FP  S  P  F1
-mutect2.10       .    1839  0   0   1  1  1
+mutect2.10       .    1856  0   0   1  1  1
 mutect2.10       snp  1721  0   0   1  1  1
-mutect2.10       ins  81    0   0   1  1  1
+mutect2.10       ins  96    0   0   1  1  1
 mutect2.10       del  39    0   0   1  1  1
 :homoplasmies                             
 mutect2.10       .    1789  0   0   1  1  1
@@ -11,6 +11,7 @@ mutect2.10       snp  1694  0   0   1  1  1
 mutect2.10       ins  59    0   0   1  1  1
 mutect2.10       del  36    0   0   1  1  1
 :heteroplasmies                           
+mutect2.10       .    67    0   0   1  1  1
 mutect2.10       snp  27    0   0   1  1  1
-mutect2.10       ins  22    0   0   1  1  1
+mutect2.10       ins  37    0   0   1  1  1
 mutect2.10       del  3     0   0   1  1  1

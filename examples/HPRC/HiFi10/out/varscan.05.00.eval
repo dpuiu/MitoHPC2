@@ -1,0 +1,17 @@
+HiFi10                                              
+:all                                                
+qry              snv  TP    FN   FP   S      P      F1
+varscan.00       .    1844  39   77   0.979  0.96   0.97
+varscan.00       snp  1731  2    27   0.999  0.985  0.992
+varscan.00       ins  78    31   46   0.716  0.629  0.67
+varscan.00       del  35    6    4    0.854  0.897  0.875
+:homoplasmies                                       
+varscan.00       .    952   829  0    0.535  1      0.697
+varscan.00       snp  949   744  0    0.561  1      0.718
+varscan.00       ins  0     52   0    0      .      .
+varscan.00       del  3     33   0    0.083  1      0.154
+:heteroplasmies                                     
+varscan.00       .    67    35   902  0.657  0.069  0.125
+varscan.00       snp  38    2    771  0.95   0.047  0.09
+varscan.00       ins  28    29   96   0.491  0.226  0.309
+varscan.00       del  1     4    35   0.2    0.028  0.049

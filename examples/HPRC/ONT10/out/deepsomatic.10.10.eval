@@ -1,16 +1,17 @@
 ONT10                                              
 :all                                               
 qry              snv  TP    FN  FP   S      P      F1
-deepsomatic.10   .    1831  8   460  0.996  0.799  0.887
+deepsomatic.10   .    1831  25  465  0.987  0.797  0.882
 deepsomatic.10   snp  1715  6   79   0.997  0.956  0.976
-deepsomatic.10   ins  77    4   2    0.951  0.975  0.963
-deepsomatic.10   del  37    2   381  0.949  0.089  0.162
+deepsomatic.10   ins  80    16  4    0.833  0.952  0.889
+deepsomatic.10   del  36    3   382  0.923  0.086  0.158
 :homoplasmies                                      
-deepsomatic.10   .    1723  66  6    0.963  0.997  0.98
+deepsomatic.10   .    1721  68  8    0.962  0.995  0.978
 deepsomatic.10   snp  1687  7   8    0.996  0.995  0.996
 deepsomatic.10   ins  1     58  0    0.017  1      0.033
 deepsomatic.10   del  33    3   0    0.917  1      0.957
 :heteroplasmies                                    
+deepsomatic.10   .    47    20  520  0.701  0.083  0.148
 deepsomatic.10   snp  22    5   77   0.815  0.222  0.349
-deepsomatic.10   ins  20    2   58   0.909  0.256  0.4
-deepsomatic.10   del  3     0   382  1      0.008  0.015
+deepsomatic.10   ins  23    14  60   0.622  0.277  0.383
+deepsomatic.10   del  2     1   383  0.667  0.005  0.01

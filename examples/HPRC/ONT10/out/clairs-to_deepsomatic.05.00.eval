@@ -1,16 +1,17 @@
 ONT10                                                        
 :all                                                         
 qry                       snv  TP    FN   FP   S      P      F1
-clairs-to_deepsomatic.00  .    1841  12   12   0.994  0.994  0.994
+clairs-to_deepsomatic.00  .    1839  44   14   0.977  0.992  0.984
 clairs-to_deepsomatic.00  snp  1728  5    14   0.997  0.992  0.995
-clairs-to_deepsomatic.00  ins  76    6    0    0.927  1      0.962
-clairs-to_deepsomatic.00  del  35    5    0    0.875  1      0.933
+clairs-to_deepsomatic.00  ins  76    33   0    0.697  1      0.822
+clairs-to_deepsomatic.00  del  35    6    0    0.854  1      0.921
 :homoplasmies                                                
-clairs-to_deepsomatic.00  .    1543  238  0    0.866  1      0.928
+clairs-to_deepsomatic.00  .    1542  239  1    0.866  0.999  0.928
 clairs-to_deepsomatic.00  snp  1533  160  1    0.905  0.999  0.95
 clairs-to_deepsomatic.00  ins  0     52   0    0      .      .
 clairs-to_deepsomatic.00  del  9     27   0    0.25   1      0.4
 :heteroplasmies                                              
+clairs-to_deepsomatic.00  .    64    38   246  0.627  0.206  0.311
 clairs-to_deepsomatic.00  snp  37    3    171  0.925  0.178  0.298
-clairs-to_deepsomatic.00  ins  26    4    50   0.867  0.342  0.491
-clairs-to_deepsomatic.00  del  1     3    25   0.25   0.038  0.067
+clairs-to_deepsomatic.00  ins  26    31   50   0.456  0.342  0.391
+clairs-to_deepsomatic.00  del  1     4    25   0.2    0.038  0.065

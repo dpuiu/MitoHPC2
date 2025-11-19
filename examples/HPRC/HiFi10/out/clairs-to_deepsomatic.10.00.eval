@@ -1,16 +1,17 @@
-HiFi10                                                      
-:all                                                        
-qry                       snv  TP    FN   FP  S      P      F1
-clairs-to_deepsomatic.00  .    1830  9    23  0.995  0.988  0.991
-clairs-to_deepsomatic.00  snp  1718  3    24  0.998  0.986  0.992
-clairs-to_deepsomatic.00  ins  76    5    1   0.938  0.987  0.962
-clairs-to_deepsomatic.00  del  34    5    0   0.872  1      0.932
-:homoplasmies                                               
-clairs-to_deepsomatic.00  .    1628  161  1   0.91   0.999  0.953
-clairs-to_deepsomatic.00  snp  1618  76   3   0.955  0.998  0.976
-clairs-to_deepsomatic.00  ins  0     59   0   0      .      .
-clairs-to_deepsomatic.00  del  8     28   0   0.222  1      0.364
-:heteroplasmies                                             
-clairs-to_deepsomatic.00  snp  25    2    96  0.926  0.207  0.338
-clairs-to_deepsomatic.00  ins  19    3    58  0.864  0.247  0.384
-clairs-to_deepsomatic.00  del  0     3    26  0      0      .
+HiFi10                                                       
+:all                                                         
+qry                       snv  TP    FN   FP   S      P      F1
+clairs-to_deepsomatic.00  .    1828  28   25   0.985  0.987  0.986
+clairs-to_deepsomatic.00  snp  1718  3    24   0.998  0.986  0.992
+clairs-to_deepsomatic.00  ins  76    20   1    0.792  0.987  0.879
+clairs-to_deepsomatic.00  del  34    5    0    0.872  1      0.932
+:homoplasmies                                                
+clairs-to_deepsomatic.00  .    1626  163  3    0.909  0.998  0.951
+clairs-to_deepsomatic.00  snp  1618  76   3    0.955  0.998  0.976
+clairs-to_deepsomatic.00  ins  0     59   0    0      .      .
+clairs-to_deepsomatic.00  del  8     28   0    0.222  1      0.364
+:heteroplasmies                                              
+clairs-to_deepsomatic.00  .    44    23   180  0.657  0.196  0.302
+clairs-to_deepsomatic.00  snp  25    2    96   0.926  0.207  0.338
+clairs-to_deepsomatic.00  ins  19    18   58   0.514  0.247  0.333
+clairs-to_deepsomatic.00  del  0     3    26   0      0      .
