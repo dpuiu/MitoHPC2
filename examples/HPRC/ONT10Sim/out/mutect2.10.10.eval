@@ -1,0 +1,17 @@
+ONT10Sim                                           
+:all                                               
+qry              snv  TP    FN  FP   S      P      F1
+mutect2.10       .    1817  39  245  0.979  0.881  0.928
+mutect2.10       snp  1686  35  104  0.98   0.942  0.96
+mutect2.10       ins  94    2   17   0.979  0.847  0.908
+mutect2.10       del  37    2   124  0.949  0.23   0.37
+:homoplasmies                                      
+mutect2.10       .    1714  75  1    0.958  0.999  0.978
+mutect2.10       snp  1663  31  1    0.982  0.999  0.99
+mutect2.10       ins  16    43  0    0.271  1      0.427
+mutect2.10       del  35    1   0    0.972  1      0.986
+:heteroplasmies                                    
+mutect2.10       .    62    5   285  0.925  0.179  0.3
+mutect2.10       snp  23    4   103  0.852  0.183  0.301
+mutect2.10       ins  37    0   58   1      0.389  0.561
+mutect2.10       del  2     1   124  0.667  0.016  0.031

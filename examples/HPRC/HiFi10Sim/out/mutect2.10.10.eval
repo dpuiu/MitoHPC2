@@ -1,0 +1,17 @@
+HiFi10Sim                                         
+:all                                              
+qry              snv  TP    FN  FP  S      P      F1
+mutect2.10       .    1851  5   20  0.997  0.989  0.993
+mutect2.10       snp  1718  3   8   0.998  0.995  0.997
+mutect2.10       ins  95    1   11  0.99   0.896  0.941
+mutect2.10       del  38    1   1   0.974  0.974  0.974
+:homoplasmies                                     
+mutect2.10       .    1775  14  0   0.992  1      0.996
+mutect2.10       snp  1694  0   0   1      1      1
+mutect2.10       ins  45    14  0   0.763  1      0.865
+mutect2.10       del  36    0   0   1      1      1
+:heteroplasmies                                   
+mutect2.10       .    62    5   34  0.925  0.646  0.761
+mutect2.10       snp  24    3   8   0.889  0.75   0.814
+mutect2.10       ins  36    1   25  0.973  0.59   0.735
+mutect2.10       del  2     1   1   0.667  0.667  0.667
