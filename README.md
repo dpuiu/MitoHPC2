@@ -152,6 +152,9 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 
 ## 30 Simulated samples ##
 
+* Haplogroups A-Z  
+ wgsim -N 111000 -1 150 -2 150 -d 300 ...
+
 ## 39 HPRC samples ##
 
 * [Sequence information](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/summary.txt)
@@ -208,4 +211,25 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
 [10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.10.00.eval),
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.05.00.eval)
 
+## 39 HPRC bases Simulated samples ##
+
+### HiFi10Sim ###
+
+* 500x cvg of Illumina paired end reads (2*150bp) were simulated using the best HiFi10 raeds (avg Q30)
+* commands:
+  wgsim -N 22200 -1 150 -2 150 -d 300 -e 0 -r 0 -R 0
+* There reads were processed using the MitoHPC2 pipeline ("mutect2" SNV caller)     
+[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10Sim/out/mutect.10.10.eval)
+
+### ONT10Sim ###
+
+* 500x cvg of Illumina paired end reads (2*150bp) were simulated using the best ONT10 raeds (avg Q20)
+* commands:
+  wgsim -N 22200 -1 150 -2 150 -d 300 -e 0 -r 0 -R 0
+* There reads were processed using the MitoHPC2 pipeline ("mutect2" SNV caller)  
+[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10Sim/out/mutect.10.10.eval)
+
+
 Note: 1st number: short read heteroplasmy thold;  2nd: long read heteroplasmy thold
+
+

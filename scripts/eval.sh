@@ -24,7 +24,7 @@ cmpVcf.pl $R $Q -del -hom -sm
 
 echo
 echo "$MT:heteroplasmies"
-cmpVcf.pl $R $Q -snp -sm
+cmpVcf.pl $R $Q -het -sm
 cmpVcf.pl $R $Q -snp -het -sm
 cmpVcf.pl $R $Q -ins -het -sm
 cmpVcf.pl $R $Q -del -het -sm

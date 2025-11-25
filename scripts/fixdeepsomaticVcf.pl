@@ -46,6 +46,7 @@ MAIN:
 		$F[8]=~/^GT:GQ:DP:AD:VAF:/ or die "ERROR: $_";
 		$F[9]=~/^(.+?):.+?:(\d+):(\d+,\d+):(.+?):/ or die "ERROR: $_";
                 my ($GT,$DP,$AD,$AF)=($1,$2,$3,$4);
+		$GT="0/1" if($GT eq "./." or $GT eq "0/0");
                 $F[8]="GT:DP:AD:AF";
                 $F[9]="$GT:$DP:$AD:$AF";
 

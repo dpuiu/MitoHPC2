@@ -37,7 +37,7 @@ MAIN:
 
 		"pos"	=>	\$opt{pos}
 	);
-	$opt{pos}=1;
+	#$opt{pos}=1;
 	#$opt{noh}=1;
 
 	if(!$result)            { die "ERROR: $! "}
