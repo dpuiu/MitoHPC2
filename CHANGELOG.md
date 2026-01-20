@@ -1,5 +1,17 @@
+# 2026/01/20 #
+* scripts/filter.sh: Replaced samtools view -F 0x90C with samtools view -F 0x10C to potentially capture more distant reads in 2nd SNV itteration.
+* scripts/filter.lr.sh: Added MINLEN, MINPC, MAXDP, and MINAF corresponding to the environment variables HP_MINLEN, HP_MINPC, HP_MAXDP, and HP_MINAF.
+* scripts/init.hifi.sh: Added default values: HP_M=deepsomatic, HP_PLATFORM=hifi_revio, HP_MODELTYPE=PACBIO_TUMOR_ONLY, HP_MINLEN=6000, HP_MINPC=0.95, HP_MAXDP=2000, HP_MINAF=0.05.
+* scripts/init.ont.sh: Added default values: HP_M=clairs-to, HP_PLATFORM=ont_r10_dorado_sup_5khz, HP_MODELTYPE=ONT_TUMOR_ONLY, HP_MINLEN=6000, HP_MINPC=0.95, HP_MAXDP=2000, HP_MINAF=0.05.
+* scripts/init.lr.sh: Removed to avoid confusion.
+* scripts/run.lr.sh: Exports HP_MINLEN, HP_MINPC, HP_MAXDP, and HP_MINAF so they are displayed in the init.{hifi,ont}.sh files.
+
 # 2025/08/05 #
 * Added deepsomatic and clairs-to as one of the SNV callers
+* Added new examples/HPRC/{ONT10,HIFI10} sample alignments
+
+# 2025/08/05 #
+* Added deepsomatic and clairs-to as one of the LR SNV callers
 * Added new examples/HPRC/{ONT10,HIFI10} sample alignments
 
 # 2025/08/05 #
