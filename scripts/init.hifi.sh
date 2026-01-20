@@ -36,6 +36,8 @@ export HP_RFILE=$HP_RDIR/$HP_RNAME
 
 export HP_O=Human		 # organism: Human, Mouse...
 export HP_MT=chrM                # chrM, rCRS or RSRS, FASTA file available under $HP_RDIR
+export HP_MTC=chrMC
+export HP_MTR=chrMR
 export HP_MTLEN=16569
 export HP_NUMT=NUMT
 
@@ -43,7 +45,7 @@ export HP_NUMT=NUMT
 #PARAMETERS
 
 export HP_L=4000                 # maximum number of alignments; increased from 2000 to 4000
-export HP_M=deepsomatic          # SNV caller: varscan,bcftools,clair3,clairs-to,deepvariant,deepsomatic
+export HP_M=deepsomatic          # SNV caller: deepsomatic, clairs-to ... varscan,bcftools,clair3,deepvariant
 
 export HP_CN=1                   # do compute mtDNA copy number
 export HP_I=2		         # number of SNV iterations : 0: compute read counts,mtDNA-CN; 1:1 iteration (mutect2,mutserve) ;  2:2 iterations (mutect2)
@@ -91,7 +93,12 @@ fi
 
 ####
 
-export HP_PLATFORM="hifi_revio"		      # clars-to
-export HP_MODEL=""			      # clars-to,deep*
+export HP_PLATFORM="hifi_revio"		      # clairs-to
+export HP_MODEL=""			      # clairs-to,deep*
 export HP_MODELTYPE="PACBIO_TUMOR_ONLY"       # deepsomatic:WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+
+export HP_MINLEN=6000  			      # min total alignment (> longest NUMT)
+export HP_MINPC="0.95" 			      # min alignment coverage
+export HP_MAXDP=2000                          # max depth
+export HP_MINAF=0.05                          # min AF
 

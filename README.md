@@ -62,7 +62,29 @@ Make sure the VCF/BED files are gzipped and indexed.
 
 Check [MitoHPC README](https://github.com/dpuiu/MitoHPC/blob/main/README.md) first !!!
 
-Copies of the  Clair3, ClairS-To, DeepVarian, DeepSomatic SIF files can be found at [ftp](ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/)
+Copies of the  Clair3, ClairS-To, DeepVariant, DeepSomatic SIF files can be found at [ftp](ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/)
+    # commands
+    curl -s  ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/
+      -rwxr-xr-x    1 2667     5042     1481633792 Nov 17 10:45 clair3_v1.2.0.sif
+      -rwxr-xr-x    1 2667     5042     6507384832 Nov 17 10:50 clairs-to_v0.4.2.sif
+      -rwxr-xr-x    1 2667     5042     5095260160 Nov 17 10:46 deepsomatic_1.9.0.sif
+      -rwxr-xr-x    1 2667     5042     1869000704 Nov 17 10:46 deepvariant_1.10.0-beta.sif
+
+    curl -O ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/clair3_v1.2.0.sif
+    curl -O ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/clairs-to_v0.4.2.sif
+    curl -O ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/deepsomatic_1.9.0.sif
+    curl -O ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/deepvariant_1.10.0-beta.sif
+
+    #converstion to sandbox(faster run)
+    singularity build --sandbox ~/clair3_sandbox/      clair3_v1.2.0.sif
+    singularity build --sandbox ~/clairs_sandbox/      clairs-to_v0.4.2.sif
+    singularity build --sandbox ~/deepsomatic_sandbox/ deepsomatic_1.9.0.sif
+    singularity build --sandbox ~/deepvariant_sandbox/ deepvariant_1.10.0-beta.sif
+
+    #disk size in GB (much bigger)
+    du -hs ~/clairs-to_sandbox/ ~/deepsomatic_sandbox/
+      9.9G  ~/clairs-to_sandbox/
+      8.2G  ~/deepsomatic_sandbox/
 
 Copies of the HPRC samples BAM alignments can be found at [ftp](ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/examples/HPRC/)
 
@@ -112,7 +134,7 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
     # copy init file to work directory
     cp $HP_SDIR/init.hifi.sh .
 
-    # edit init.lr.sh; set the SNV caller
+    # check/edit init.hifi.sh; set the SNV caller
     cat init.hifi.sh
       ...
       export HP_M=deepsomatic                       # varscan,bcftools,clair3,clairs-to,deepvariant,deepsomatic
@@ -127,7 +149,7 @@ Only the SNV called by at least 2 the metods make it into the final/merged set.
     # copy init file to work directory
     cp $HP_SDIR/init.ont.sh .
 
-    # edit init.lr.sh; set the SNV caller
+    # check/edit init.ont.sh; set the SNV caller
     cat init.ont.sh
       ...
       export HP_M=clairs-to                         # varscan,bcftools,clair3,clairs-to,deepvariant,deepsomatic

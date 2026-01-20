@@ -36,6 +36,8 @@ export HP_RFILE=$HP_RDIR/$HP_RNAME
 
 export HP_O=Human		 # organism: Human, Mouse...
 export HP_MT=chrM                # chrM, rCRS or RSRS, FASTA file available under $HP_RDIR
+export HP_MTC=chrMC
+export HP_MTR=chrMR
 export HP_MTLEN=16569
 export HP_NUMT=NUMT
 
@@ -92,6 +94,11 @@ fi
 ####
 
 export HP_PLATFORM="ont_r10_dorado_sup_5khz"   # clairs-to  {ont_r10_dorado_sup_4khz, ont_r10_dorado_hac_4khz, ont_r10_dorado_sup_5khz, ont_r10_dorado_sup_5khz_ss, ont_r10_dorado_sup_5khz_ssrs
-export HP_MODEL=""			       # clars-to,deep*
+export HP_MODEL=""			       # clairs-to,deep*
 export HP_MODELTYPE="ONT_TUMOR_ONLY"	       # deepsomatic:WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+
+export HP_MINLEN=6000                         # min total alignment (> longest NUMT)
+export HP_MINPC="0.95"                        # min alignment coverage
+export HP_MAXDP=2000                          # max depth
+export HP_MINAF=0.05                          # min AF
 

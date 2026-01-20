@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
-#set -eux
-set -x
+set -eux
+
 #########################################################################################################################################
 
 # Program that runs the heteroplasmy pipeline on a single sample
@@ -97,17 +97,19 @@ fi
 # realign subsampled reads
 
 if  [ ! -s $O.bam ] ; then
+  # 20251205: 0x90C ->  0x10C
   cat $O.fq | \
     bwa mem $HP_RDIR/$HP_MTC - -p -v 1 -t $HP_P -Y -R "@RG\tID:$1\tSM:$1\tPL:ILLUMINA" | \
-    samtools view  -F 0x90C -h | \
+    samtools view  -F 0x10C -h | \
     tee $O.sam  | \
     samtools view -bu | \
     bedtools bamtobed -i /dev/stdin -tag AS | bed2bed.pl -rmsuffix | \
     count.pl -i 3 -j 4  | sort > $O.score
 
   cat $O.fq | \
+    # 20251205: added -F 0x10C
     bwa mem $HP_RDIR/$HP_NUMT - -p -v 1 -t $HP_P -Y -R "@RG\tID:$1\tSM:$1\tPL:ILLUMINA" | \
-    samtools view -bu | \
+    samtools view -bu  -F 0x10C | \
     bedtools bamtobed -i /dev/stdin -tag AS | bed2bed.pl -rmsuffix  | \
     count.pl -i 3 -j 4  | sort > $ON.score
 
@@ -263,9 +265,10 @@ fi
 # realign reads; check coverage
 
 if  [ ! -s $OS.bam ] ; then
+  #20251205: 0x90C -> 0x10C
   cat $O.fq | \
     bwa mem $OSC - -p -v 1 -t $HP_P -Y -R "@RG\tID:$1\tSM:$1\tPL:ILLUMINA" | \
-    samtools view  -F 0x90C -h | \
+    samtools view  -F 0x10C -h | \
     tee $OS.sam  | \
     samtools  view -bu | \
     bedtools bamtobed -i /dev/stdin -tag AS | bed2bed.pl -rmsuffix  | \
@@ -287,7 +290,7 @@ if  [ ! -s $OS.bam ] ; then
   samtools index $OSR.bam
 
   bedtools bamtobed -i $OS.bam -ed | perl -ane 'print if($F[-2]==0);' | bedtools merge -d -3 | bed2bed.pl -min 3 > $OS.merge.bed
-  rm -f $OS.*sam $OS.score
+  rm -f $OS.*sam # $OS.score
   #!!! rm -f $O.fq $ON.score
 fi
 
@@ -375,6 +378,6 @@ if [ ! -s $OSS.00.vcf ] ; then
 fi
 
 rm -f $OS.bam*  $OS.dict $OS.fa.fai
-rm -f $O.fq $OR.bam* 
-#rm -f $O.bam* $ON.score
+rm -f $O.fq $OR.bam*
+rm -f $O.bam* $ON.score
 
