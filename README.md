@@ -16,7 +16,7 @@ A pipeline for detecting mitochondrial **homoplasmies** and **heteroplasmies** f
 - Detects sample **contamination**  
 - Processes **multiple samples in parallel** and **combines results**  
 - Provides **detailed output summaries**  
-- **Optimized for low CPU, memory, and runtime usage**
+- Optimized for **low CPU, memory, and runtime usage**
 
 ---
 
@@ -108,7 +108,8 @@ The pipeline expects pre-aligned, coordinate sorted reads:
 ## Iteration 2
 - `snvcaller.snvcaller.*` – final results
 
-where snvcaller is usuall mutect2(Illumina), deepsomatioc (PacBio hifi), clairs-to (ONT)
+* snvcaller is usuall mutect2(Illumina), deepsomatioc (PacBio hifi), clairs-to (ONT)
+
 ---
 
 ## Installation
@@ -265,7 +266,7 @@ nano scripts/init.ont.sh
 
 ## Running the Pipeline
 
-### 1. Illumina Data: Single SNV Caller
+### 1. Illumina Data
 
 ```bash
 cp $HP_SDIR/init.sh .
@@ -309,8 +310,7 @@ $HP_SDIR/run.lr.sh | tee run.all.sh | bash
 ls $HP_ODIR/.*
 ```
 
-Compare results to Illumina mutect2 (T=10):
-
+* Compare results to Illumina mutect2 (T=10):
 ```bash
 $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf $HP_M.10.concat.vcf | uniq.pl | column -t > $HP_M.10.eval
 ```
@@ -321,7 +321,7 @@ $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf $HP_M.10.concat.vcf | uniq.p
 
 ### 1. 39 HPRC Samples
 
-- [FTP download](ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/examples/HPRC/)
+- [Download example files via FTP](ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/examples/HPRC/)
 
 * HiFi10 clairs-to:
 [10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.10.10.eval),
