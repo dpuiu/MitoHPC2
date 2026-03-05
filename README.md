@@ -2,16 +2,19 @@
 
 A pipeline for detecting mitochondrial **homoplasmies** and **heteroplasmies** from sequencing data.  
 
-Capabilities:
-- Supports short and long reads
-- Multiple SNV callers
-- Human and mouse genomes
-- Multiple reference versions
-- Multiple heteroplasmy thresholds
-- Calls maternal haplogroup
-- Detects contamination
-- Processes multiple samples in parallel and combines results
-- Optimized for low CPU, memory, and runtime usage
+## Capabilities
+
+- Supports **short** and **long reads**  
+- **Multiple SNV callers**  
+- Detects **homoplasmies** and **heteroplasmies** in **mitochondria**  
+- Handles **NUMTs** and **mitochondrial origin regions** carefully  
+- Supports **human** and **mouse genomes**, with **multiple reference versions**  
+- Allows **multiple heteroplasmy thresholds**  
+- **Calls maternal haplogroup**  
+- **Detects contamination**  
+- Processes **multiple samples in parallel** and **combines results**  
+- Provides **detailed output summaries**  
+- **Optimized for low CPU, memory, and runtime usage**
 
 ---
 
