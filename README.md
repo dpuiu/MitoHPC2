@@ -161,18 +161,12 @@ cat checkInstall.log
 
 ---
 
-## Running the Pipeline on Illumina Data
+## Setup environment for Illumina Data
 
-### SETUP ENVIRONMENT
+### Single SNV Caller
 
 ```
-# go to your working directory 
-# copy over the init.sh file
-
-cp -i $HP_SDIR/init.sh .                      # copy init to working dir.
-
-# view/edit init.sh file
-nano init.sh                                  # check/edit local init file
+nano scripts/init.sh                          # check/edit local init file
     ...
     export HP_O=Human                         # organism
     export HP_MT=chrM
@@ -194,16 +188,58 @@ nano init.sh                                  # check/edit local init file
     export HP_T1=03                           # heteroplasmy thold 1: 3%
     export HP_T2=05                           # heteroplasmy thold 2: 5%
     export HP_T3=10                           # heteroplasmy thold 3: 10%
-    export HP_SH=bash                         # job scheduling: bash, qsub,sbatch, ..
+    export HP_SH=bash                         # job scheduling: bash, qsub,sbatch, ...
+    ...
+```
+
+### Multiple SNV Callers
 
 ```
+# difference compared to scripts/init.sh 
+nano scripts/init3.sh            
+    ...
+    export HP_M=
+    export HP_M1=mutect2
+    export HP_M2=varscan
+    export HP_M3=freebayes
+    export HP_M=merge3
+    ...
+```
+
+## Setup environment for PacBio HiFi Data
+
+```
+# difference compared to scripts/init.sh 
+nano scripts/init.hifi.sh
+    ...
+    export HP_L=4000                              # maximum number of alignments sampled
+    export HP_M=deepsomatic                       # SNV caller: deepsomatic, clairs-to ... varscan,bcftools,clair3,deepvariant
+    export HP_MODELTYPE="PACBIO_TUMOR_ONLY"       # deepsomatic:WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+    export HP_MINLEN=6000                         # min total alignment (> longest NUMT)
+    export HP_MINPC="0.95"                        # min alignment coverage
+    export HP_MAXDP=2000                          # max depth
+    export HP_MINAF=0.05                          # min AF
+    ...
+```
+
+## Setup environment for ONT Data
+
+```
+# difference compared to scripts/init.sh , scripts/init.hifi.sh
+nano scripts/init.ont.sh
+    ...
+    export HP_M=clairs-to                         # SNV caller: varscan,...
+    export HP_PLATFORM="ont_r10_dorado_sup_5khz"  # clairs-to  {ont_r10_dorado_sup_4khz, ont_r10_dorado_hac_4khz, ont_r10_dorado_sup_5khz, ont_r10_dorado_sup_5khz_ss, ont_r10_dorado_sup_5khz_ssrs
+    ...
+```
+
+## Running the Pipeline on Illumina Data
 
 ### Single SNV Caller
 
 ```bash
 cp $HP_SDIR/init.sh .
-nano ./init.sh             # edit SNV caller if needed
-# e.g., export HP_M=mutect2
+nano ./init.sh            
 . ./init.sh
 $HP_SDIR/run.sh | tee run.all.sh | bash
 ```
@@ -212,7 +248,7 @@ $HP_SDIR/run.sh | tee run.all.sh | bash
 
 ```bash
 cp $HP_SDIR/init3.sh .
-nano ./init3.sh            # set HP_M1, HP_M2, HP_M3
+nano ./init3.sh       
 . ./init3.sh
 $HP_SDIR/run3.sh | tee run.all.sh | bash
 ```
@@ -221,7 +257,7 @@ $HP_SDIR/run3.sh | tee run.all.sh | bash
 
 ```bash
 cp $HP_SDIR/init.hifi.sh .
-nano ./init.hifi.sh        # set HP_M, HP_PLATFORM, HP_MODELTYPE
+nano ./init.hifi.sh        
 . ./init.hifi.sh
 $HP_SDIR/run.lr.sh | tee run.all.sh | bash
 ```
@@ -230,7 +266,7 @@ $HP_SDIR/run.lr.sh | tee run.all.sh | bash
 
 ```bash
 cp $HP_SDIR/init.ont.sh .
-nano ./init.ont.sh         # set HP_M, HP_PLATFORM, HP_MODELTYPE
+nano ./init.ont.sh         
 . ./init.ont.sh
 $HP_SDIR/run.lr.sh | tee run.all.sh | bash
 ```
