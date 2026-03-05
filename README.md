@@ -30,10 +30,20 @@ For additinal information please check
 
 ---
 
+## Table of Contents
+- [Prerequisites](#prerequisites)
+- [Input Samples](#input-samples)
+- [Installation](#installation)
+- [Setup environment](#setup-environment)
+- [Running the Pipeline](#running-the-pipeline)
+- [Output & Evaluation](#output--evaluation)
+- [Examples](#examples)
+
+---
+
 ## Prerequisites
 
 The pipeline requires the following tools:
-
 
 - [bwa 0.7.17](https://github.com/lh3/bwa/releases), 
 [minimap2 2.28](https://github.com/lh3/minimap2/releases), 
@@ -59,9 +69,7 @@ The pipeline requires the following tools:
 - [R](https://cran.r-project.org/src/base/), 
 [Apptainer](https://github.com/apptainer/apptainer.git)
 
----
-
-## Reference Genomes
+Reference Genomes:
 
 - Default: hg38
 - Setting available in  scripts/init.sh
@@ -137,12 +145,16 @@ Convert to sandbox for faster execution:
 ```bash
 singularity build --sandbox ~/clairs-to_sandbox/   $HP_BDIR/clairs-to.sif
 singularity build --sandbox ~/deepsomatic_sandbox/ $HP_BDIR/deepsomatic.sif
-
-# Check size
 du -hs ~/clairs-to_sandbox/ ~/deepsomatic_sandbox/
 ```
 
-### 7. Check Installation
+### 7. Custom Annotation
+
+- The pipeline uses `MitoHPC2/RefSeq/*.{vcf,bed}.gz` for annotation.
+- Copy any custom VCF/BED files to `MitoHPC2/RefSeq/`.
+- Ensure files are bgzipped and indexed.
+
+### 8. Check Installation
 
 ```bash
 $HP_SDIR/checkInstall.sh
@@ -153,17 +165,9 @@ cat checkInstall.log
 
 ---
 
-## Custom Annotation
+## Setup environment
 
-- The pipeline uses `MitoHPC2/RefSeq/*.{vcf,bed}.gz` for annotation.  
-- Copy any custom VCF/BED files to `MitoHPC2/RefSeq/`.  
-- Ensure files are bgzipped and indexed.
-
----
-
-## Setup environment for Illumina Data
-
-### Single SNV Caller
+### 1. Illumina Data
 
 ```
 nano scripts/init.sh                          # check/edit local init file
@@ -192,7 +196,7 @@ nano scripts/init.sh                          # check/edit local init file
     ...
 ```
 
-### Multiple SNV Callers
+### 2. Illumina Data: Multiple SNV Callers
 
 ```
 # difference compared to scripts/init.sh 
@@ -206,7 +210,7 @@ nano scripts/init3.sh
     ...
 ```
 
-## Setup environment for PacBio HiFi Data
+### 3. PacBio HiFi Data
 
 ```
 # difference compared to scripts/init.sh 
@@ -222,7 +226,7 @@ nano scripts/init.hifi.sh
     ...
 ```
 
-## Setup environment for ONT Data
+### 4. ONT Data
 
 ```
 # difference compared to scripts/init.sh , scripts/init.hifi.sh
@@ -233,9 +237,11 @@ nano scripts/init.ont.sh
     ...
 ```
 
-## Running the Pipeline on Illumina Data
+---
 
-### Single SNV Caller
+## Running the Pipeline
+
+### 1. Illumina Data: Single SNV Caller
 
 ```bash
 cp $HP_SDIR/init.sh .
@@ -244,7 +250,7 @@ nano ./init.sh
 $HP_SDIR/run.sh | tee run.all.sh | bash
 ```
 
-### Multiple SNV Callers
+### 2. Illumina Data: Multiple SNV Callers
 
 ```bash
 cp $HP_SDIR/init3.sh .
@@ -253,7 +259,7 @@ nano ./init3.sh
 $HP_SDIR/run3.sh | tee run.all.sh | bash
 ```
 
-## PacBio HiFi Data
+### 3. PacBio HiFi Data
 
 ```bash
 cp $HP_SDIR/init.hifi.sh .
@@ -262,7 +268,7 @@ nano ./init.hifi.sh
 $HP_SDIR/run.lr.sh | tee run.all.sh | bash
 ```
 
-## ONT Data
+### 4. ONT Data
 
 ```bash
 cp $HP_SDIR/init.ont.sh .
@@ -273,15 +279,11 @@ $HP_SDIR/run.lr.sh | tee run.all.sh | bash
 
 ---
 
-## Output
+## Output & Evaluation
 
 ```bash
 ls $HP_ODIR/.*
 ```
-
----
-
-## Evaluation
 
 Compare results to Illumina mutect2 (T=10):
 
@@ -293,23 +295,11 @@ $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf $HP_M.10.concat.vcf | uniq.p
 
 ## Examples
 
-### HPRC Samples
+### 1. 39 HPRC Samples
 
 - [FTP download](ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/examples/HPRC/)
 
-### Simulated Samples
-
-- 30 simulated samples (haplogroups A-Z)  
-- 39 HPRC samples ([sequence info](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/summary.txt))  
-
-#### HiFi10 & ONT10 Evaluations
-
-- Multiple SNV caller evaluations: `clairs-to`, `deepsomatic`, `varscan`  
-- Links provided for different heteroplasmy thresholds (short-read / long-read)
-
-##### HiFi10
-
-* clairs-to:
+* HiFi10 clairs-to:
 [10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.10.10.eval),
 [05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.05.10.eval),
 [10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.10.05.eval),
@@ -317,7 +307,7 @@ $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf $HP_M.10.concat.vcf | uniq.p
 [10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.10.00.eval),
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.05.00.eval)
 
-* deepsomatic:
+* HiFi10 deepsomatic:
 [10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.10.10.eval),
 [05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.05.10.eval),
 [10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.10.05.eval),
@@ -325,7 +315,7 @@ $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf $HP_M.10.concat.vcf | uniq.p
 [10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.10.00.eval),
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.05.00.eval)
 
-* varscan:
+* HiFi10 varscan:
 [10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.10.10.eval),
 [05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.05.10.eval),
 [10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.10.05.eval),
@@ -333,9 +323,7 @@ $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf $HP_M.10.concat.vcf | uniq.p
 [10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.10.00.eval),
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.05.00.eval)
 
-##### ONT10
-
-* clairs-to:
+* ONT10 clairs-to:
 [10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.10.10.eval),
 [05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.05.10.eval),
 [10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.10.05.eval),
@@ -343,7 +331,7 @@ $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf $HP_M.10.concat.vcf | uniq.p
 [10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.10.00.eval),
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.05.00.eval)
 
-* deepsomatic:
+* ONT10 deepsomatic:
 [10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.10.10.eval),
 [05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.05.10.eval),
 [10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.10.05.eval),
@@ -351,7 +339,7 @@ $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf $HP_M.10.concat.vcf | uniq.p
 [10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.10.00.eval),
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.05.00.eval)
 
-* varscan:
+* ONT10 varscan:
 [10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.10.10.eval),
 [05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.05.10.eval),
 [10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.10.05.eval),
@@ -360,7 +348,7 @@ $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf $HP_M.10.concat.vcf | uniq.p
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.05.00.eval)
 
 
-### 39 HPRC bases Simulated samples 
+### 2. 39 HPRC bases Simulated samples 
 
 #### HiFi10Sim
 
