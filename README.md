@@ -378,7 +378,6 @@ $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf $HP_M.10.concat.vcf | uniq.p
 * There reads were processed using the MitoHPC2 pipeline ("mutect2" SNV caller)
 [10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10Sim/out/mutect2.10.10.eval)
 
-
 Note: 1st number: short read heteroplasmy thold;  2nd: long read heteroplasmy thold
 
-
+ 
