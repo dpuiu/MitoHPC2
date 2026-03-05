@@ -1,17 +1,19 @@
-# MitoHPC2: Mitochondrial High Performance Caller v2
+# MitoHPC2
+## Mitochondrial High Performance Caller v2
 
 A pipeline for detecting mitochondrial **homoplasmies** and **heteroplasmies** from sequencing data.  
 
 ## Capabilities
 
-- Supports **short** and **long reads**  
+- Detects **homoplasmies** and **heteroplasmies** in mitochondria                     
+- Supports **short paired** and **long reads**  
 - **Multiple SNV callers**  
-- Detects **homoplasmies** and **heteroplasmies** in **mitochondria**  
-- Handles **NUMTs** and **mitochondrial origin regions** carefully  
+- Runs 2 iterations: the first uses a standard reference, the second uses the **sample consensus sequence**
+- Handles **NUMTs** and **origin regions** carefully  
 - Supports **human** and **mouse genomes**, with **multiple reference versions**  
 - Allows **multiple heteroplasmy thresholds**  
-- **Calls maternal haplogroup**  
-- **Detects contamination**  
+- Calls **maternal haplogroup**  , **consensus sequence**
+- Detects sample **contamination**  
 - Processes **multiple samples in parallel** and **combines results**  
 - Provides **detailed output summaries**  
 - **Optimized for low CPU, memory, and runtime usage**
@@ -35,7 +37,8 @@ For additinal information please check
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
-- [Input Samples](#input-samples)
+- [Input](#input)
+- [Input](#output)
 - [Installation](#installation)
 - [Setup environment](#setup-environment)
 - [Running the Pipeline](#running-the-pipeline)
@@ -79,15 +82,33 @@ Reference Genomes:
 
 ----
 
-## Input Samples
+## Input
 
 The pipeline expects pre-aligned, coordinate sorted reads:
 
 - **File formats**: `.bam` or `.cram` 
-- **Sequencing platforms**: Illumina paired-end, PacBio HiFi, ONT  
+- **Sequencing platforms**: Illumina paired-end, PacBio HiFi, Oxford Nanopore (ONT) Dorado R9+ 
 - **Index files**: `.bai` or `.crai`  
 - **Indexstats files**: `.idxstats`: contain the number of reads aligned to each chromosome  
 
+---
+
+## Output
+
+- `count.tab` – total reads & mtDNA-CN  
+- `cvg.tab` – coverage stats  
+
+## Iteration 1
+- `snvcaller.*.vcf` – SNVs at multiple heteroplasmy level
+- `snvcaller.*.tab` / `.summary` / `.pos` – SNV counts & summaries  
+- `snvcaller.fa` – consensus sequence  
+- `snvcaller.haplogroup.tab` – maternal haplogroup  
+- `snvcaller.haplocheck.tab` – contamination check  
+
+## Iteration 2
+- `snvcaller.snvcaller.*` – final results
+
+where snvcaller is usuall mutect2(Illumina), deepsomatioc (PacBio hifi), clairs-to (ONT)
 ---
 
 ## Installation
