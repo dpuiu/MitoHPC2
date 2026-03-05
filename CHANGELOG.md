@@ -1,3 +1,6 @@
+# 2026/03/05 #
+* README.md update
+
 # 2026/01/20 #
 * scripts/filter.sh: Replaced samtools view -F 0x90C with samtools view -F 0x10C to potentially capture more distant reads in 2nd SNV itteration.
 * scripts/filter.lr.sh: Added MINLEN, MINPC, MAXDP, and MINAF corresponding to the environment variables HP_MINLEN, HP_MINPC, HP_MAXDP, and HP_MINAF.

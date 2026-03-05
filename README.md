@@ -1,253 +1,291 @@
-# MitoHPC2 : Mitochondrial High Performance Caller v2 #
+# MitoHPC2: Mitochondrial High Performance Caller v2
 
-Pipeline for Calling Mitochondrial Homoplasmies and Heteroplasmies
+A pipeline for detecting mitochondrial **homoplasmies** and **heteroplasmies** from sequencing data.
 
-# Citing #
+---
 
-A bioinformatics pipeline for estimating mitochondrial DNA copy number and heteroplasmy levels from whole genome sequencing data, Battle et. al, 
-[NAR 2022](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/)
+## Citing
 
-# Prerequisites # 
+If you use this pipeline, please cite:
 
-[bwa](https://github.com/lh3/bwa/releases) 0.7.17, 
-[minimap2](https://github.com/lh3/minimap2/releases) 2.28, 
-[htslib](https://github.com/samtools/htslib/releases) 1.21, 
-[samtools](https://github.com/samtools/samtools/releases) 1.21, 
-[bcftools](https://github.com/samtools/bcftools/releases) 1.21, 
-[bedtools](https://github.com/arq5x/bedtools2/releases) 2.31.1, 
-[fastp](http://opengene.org/fastp/fastp) 0.24.0, 
-[samblaster](https://github.com/GregoryFaust/samblaster/releases) 0.1.26, 
-[gatk Mutect2](https://github.com/broadinstitute/gatk/releases/) 4.6.0.0, 
-[mutserve](https://github.com/seppinho/mutserve/releases) 2.0.0-rc15, 
-[freebayes](https://github.com/freebayes/freebayes/releases) 1.3.6, 
-[VarScan](https://github.com/dkoboldt/varscan/releases) 2.4.6, 
-[Clair3](https://github.com/HKU-BAL/Clair3/releases) 1.1.1, 
-[ClairS-TO](https://github.com/HKU-BAL/ClairS-TO) 0.4.2,
-[deepvariant](https://github.com/google/deepvariant) 1.10.0-beta, 
-[deepsomatic](https://github.com/google/deepsomatic/) 1.9.0,
-[gridss](https://github.com/PapenfussLab/gridss/releases) 2.13.2, 
-[haplogrep](https://github.com/seppinho/haplogrep-cmd/releases) v2.4.0, 
-[haplocheck](https://github.com/genepi/haplocheck/releases) 1.3.3, 
-[R](https://cran.r-project.org/src/base/) 4.3.0, 
-[plink2](https://www.cog-genomics.org/plink/2.0/) 2.0 
+Battle et al., *NAR 2022*: [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/)
 
-# INSTALL # 
-    
-     # install git
-     sudo apt-get -y update                            
-     sudo apt-get install -y git                          
+---
 
-     # clone and init MitoHPC2
-     git clone https://github.com/dpuiu/MitoHPC2.git
-     cd MitoHPC2/scripts
-     export HP_SDIR=`pwd -P`
-     . ./init.sh
+## Prerequisites
 
-     # install system prerequisites (if admin or checkInstall.sh below fails)
-     sudo ./install_sysprerequisites.sh                
+The pipeline requires the following tools:
 
-     # install prerequisites and check install
-     ./install_prerequisites.sh
-     ./checkInstall.sh
 
-For additional information check [MitoHPC README](https://github.com/dpuiu/MitoHPC/blob/main/README.md) 
-
-## CUSTOM ANNOTATION ## 
-
-The pipleine has been updated so that all MitoHPC2/RefSeq/*.{vcf,bed}.gz files are used for annotation. 
-If you have any custom annotation files you would like to use, just copy them to MitoHPC2/RefSeq/
-Make sure the VCF/BED files are gzipped and indexed.
-
-# RUN #
-
-Check [MitoHPC README](https://github.com/dpuiu/MitoHPC/blob/main/README.md) first !!!
-
-Copies of the  Clair3, ClairS-To, DeepVariant, DeepSomatic SIF files can be found at [ftp](ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/)
-    # commands
-    curl -s  ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/
-      -rwxr-xr-x    1 2667     5042     1481633792 Nov 17 10:45 clair3_v1.2.0.sif
-      -rwxr-xr-x    1 2667     5042     6507384832 Nov 17 10:50 clairs-to_v0.4.2.sif
-      -rwxr-xr-x    1 2667     5042     5095260160 Nov 17 10:46 deepsomatic_1.9.0.sif
-      -rwxr-xr-x    1 2667     5042     1869000704 Nov 17 10:46 deepvariant_1.10.0-beta.sif
-
-    curl -O ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/clair3_v1.2.0.sif
-    curl -O ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/clairs-to_v0.4.2.sif
-    curl -O ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/deepsomatic_1.9.0.sif
-    curl -O ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/deepvariant_1.10.0-beta.sif
-
-    #converstion to sandbox(faster run)
-    singularity build --sandbox ~/clair3_sandbox/      clair3_v1.2.0.sif
-    singularity build --sandbox ~/clairs_sandbox/      clairs-to_v0.4.2.sif
-    singularity build --sandbox ~/deepsomatic_sandbox/ deepsomatic_1.9.0.sif
-    singularity build --sandbox ~/deepvariant_sandbox/ deepvariant_1.10.0-beta.sif
-
-    #disk size in GB (much bigger)
-    du -hs ~/clairs-to_sandbox/ ~/deepsomatic_sandbox/
-      9.9G  ~/clairs-to_sandbox/
-      8.2G  ~/deepsomatic_sandbox/
-
-Copies of the HPRC samples BAM alignments can be found at [ftp](ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/examples/HPRC/)
-
-## SINGLE SNV CALLER (Illumina)
-
-    # copy init file to work directory
-    cp $HP_SDIR/init.sh .
+- [bwa 0.7.17](https://github.com/lh3/bwa/releases)  
+- [minimap2 2.28](https://github.com/lh3/minimap2/releases)  
+- [htslib 1.21](https://github.com/samtools/htslib/releases)  
+- [samtools 1.21](https://github.com/samtools/samtools/releases)  
+- [bcftools 1.21](https://github.com/samtools/bcftools/releases)  
+- [bedtools 2.31.1](https://github.com/arq5x/bedtools2/releases)  
+- [fastp 0.24.0](http://opengene.org/fastp/fastp)  
+- [samblaster 0.1.26](https://github.com/GregoryFaust/samblaster/releases)  
+- [GATK Mutect2 4.6.0.0](https://github.com/broadinstitute/gatk/releases/)  
+- [mutserve 2.0.0-rc15](https://github.com/seppinho/mutserve/releases)  
+- [freebayes 1.3.6](https://github.com/freebayes/freebayes/releases)  
+- [VarScan 2.4.6](https://github.com/dkoboldt/varscan/releases)  
+- [Clair3 1.2.0](https://github.com/HKU-BAL/Clair3/releases)  
+- [ClairS-TO 0.4.2](https://github.com/HKU-BAL/ClairS-TO)  
+- [DeepVariant 1.10.0-beta](https://github.com/google/deepvariant)  
+- [DeepSomatic 1.9.0](https://github.com/google/deepsomatic/)  
+- [GRIDSS 2.13.2](https://github.com/PapenfussLab/gridss/releases)  
+- [Haplogrep 2.4.0](https://github.com/seppinho/haplogrep-cmd/releases)  
+- [Haplocheck 1.3.3](https://github.com/genepi/haplocheck/releases)  
+- [plink2 2.0](https://www.cog-genomics.org/plink/2.0/)  
   
-    # edit SNV caller if needed
-    nano ./init.sh 
-      ...
-      export HP_M=mutect2          # mutect2,mutserve,freebayes,varscan
+- [R](https://cran.r-project.org/src/base/) 
+- [Apptainer](https://github.com/apptainer/apptainer.git)
 
-    # init
-    . ./init.sh
+---
 
-    # run
-    $HP_SDIR/run.sh | tee run.all.sh | bash
+## Reference Genomes
 
-    # check output
-    ls $HP_ODIR/mutect2.*
+----
 
-## MULTIPLE SNV CALLERS (Illumina)
+## Input Samples
 
-In addition, one can run multiple(3) SNV callers and merge the results. 
-Only the SNV called by at least 2 the metods make it into the final/merged set.
+The pipeline expects pre-aligned, coordinate sorted reads:
 
-    # init     
-    cp $HP_SDIR/init3.sh .
-    cat init3.sh
-      ...
-      export HP_M1=mutect2   
-      export HP_M2=varscan
-      export HP_M3=freebayes
-      export HP_M=merge3
+- **File formats**: `.bam` or `.cram` 
+- **Sequencing platforms**: Illumina paired-end, PacBio HiFi, ONT  
+- **Index files**: `.bai` or `.crai`  
+- **Indexstats files**: `.idxstats`: contain the number of reads aligned to each chromosome  
 
-    . ./init3.sh
+---
 
-    # run
-    $HP_SDIR/run3.sh | tee run.all.sh | bash       
+## Installation
 
-    # output
-    ls $HP_ODIR/merge3.*
+### 1. Download the Pipeline
 
-## SNV CALLER IINIT PacBio HiFi
+```bash
+git clone https://github.com/dpuiu/MitoHPC2.git
+```
 
-    # copy init file to work directory
-    cp $HP_SDIR/init.hifi.sh .
+### 2. Update the Pipeline (optional)
 
-    # check/edit init.hifi.sh; set the SNV caller
-    cat init.hifi.sh
-      ...
-      export HP_M=deepsomatic                       # varscan,bcftools,clair3,clairs-to,deepvariant,deepsomatic
-      export HP_PLATFORM="hifi_revio"		    # used by clairs-to
-      export HP_MODELTYPE="PACBIO_TUMOR_ONLY"       # used by deepsomatic
+```bash
+cd MitoHPC2/
+git pull
+# or
+git checkout .
+```
 
-    # init
-    . ./init.hifi.sh
+### 3. Set up the Environment (important)
 
-## SNV CALLER INIT ONT
+```bash
+cd MitoHPC2/scripts
+export HP_SDIR=`pwd`                           # set script directory
+echo "export HP_SDIR=`pwd`" >> ~/.bashrc       # add variable to .bashrc
+. ./init.sh                                    # or init.{hs38DH,hg19,mm39}.sh for different references
+```
 
-    # copy init file to work directory
-    cp $HP_SDIR/init.ont.sh .
+### 4. Install System Prerequisites (optional)
 
-    # check/edit init.ont.sh; set the SNV caller
-    cat init.ont.sh
-      ...
-      export HP_M=clairs-to                         # varscan,bcftools,clair3,clairs-to,deepvariant,deepsomatic
-      export HP_PLATFORM="ont_r10_dorado_sup_5khz"  # used by clairs-to ; ont_r10_dorado_sup_4khz, ont_r10_dorado_hac_4khz, ont_r10_dorado_sup_5khz, ont_r10_dorado_sup_5khz_ss, ont_r10_dorado_sup_5khz_ssrs
-      export HP_MODELTYPE="ONT_TUMOR_ONLY"	    # used by deepsomatic
+```bash
+sudo $HP_SDIR/install_sysprerequisites.sh      # installs perl, python, java, wget, etc.
+```
 
-    # init
-    . ./init.ont.sh
+### 5. Install Pipeline Prerequisites
 
-## SNV CALLER LONG READS
+```bash
+$HP_SDIR/install_prerequisites.sh             # installs bwa, samtools, bedtools, etc.
+# or force latest versions
+$HP_SDIR/install_prerequisites.sh -f
+```
 
-    # run
-    $HP_SDIR/run.lr.sh | tee run.all.sh | bash
+### 6. Install Long-Read SNV Callers (optional)
 
-    # check output
-    ls $HP_ODIR/.*
+Download pre-built Singularity images to `$HP_BDIR`:
 
-    # evaluate results(compare to Illumina mutect2 T=10)             
-    $HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf $HP_M.10.concat.vcf | uniq.pl | column -t > $HP_M.10.eval
+```bash
+curl -s ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/
+# example files:
+# clair3_v1.2.0.sif
+# clairs-to_v0.4.2.sif
+# deepsomatic_1.9.0.sif
+# deepvariant_1.10.0-beta.sif
+```
 
-# Examples #
+Convert to sandbox for faster execution:
 
-## 30 Simulated samples ##
+```bash
+singularity build --sandbox ~/clairs-to_sandbox/   $HP_BDIR/clairs-to.sif
+singularity build --sandbox ~/deepsomatic_sandbox/ $HP_BDIR/deepsomatic.sif
 
-* Haplogroups A-Z  
- wgsim -N 111000 -1 150 -2 150 -d 300 ...
+# Check size
+du -hs ~/clairs-to_sandbox/ ~/deepsomatic_sandbox/
+```
 
-## 39 HPRC samples ##
+### 7. Check Installation
 
-* [Sequence information](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/summary.txt)
+```bash
+$HP_SDIR/checkInstall.sh
+cat checkInstall.log
+```
 
-### HiFi10 ###
+"Success message!" expected
 
-* clairs-to: 
-[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.10.10.eval), 
-[05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.05.10.eval), 
-[10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.10.05.eval), 
-[05.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.05.05.eval), 
+---
+
+## Custom Annotation
+
+- The pipeline uses `MitoHPC2/RefSeq/*.{vcf,bed}.gz` for annotation.  
+- Copy any custom VCF/BED files to `MitoHPC2/RefSeq/`.  
+- Ensure files are bgzipped and indexed.
+
+---
+
+## Running the Pipeline
+
+### Illumina Data
+
+#### Single SNV Caller
+
+```bash
+cp $HP_SDIR/init.sh .
+nano ./init.sh             # edit SNV caller if needed
+# e.g., export HP_M=mutect2
+. ./init.sh
+$HP_SDIR/run.sh | tee run.all.sh | bash
+```
+
+#### Multiple SNV Callers
+
+```bash
+cp $HP_SDIR/init3.sh .
+nano ./init3.sh            # set HP_M1, HP_M2, HP_M3
+. ./init3.sh
+$HP_SDIR/run3.sh | tee run.all.sh | bash
+```
+
+### PacBio HiFi Data
+
+```bash
+cp $HP_SDIR/init.hifi.sh .
+nano ./init.hifi.sh        # set HP_M, HP_PLATFORM, HP_MODELTYPE
+. ./init.hifi.sh
+$HP_SDIR/run.lr.sh | tee run.all.sh | bash
+```
+
+### ONT Data
+
+```bash
+cp $HP_SDIR/init.ont.sh .
+nano ./init.ont.sh         # set HP_M, HP_PLATFORM, HP_MODELTYPE
+. ./init.ont.sh
+$HP_SDIR/run.lr.sh | tee run.all.sh | bash
+```
+
+---
+
+## Output
+
+```bash
+ls $HP_ODIR/.*
+```
+
+---
+
+## Evaluation
+
+Compare results to Illumina mutect2 (T=10):
+
+```bash
+$HP_SDIR/eval.sh Illumina/out/mutect2.10.concat.vcf $HP_M.10.concat.vcf | uniq.pl | column -t > $HP_M.10.eval
+```
+
+---
+
+## Examples
+
+### HPRC Samples
+
+- [FTP download](ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/examples/HPRC/)
+
+### Simulated Samples
+
+- 30 simulated samples (haplogroups A-Z)  
+- 39 HPRC samples ([sequence info](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/summary.txt))  
+
+#### HiFi10 & ONT10 Evaluations
+
+- Multiple SNV caller evaluations: `clairs-to`, `deepsomatic`, `varscan`  
+- Links provided for different heteroplasmy thresholds (short-read / long-read)
+
+##### HiFi10
+
+* clairs-to:
+[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.10.10.eval),
+[05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.05.10.eval),
+[10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.10.05.eval),
+[05.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.05.05.eval),
 [10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.10.00.eval),
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/clairs-to.05.00.eval)
 
 * deepsomatic:
-[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.10.10.eval), 
-[05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.05.10.eval), 
-[10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.10.05.eval), 
+[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.10.10.eval),
+[05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.05.10.eval),
+[10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.10.05.eval),
 [05.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.05.05.eval),
 [10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.10.00.eval),
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/deepsomatic.05.00.eval)
 
 * varscan:
-[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.10.10.eval), 
-[05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.05.10.eval), 
-[10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.10.05.eval), 
+[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.10.10.eval),
+[05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.05.10.eval),
+[10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.10.05.eval),
 [05.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.05.05.eval),
 [10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.10.00.eval),
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10/out/varscan.05.00.eval)
 
-### ONT10 ###
+##### ONT10
 
 * clairs-to:
-[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.10.10.eval), 
-[05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.05.10.eval), 
-[10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.10.05.eval), 
+[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.10.10.eval),
+[05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.05.10.eval),
+[10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.10.05.eval),
 [05.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.05.05.eval),
 [10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.10.00.eval),
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/clairs-to.05.00.eval)
 
 * deepsomatic:
-[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.10.10.eval), 
-[05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.05.10.eval), 
-[10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.10.05.eval), 
+[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.10.10.eval),
+[05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.05.10.eval),
+[10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.10.05.eval),
 [05.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.05.05.eval),
 [10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.10.00.eval),
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/deepsomatic.05.00.eval)
 
 * varscan:
-[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.10.10.eval), 
-[05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.05.10.eval), 
-[10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.10.05.eval), 
+[10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.10.10.eval),
+[05.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.05.10.eval),
+[10.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.10.05.eval),
 [05.05](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.05.05.eval),
 [10.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.10.00.eval),
 [05.00](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10/out/varscan.05.00.eval)
 
-## 39 HPRC bases Simulated samples ##
 
-### HiFi10Sim ###
+### 39 HPRC bases Simulated samples 
+
+#### HiFi10Sim
 
 * 500x cvg of Illumina paired end reads (2*150bp) were simulated using the best HiFi10 raeds (avg Q30)
 * commands:
   wgsim -N 22200 -1 150 -2 150 -d 300 -e 0 -r 0 -R 0
-* There reads were processed using the MitoHPC2 pipeline ("mutect2" SNV caller)     
+* There reads were processed using the MitoHPC2 pipeline ("mutect2" SNV caller)
 [10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/HiFi10Sim/out/mutect2.10.10.eval)
-### ONT10Sim ###
+
+#### ONT10Sim 
 
 * 500x cvg of Illumina paired end reads (2*150bp) were simulated using the best ONT10 raeds (avg Q20)
 * commands:
   wgsim -N 22200 -1 150 -2 150 -d 300 -e 0 -r 0 -R 0
-* There reads were processed using the MitoHPC2 pipeline ("mutect2" SNV caller)  
+* There reads were processed using the MitoHPC2 pipeline ("mutect2" SNV caller)
 [10.10](https://github.com/dpuiu/MitoHPC2/blob/main/examples/HPRC/ONT10Sim/out/mutect2.10.10.eval)
 
 
