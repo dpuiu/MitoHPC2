@@ -12,7 +12,7 @@ Capabilities:
 - Detects contamination
 - Processes multiple samples in parallel and combines results
 - Optimized for low CPU, memory, and runtime usage
--
+
 ---
 
 ## Citing
@@ -20,6 +20,13 @@ Capabilities:
 If you use this pipeline, please cite:
 
 Battle et al., *NAR 2022*: [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767/)
+
+---
+
+## Reference
+
+For additinal information please check 
+(MitoHPC v1)[https://github.com/dpuiu/MitoHPC]
 
 ---
 
