@@ -1,7 +1,18 @@
 # MitoHPC2: Mitochondrial High Performance Caller v2
 
-A pipeline for detecting mitochondrial **homoplasmies** and **heteroplasmies** from sequencing data.
+A pipeline for detecting mitochondrial **homoplasmies** and **heteroplasmies** from sequencing data.  
 
+Capabilities:
+- Supports short and long reads
+- Multiple SNV callers
+- Human and mouse genomes
+- Multiple reference versions
+- Multiple heteroplasmy thresholds
+- Calls maternal haplogroup
+- Detects contamination
+- Processes multiple samples in parallel and combines results
+- Optimized for low CPU, memory, and runtime usage
+-
 ---
 
 ## Citing
@@ -17,33 +28,36 @@ Battle et al., *NAR 2022*: [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9112767
 The pipeline requires the following tools:
 
 
-- [bwa 0.7.17](https://github.com/lh3/bwa/releases)  
-- [minimap2 2.28](https://github.com/lh3/minimap2/releases)  
-- [htslib 1.21](https://github.com/samtools/htslib/releases)  
-- [samtools 1.21](https://github.com/samtools/samtools/releases)  
-- [bcftools 1.21](https://github.com/samtools/bcftools/releases)  
-- [bedtools 2.31.1](https://github.com/arq5x/bedtools2/releases)  
-- [fastp 0.24.0](http://opengene.org/fastp/fastp)  
-- [samblaster 0.1.26](https://github.com/GregoryFaust/samblaster/releases)  
-- [GATK Mutect2 4.6.0.0](https://github.com/broadinstitute/gatk/releases/)  
-- [mutserve 2.0.0-rc15](https://github.com/seppinho/mutserve/releases)  
-- [freebayes 1.3.6](https://github.com/freebayes/freebayes/releases)  
-- [VarScan 2.4.6](https://github.com/dkoboldt/varscan/releases)  
-- [Clair3 1.2.0](https://github.com/HKU-BAL/Clair3/releases)  
-- [ClairS-TO 0.4.2](https://github.com/HKU-BAL/ClairS-TO)  
-- [DeepVariant 1.10.0-beta](https://github.com/google/deepvariant)  
-- [DeepSomatic 1.9.0](https://github.com/google/deepsomatic/)  
-- [GRIDSS 2.13.2](https://github.com/PapenfussLab/gridss/releases)  
-- [Haplogrep 2.4.0](https://github.com/seppinho/haplogrep-cmd/releases)  
-- [Haplocheck 1.3.3](https://github.com/genepi/haplocheck/releases)  
-- [plink2 2.0](https://www.cog-genomics.org/plink/2.0/)  
-  
-- [R](https://cran.r-project.org/src/base/) 
-- [Apptainer](https://github.com/apptainer/apptainer.git)
+- [bwa 0.7.17](https://github.com/lh3/bwa/releases), 
+[minimap2 2.28](https://github.com/lh3/minimap2/releases), 
+[htslib 1.21](https://github.com/samtools/htslib/releases), 
+[samtools 1.21](https://github.com/samtools/samtools/releases), 
+[bcftools 1.21](https://github.com/samtools/bcftools/releases), 
+[bedtools 2.31.1](https://github.com/arq5x/bedtools2/releases), 
+[fastp 0.24.0](http://opengene.org/fastp/fastp), 
+[samblaster 0.1.26](https://github.com/GregoryFaust/samblaster/releases), 
+[GATK Mutect2 4.6.0.0](https://github.com/broadinstitute/gatk/releases/), 
+[mutserve 2.0.0-rc15](https://github.com/seppinho/mutserve/releases), 
+[freebayes 1.3.6](https://github.com/freebayes/freebayes/releases), 
+[VarScan 2.4.6](https://github.com/dkoboldt/varscan/releases), 
+[Clair3 1.2.0](https://github.com/HKU-BAL/Clair3/releases), 
+[ClairS-TO 0.4.2](https://github.com/HKU-BAL/ClairS-TO), 
+[DeepVariant 1.10.0-beta](https://github.com/google/deepvariant), 
+[DeepSomatic 1.9.0](https://github.com/google/deepsomatic/), 
+[GRIDSS 2.13.2](https://github.com/PapenfussLab/gridss/releases), 
+[Haplogrep 2.4.0](https://github.com/seppinho/haplogrep-cmd/releases), 
+[Haplocheck 1.3.3](https://github.com/genepi/haplocheck/releases), 
+[plink2 2.0](https://www.cog-genomics.org/plink/2.0/)
+   
+- [R](https://cran.r-project.org/src/base/), 
+[Apptainer](https://github.com/apptainer/apptainer.git)
 
 ---
 
 ## Reference Genomes
+
+- Default: hg38
+- Setting available in  scripts/init.sh
 
 ----
 
