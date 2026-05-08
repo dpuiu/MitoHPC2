@@ -154,7 +154,7 @@ $HP_SDIR/install_prerequisites.sh -f
 
 ### 6. Install Long-Read SNV Callers (optional)
 
-Download pre-built Singularity images to `$HP_BDIR`:
+List and download pre-built Singularity images to `$HP_BDIR`:
 
 ```bash
 curl -s ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/
@@ -163,6 +163,9 @@ curl -s ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/
 # clairs-to_v0.4.2.sif
 # deepsomatic_1.9.0.sif
 # deepvariant_1.10.0-beta.sif
+
+curl -LO ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/clairs-to_v0.4.2.sif
+curl -LO ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/deepsomatic_1.9.0.sif
 ```
 
 Convert to sandbox for faster execution:
