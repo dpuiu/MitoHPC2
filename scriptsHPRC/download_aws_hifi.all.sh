@@ -1,4 +1,3 @@
-./download_aws_hifi.sh sample	file
 ./download_aws_hifi.sh HG002	s3://human-pangenomics/submissions/de000c71-bc38-4209-b86a-91d4eaadf68f--UW_HG002_HiFi/HG002/raw_data/PacBio_HiFi/r64076_20210309_013440_A01.reads.bam
 ./download_aws_hifi.sh HG005	s3://human-pangenomics/working/HPRC_PLUS/HG005/raw_data/PacBio_HiFi/wMods/m64109_200304_195708.hifi_reads.bam
 ./download_aws_hifi.sh HG00096	s3://human-pangenomics/backup/submissions/EF65A664-30B7-4E54-891A-5893D78AB0BE--HGSVC-JAX/HG00096/raw_data/PacBio_HiFi/m64039_220218_071556/m64039_220218_071556.subreads.bam

@@ -1,4 +1,3 @@
-./download_aws_ont.sh sample	file
 ./download_aws_ont.sh HG002	s3://human-pangenomics/T2T/HG002/assemblies/polishing/HG002/v1.0/mapping/ont_r10_ul_dorado/hg002v1.0_ont_r10_ul_dorado.bam
 ./download_aws_ont.sh HG00096	s3://human-pangenomics/submissions/26FA1FCF-1B37-44B7-8B4B-736C227429BA--UCSC_HGSVC_ONT_R10/HG00096/basecalled/04_28_25_R1041_UL_HGSVC_HG00096_2_dorado0.9.1_supv5.0.0_5mCG_5hmCG.bam
 ./download_aws_ont.sh HG00097	s3://human-pangenomics/submissions/F673CD5D-9552-4CFC-8BE7-650A71CC5BF4--UCSC_HPRC_nanopore_Year4/HG00097/dorado0.6.0_sup4.3.0_5mCG_5hmCG/10_31_23_R1041_HPRC_HG00097_1_dorado0.6.0_sup4.3.0_5mCG_5hmCG.bam

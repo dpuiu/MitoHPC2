@@ -27,6 +27,7 @@ which tabix
 which freebayes
 which minimap2
 which plink2
+which s5cmd
 #which gridss
 #which delly
 

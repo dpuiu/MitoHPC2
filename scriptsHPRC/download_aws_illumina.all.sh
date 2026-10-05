@@ -1,4 +1,3 @@
-./download_aws_illumina.sh sample	file
 ./download_aws_illumina.sh HG00097	s3://human-pangenomics/submissions/59C50DDF-5FAF-4841-AC3E-6C02D636C57F--Y4_1000G_DATA/HG00097.final.cram
 ./download_aws_illumina.sh HG00099	s3://human-pangenomics/submissions/325b4b1c-9f20-49be-b03a-596da89c466e--1000G_CHILDREN/HG00099/1000G_data/HG00099.final.cram
 ./download_aws_illumina.sh HG00106	s3://human-pangenomics/submissions/59C50DDF-5FAF-4841-AC3E-6C02D636C57F--Y4_1000G_DATA/HG00106.final.cram

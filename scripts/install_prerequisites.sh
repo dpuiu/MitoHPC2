@@ -176,13 +176,21 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   mv plink2 $HP_BDIR/
 fi
 
+which s5cmd
+if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
+  curl -L https://github.com/peak/s5cmd/releases/latest/download/s5cmd_2.3.0_Linux-64bit.tar.gz -o s5cmd.tar.gz
+  tar -xzf s5cmd.tar.gz
+  chmod +x s5cmd
+  mv s5cmd HP_BDIR/
+fi  
+
 ####################################################################################
 #uncomment the following lines if you want clair3/deepvariant support
 
-wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/clair3_v1.2.0.sif -O $HP_BDIR/clair3.sif
-wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/clairs-to_v0.4.2.sif -O $HP_BDIR/clairs-to.sif
-wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/deepvariant_1.10.0-beta.sif -O $HP_BDIR/deepvariant.sif
-wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/deepsomatic_1.9.0.sif -O $HP_BDIR/deepsomatic.sif
+#wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/clair3_v1.2.0.sif -O $HP_BDIR/clair3.sif
+#wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/clairs-to_v0.4.2.sif -O $HP_BDIR/clairs-to.sif
+#wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/deepvariant_1.10.0-beta.sif -O $HP_BDIR/deepvariant.sif
+#wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/deepsomatic_1.9.0.sif -O $HP_BDIR/deepsomatic.sif
 
 #singularity pull $HP_BDIR/clair3.sif      docker://hkubal/clair3:v1.2.0
 #singularity pull $HP_BDIR/clairs.sif      docker://hkubal/clairs-to:v0.4.2
