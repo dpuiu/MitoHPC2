@@ -1,0 +1,1 @@
+../scripts/download_aws_hifi.sh

@@ -1,49 +1,84 @@
-#!/bin/bash 
-set -euxo pipefail
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Usage: $0 <sample> <HPRC_file> 
+# Usage: $0 <sample> <HPRC_file>
 #
 # sample     Sample ID (HG\d+ or NA\d+)
-# HPRC_file  HPRC renote CRAM/BAM file path starting with s3://human-pangenomics/
+# HPRC_file  HPRC remote CRAM/BAM path starting with s3://human-pangenomics/
+#
+# Required environment variables:
+#   HP_RMT      mitochondrial chromosome
+#   HP_RNUMT    NUMT chromosome/region
+#   HP_MTLEN    mitochondrial reference length
+#   HP_RDIR     reference directory
+#   HP_RNAME    reference name
+#
+# Required programs:
+#   s5cmd samtools idxstats2count.pl filterSam.pl
 
-S=$1		# sample id
-F=$2		# HPRC remote file name
+S=$1
+F=$2
 P=2
 
-if [ -s $S.MT.bam ]; then
-  exit 0
+# MT BAM already exists: nothing more to do.
+if [[ -s "$S.MT.bam" ]]; then
+    exit 0
 fi
 
-# Download HPRC CRAM file
-if [ ! -s $S.cram ]; then
-  s5cmd cp $F $S.cram
+# ----------------------------------------------------------------------
+# Download CRAM/BAM
+# ----------------------------------------------------------------------
+
+if [[ ! -s "$S.cram" ]]; then
+    s5cmd cp "$F" "$S.cram"
 fi
 
-# Download/GENERATE HPRC CRAI file if exists
-if s5cmd ls "$F.crai" >/dev/null 2>&1  ; then
-    s5cmd cp $F.crai $S.cram.crai
+# ----------------------------------------------------------------------
+# Download CRAI if available; otherwise create it locally
+# ----------------------------------------------------------------------
+
+if s5cmd ls "$F.crai" >/dev/null 2>&1; then
+    s5cmd cp "$F.crai" "$S.cram.crai"
 else
-    samtools index -@ $P $S.cram
+    samtools index -@ "$P" "$S.cram"
 fi
 
-# Get the count file
-if [ ! -s $S.MT.count ]; then
-  samtools idxstats -@ $P $S.cram | \
-    idxstats2count.pl -sample $S -chrM $HP_RMT > $S.MT.count
+# ----------------------------------------------------------------------
+# Count reads mapped to MT
+# ----------------------------------------------------------------------
+
+if [[ ! -s "$S.MT.count" ]]; then
+    samtools idxstats -@ "$P" "$S.cram" |
+        idxstats2count.pl \
+            -sample "$S" \
+            -chrM "$HP_RMT" \
+            > "$S.MT.count"
 fi
 
-# Extract reads and align to the mitochondrial reference
-if [ ! -s $S.MT.bam ]; then
-  #samtools view  $S.cram $RMT $RNUMT -b > $S.MT.bam
-  samtools view -h $S.cram $HP_RMT:1-$HP_MTLEN $HP_RNUMT -F 0x90C -T $HP_RDIR/$HP_RNAME.fa | \
-    filterSam.pl $HP_RMT:1-$HP_MTLEN $HP_RNUMT | samtools view -b  > $S.MT.bam
-  samtools index $S.MT.bam
-  samtools idxstats $S.MT.bam > $S.MT.idxstats
-  #samtools depth $S.MT.bam -r $RMT > $S.MT.depth
+# ----------------------------------------------------------------------
+# Extract MT and NUMT reads and filter them
+# ----------------------------------------------------------------------
+
+if [[ ! -s "$S.MT.bam" ]]; then
+    samtools view \
+        -h \
+        "$S.cram" \
+        "$HP_RMT:1-$HP_MTLEN" \
+        "$HP_RNUMT" \
+        -F 0x90C \
+        -T "$HP_RDIR/$HP_RNAME.fa" |
+        filterSam.pl "$HP_RMT:1-$HP_MTLEN" "$HP_RNUMT" |
+        samtools view -b \
+        > "$S.MT.bam"
+
+    samtools index "$S.MT.bam"
+    samtools idxstats "$S.MT.bam" > "$S.MT.idxstats"
 fi
 
-# Cleanup
-if [ -s $S.MT.bam ]; then
-  rm $S.cram $S.cram.crai
-fi
+# ----------------------------------------------------------------------
+# Remove downloaded CRAM and index after MT extraction
+# ----------------------------------------------------------------------
 
+if [[ -s "$S.MT.bam" ]]; then
+    rm -f "$S.cram" "$S.cram.crai"
+fi
