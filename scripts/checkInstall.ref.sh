@@ -4,6 +4,7 @@ set -euo pipefail
 
 test -s $HP_RDIR/$HP_RNAME.fa
 test -s $HP_RDIR/$HP_MT.fa
+test -s $HP_RDIR/$HP_MT2.fa
 test -s $HP_RDIR/$HP_MTC.fa
 test -s $HP_RDIR/$HP_MTR.fa
 test -s $HP_RDIR/$HP_NUMT.fa

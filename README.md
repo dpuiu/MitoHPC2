@@ -138,45 +138,37 @@ echo "export HP_SDIR=`pwd`" >> ~/.bashrc       # add variable to .bashrc
 . ./init.sh                                    # or init.{hs38DH,hg19,mm39}.sh for different references
 ```
 
-### 4. Install System Prerequisites (optional)
+### 4 Install Software Prerequisites 
 
 ```bash
-sudo $HP_SDIR/install_sysprerequisites.sh      # installs perl, python, java, wget, etc.
+sudo $HP_SDIR/install_sys_prerequisites.sh       # installs perl, python, java, wget, etc.
+$HP_SDIR/install_prerequisites.sh [-f]           # installs bwa, samtools, bedtools, etc. (-f: force)
 ```
 
-### 5. Install Pipeline Prerequisites
+or , using conda
+
+```
+which conda
+conda init
+conda env create -f $HP_SDIR/scripts/install_prerequisites.yaml  # once
+
+exec bash
+conda activate mitohpc2
+```
+
+### 5 Install Software Prerequisites (Long Reads)
 
 ```bash
-$HP_SDIR/install_prerequisites.sh             # installs bwa, samtools, bedtools, etc.
-# or force latest versions
-$HP_SDIR/install_prerequisites.sh -f
+$HP_SDIR/install_prerequisites.lr.sh            # installs additional long read SNV callers (optional)
 ```
 
-### 6. Install Long-Read SNV Callers (optional)
-
-List and download pre-built Singularity images to `$HP_BDIR`:
+### 6 Install Reference Prerequisites 
 
 ```bash
-curl -s ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/
-# example files:
-# clair3_v1.2.0.sif
-# clairs-to_v0.4.2.sif
-# deepsomatic_1.9.0.sif
-# deepvariant_1.10.0-beta.sif
-
-curl -LO ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/clairs-to_v0.4.2.sif
-curl -LO ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/deepsomatic_1.9.0.sif
+$HP_SDIR/install_prerequisites.ref.sh  
 ```
 
-Convert to sandbox for faster execution:
-
-```bash
-singularity build --sandbox ~/clairs-to_sandbox/   $HP_BDIR/clairs-to.sif
-singularity build --sandbox ~/deepsomatic_sandbox/ $HP_BDIR/deepsomatic.sif
-du -hs ~/clairs-to_sandbox/ ~/deepsomatic_sandbox/
-```
-
-### 7. Custom Annotation
+### 7. Add Custom Annotation
 
 - The pipeline uses `MitoHPC2/RefSeq/*.{vcf,bed}.gz` for annotation.
 - Copy any custom VCF/BED files to `MitoHPC2/RefSeq/`.
@@ -185,8 +177,10 @@ du -hs ~/clairs-to_sandbox/ ~/deepsomatic_sandbox/
 ### 8. Check Installation
 
 ```bash
-$HP_SDIR/checkInstall.sh
-cat checkInstall.log
+$HP_SDIR/checkInstall.sh                       # test deafult software
+$HP_SDIR/checkInstall.lr.sh                    # additional long read callers (optional)
+$HP_SDIR/checkInstall.ref.sh                   # test references
+
 ```
 
 "Success message!" expected
@@ -281,8 +275,8 @@ $HP_SDIR/run.sh | tee run.all.sh | bash
 ### 2. Illumina Data: Multiple SNV Callers
 
 ```bash
-cp $HP_SDIR/init3.sh .
-nano ./init3.sh       
+cat $HP_SDIR/init.sh $HP_SDIR/init3.sh > ./init3.sh
+nano ./init3.sh
 . ./init3.sh
 $HP_SDIR/run3.sh | tee run.all.sh | bash
 ```
@@ -290,8 +284,8 @@ $HP_SDIR/run3.sh | tee run.all.sh | bash
 ### 3. PacBio HiFi Data
 
 ```bash
-cp $HP_SDIR/init.hifi.sh .
-nano ./init.hifi.sh        
+cat $HP_SDIR/init.sh $HP_SDIR/init.hifi.sh > ./init.hifi.sh
+nano $HP_SDIR/init.hifi.sh        
 . ./init.hifi.sh
 $HP_SDIR/run.lr.sh | tee run.all.sh | bash
 ```
@@ -299,7 +293,7 @@ $HP_SDIR/run.lr.sh | tee run.all.sh | bash
 ### 4. ONT Data
 
 ```bash
-cp $HP_SDIR/init.ont.sh .
+cat $HP_SDIR/init.sh $HP_SDIR/init.ont.sh > ./init.ont.sh
 nano ./init.ont.sh         
 . ./init.ont.sh
 $HP_SDIR/run.lr.sh | tee run.all.sh | bash

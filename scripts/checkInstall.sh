@@ -40,6 +40,7 @@ which mutserve   >> checkInstall.log
 which haplogrep  >> checkInstall.log
 which haplocheck >> checkInstall.log
 which varscan    >> checkInstall.log
+which s5cmd      >> checkInstall.log
 
 ######################################################
 

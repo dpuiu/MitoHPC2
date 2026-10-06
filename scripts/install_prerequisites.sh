@@ -13,7 +13,7 @@ if [ -z $HP_HDIR ] ; then echo "Variable HP_HDIR not defined. Make sure you foll
 
 #. $HP_SDIR/init.sh
 cd $HP_HDIR
-mkdir -p prerequisites/ $HP_BDIR/ $HP_JDIR/ $HP_RDIR/
+mkdir -p prerequisites/ $HP_BDIR/ $HP_RDIR/
 cd prerequisites/
 
 #compile using multiple threads
@@ -27,7 +27,7 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
     tar -xjvf bwa-0.7.17.tar.bz2
     cd bwa-0.7.17
     make  CFLAGS="-g -Wall -Wno-unused-function -O2 -fcommon"  # compiling using gcc v10.+ fails unless "-fcommon" is added
-    mv bwa $HP_BDIR/
+    cp bwa $HP_BDIR/
     cd -
   fi
 fi
@@ -37,7 +37,7 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://github.com/lh3/minimap2/releases/download/v2.28/minimap2-2.28.tar.bz2
   tar -xjvf minimap2-2.28.tar.bz2 
   cd minimap2-2.28/
-  make ;  mv minimap2 $HP_BDIR
+  make ;  cp minimap2 $HP_BDIR
   cd -
 fi
 
@@ -61,7 +61,7 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   if [ ! -s $HP_BDIR/samtools ] ; then
     tar -xjvf samtools-1.21.tar.bz2
     cd samtools-1.21
-    ./configure --prefix=$HP_HDIR/ --with-curl # --without-curses --disable-bz2
+    ./configure --prefix=$HP_HDIR/ --with-curl  --without-curses # --disable-bz2
     make ;  make install
     cd -
   fi
@@ -86,7 +86,7 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   if [ ! -s $HP_BDIR/samblaster ] ; then
     tar -xzvf samblaster-v.0.1.26.tar.gz
     cd samblaster-v.0.1.26
-    make ; mv samblaster $HP_BDIR/
+    make ; cp samblaster $HP_BDIR/
     cd -
   fi
 fi
@@ -105,7 +105,7 @@ fi
 which fastp
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c http://opengene.org/fastp/fastp
-  mv fastp $HP_BDIR/
+  cp fastp $HP_BDIR/
   chmod a+x $HP_BDIR/fastp
   #wget -N -c https://github.com/OpenGene/fastp/archive/refs/tags/v0.24.1.tar.gz
   #tar -xzvf v0.24.1.tar.gz 
@@ -114,135 +114,83 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   #make install prefix=$HP_HDIR/
   #cd -
 fi
-
 #########################################################################################
 
-#if [ ! -s $HP_JDIR/gatk.jar ] ; then # 2023/04/26
-if [[ ! -s $HP_JDIR/gatk.jar || $# == 1 && $1 == "-f" ]] ; then
+which gatk
+if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://github.com/broadinstitute/gatk/releases/download/4.6.0.0/gatk-4.6.0.0.zip
   unzip -o gatk-4.6.0.0.zip
-  mv gatk-4.6.0.0/gatk-package-4.6.0.0-local.jar $HP_JDIR/gatk.jar
-  mv gatk-4.6.0.0/gatk $HP_BDIR/
+  cp gatk-4.6.0.0/gatk-package-4.6.0.0-local.jar $HP_BDIR/gatk.jar
+  cp gatk-4.6.0.0/gatk $HP_BDIR/
 fi
 
-#if [ ! -s $HP_JDIR/mutserve.jar ] ; then  # 2023/04/26
-if [[ ! -s $HP_JDIR/mutserve.jar || $# == 1 && $1 == "-f" ]] ; then
+
+which mutserve
+if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://github.com/seppinho/mutserve/releases/download/v2.0.0-rc15/mutserve.zip
   unzip -o mutserve.zip
-  mv mutserve.jar $HP_JDIR/
+  cp mutserve mutserve.jar $HP_BDIR/
 fi
 
 which freebayes
-if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
- 
+if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then 
   wget -N -c https://github.com/freebayes/freebayes/releases/download/v1.3.6/freebayes-1.3.6-linux-amd64-static.gz
   gunzip freebayes-1.3.6-linux-amd64-static.gz  -c >  $HP_BDIR/freebayes
   chmod a+x $HP_BDIR/freebayes
 fi
 
-if [[ ! -s $HP_JDIR/VarScan.jar || $# == 1 && $1 == "-f" ]] ; then
+which varscan
+if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c  https://github.com/dkoboldt/varscan/releases/download/v2.4.6/VarScan.v2.4.6.jar
-  mv VarScan.v2.4.6.jar $HP_JDIR/VarScan.jar
+  cp VarScan.v2.4.6.jar $HP_BDIR/VarScan.jar
+  echo "#!/usr/bin/env bash" > $HP_BDIR/varscan
+  echo "java -jar $HP_BDIR/VarScan.jar \$@" >> $HP_BDIR/varscan
+  chmod a+x $HP_BDIR/varscan
 fi
 
-which Rscript
-if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
-  wget -N -c https://cran.r-project.org/src/base/R-4/R-4.3.0.tar.gz
-  tar -xzvf R-4.3.0.tar.gz
-  cd R-4.3.0
-  ./configure --prefix=$HP_HDIR
-  make
-  make install
-fi
+#which Rscript
+#if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
+#  wget -N -c https://cran.r-project.org/src/base/R-4/R-4.3.0.tar.gz
+#  tar -xzvf R-4.3.0.tar.gz
+#  cd R-4.3.0
+#  ./configure --prefix=$HP_HDIR --with-readline=no
+#  make
+#  make install
+#fi
 
 which gridss
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://github.com/PapenfussLab/gridss/releases/download/v2.13.2/gridss-2.13.2.tar.gz
   tar -xzvf gridss-2.13.2.tar.gz
-  mv gridss $HP_BDIR/
-  mv gridss-2.13.2-gridss-jar-with-dependencies.jar $HP_JDIR/gridss.jar
+  cp gridss $HP_BDIR/
+  cp gridss-2.13.2-gridss-jar-with-dependencies.jar $HP_BDIR/gridss.jar
 fi
 
 #which delly
 #if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   #wget -N -c https://github.com/dellytools/delly/releases/download/v1.3.1/delly_v1.3.1_linux_x86_64bit
-  #mv delly_v1.3.1_linux_x86_64bit $HP_BDIR/delly
+  #cp delly_v1.3.1_linux_x86_64bit $HP_BDIR/delly
 #fi
 
 which plink2
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://s3.amazonaws.com/plink2-assets/plink2_linux_x86_64_latest.zip
   unzip plink2_linux_x86_64_latest.zip
-  mv plink2 $HP_BDIR/
+  cp plink2 $HP_BDIR/
 fi
+####################################################################################
 
-which s5cmd
+which haplogrep
 if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
-  curl -L https://github.com/peak/s5cmd/releases/latest/download/s5cmd_2.3.0_Linux-64bit.tar.gz -o s5cmd.tar.gz
-  tar -xzf s5cmd.tar.gz
-  chmod +x s5cmd
-  mv s5cmd HP_BDIR/
-fi  
-
-####################################################################################
-#uncomment the following lines if you want clair3/deepvariant support
-
-#wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/clair3_v1.2.0.sif -O $HP_BDIR/clair3.sif
-#wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/clairs-to_v0.4.2.sif -O $HP_BDIR/clairs-to.sif
-#wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/deepvariant_1.10.0-beta.sif -O $HP_BDIR/deepvariant.sif
-#wget ftp://ftp.ccb.jhu.edu/pub/dpuiu/Homo_sapiens_mito/MitoHPC2/bin/deepsomatic_1.9.0.sif -O $HP_BDIR/deepsomatic.sif
-
-#singularity pull $HP_BDIR/clair3.sif      docker://hkubal/clair3:v1.2.0
-#singularity pull $HP_BDIR/clairs.sif      docker://hkubal/clairs-to:v0.4.2
-#singularity pull $HP_BDIR/deepvariant.sif docker://google/deepvariant:1.10.0-beta
-#singularity pull $HP_BDIR/deepsomatic.sif docker://google/deepsomatic:1.9.0
-
-####################################################################################
-
-#if [ ! -s $HP_JDIR/haplogrep.jar ] ; then # 2023/04/26
-if [[ ! -s $HP_JDIR/haplogrep.jar || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://github.com/seppinho/haplogrep-cmd/releases/download/v2.4.0/haplogrep.zip
   unzip -o haplogrep.zip
-  mv haplogrep.jar $HP_JDIR/
+  cp haplogrep.jar haplogrep $HP_BDIR
 fi
 
-#if [ ! -s $HP_JDIR/haplocheck.jar ] ; then # 2023/04/26
-if [[ ! -s $HP_JDIR/haplocheck.jar || $# == 1 && $1 == "-f" ]] ; then
+which haplocheck
+if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   wget -N -c https://github.com/genepi/haplocheck/releases/download/v1.3.3/haplocheck.zip
   unzip -o haplocheck.zip
-  mv haplocheck.jar $HP_JDIR/
+  cp haplocheck.jar haplocheck $HP_BDIR/
 fi
 
-#####################################################################################
-
-#if [ ! -s $HP_RDIR/$HP_RNAME.fa ] ; then # 2023/04/26
-if [[ ! -s $HP_RDIR/$HP_RNAME.fa.fai || $# == 1 && $1 == "-f" ]] ; then
-  wget -qO- $HP_RURL | zcat -f > $HP_RDIR/$HP_RNAME.fa
-  #wget -q $HP_RURL -O $HP_RDIR/$HP_RNAME.fa  # wget on fedora does not download ftp links
-  #curl -L $HP_RURL -o $HP_RDIR/$HP_RNAME.fa
-  samtools faidx $HP_RDIR/$HP_RNAME.fa
-fi
-
-#if [ ! -s $HP_RDIR/$HP_MT.fa ] ; then  # 2023/04/26
-if [[ ! -s $HP_RDIR/$HP_MT.dict || $# == 1 && $1 == "-f"  ]] ; then
-  samtools faidx $HP_RDIR/$HP_RNAME.fa $HP_RMT > $HP_RDIR/$HP_MT.fa
-  samtools faidx $HP_RDIR/$HP_MT.fa
-  rm $HP_RDIR/$HP_MT.dict
-  java $HP_JOPT -jar $HP_JDIR/gatk.jar CreateSequenceDictionary --REFERENCE $HP_RDIR/$HP_MT.fa --OUTPUT $HP_RDIR/$HP_MT.dict
-fi
-
-#if [ ! -s $HP_RDIR/$HP_NUMT.fa ] ; then # 2023/04/26
-if [[ ! -s $HP_RDIR/$HP_NUMT.bwt || $# == 1 && $1 == "-f"  ]] ; then
-  samtools faidx $HP_RDIR/$HP_RNAME.fa $HP_RNUMT > $HP_RDIR/$HP_NUMT.fa
-  bwa index $HP_RDIR/$HP_NUMT.fa -p $HP_RDIR/$HP_NUMT
-fi
-
-#if [ ! -s $HP_RDIR/$HP_MTC.fa ] ; then  # 2023/04/26
-if [[ ! -s $HP_RDIR/$HP_MTC.dict || $# == 1 && $1 == "-f" ]] ; then
-  circFasta.sh $HP_MT $HP_RDIR/$HP_MT $HP_E $HP_RDIR/$HP_MTC
-fi
-
-#if [ ! -s $HP_RDIR/$HP_MTR.fa ] ; then # 2023/04/26
-if [[ ! -s $HP_RDIR/$HP_MTR.dict || $# == 1 && $1 == "-f" ]] ; then
-  rotateFasta.sh $HP_MT $HP_RDIR/$HP_MT $HP_E $HP_RDIR/$HP_MTR
-fi

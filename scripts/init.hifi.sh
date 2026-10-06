@@ -99,6 +99,7 @@ export HP_MODELTYPE="PACBIO_TUMOR_ONLY"       # deepsomatic:WGS,WES,PACBIO,ONT,F
 
 export HP_MINLEN=6000  			      # min total alignment (> longest NUMT)
 export HP_MINPC="0.95" 			      # min alignment coverage
+export HP_MINID="0.95" 			      # min alignment identity(aligned regions)
 export HP_MAXDP=2000                          # max depth
 export HP_MINAF=0.05                          # min AF
 

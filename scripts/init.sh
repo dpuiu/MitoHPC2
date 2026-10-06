@@ -80,6 +80,7 @@ export HP_E=300                  # extension(circularization)
 
 export HP_O=Human		 # organism: Human, Mouse...
 export HP_MT=chrM                # chrM, rCRS or RSRS, FASTA file available under $HP_RDIR
+export HP_MT2=chrM2
 export HP_MTC=chrMC
 export HP_MTR=chrMR
 export HP_MTLEN=16569
