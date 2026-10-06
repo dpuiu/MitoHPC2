@@ -1,0 +1,14 @@
+bin/
+examples/
+java/
+scripts/*.py
+git.sh
+prerequisites/
+run.sh
+git.status
+run.kojo_test.sh
+*.help
+OLD/
+RefSeq/hs38DH.fa
+RefSeq/hs38DH.fa.fai
+HPRC/
