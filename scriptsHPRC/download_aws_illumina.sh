@@ -1,4 +1,5 @@
-#!/bin/bash -eux
+#!/bin/bash 
+set -euxo pipefail
 
 # Usage: $0 <sample> <HPRC_file> 
 #
@@ -19,10 +20,16 @@ if [ -s $S.MT.bam ]; then
   exit 0
 fi
 
-# Download HPRC CRAM & CRAI files
+# Download HPRC CRAM file
 if [ ! -s $S.cram ]; then
-  s5cmd cp $F      $S.cram
-  s5cmd cp $F.crai $S.cram.crai
+  s5cmd cp $F $S.cram
+fi
+
+# Download HPRC CRAI file if exists
+if s5cmd ls "$F.crai" >/dev/null 2>&1  ; then
+    s5cmd cp $F.crai $S.cram.crai
+else
+    samtools index "$S.cram"
 fi
 
 # Generate CRAI file if not avail
@@ -33,14 +40,14 @@ fi
 # Get the count file
 if [ ! -s $S.MT.count ]; then
   samtools idxstats -@ $P $S.cram | \
-    ./idxstats2count.pl -sample $S -chrM $RMT > $S.MT.count
+    idxstats2count.pl -sample $S -chrM $RMT > $S.MT.count
 fi
 
 # Extract reads and align to the mitochondrial reference
 if [ ! -s $S.MT.bam ]; then
   #samtools view  $S.cram $RMT $RNUMT -b > $S.MT.bam
   samtools view -h $S.cram $RMT:1-$MTLEN $RNUMT -F 0x90C | \
-    ./filterSam.pl $RMT:1-$MTLEN $RNUMT | samtools view -b  > $S.MT.bam
+    filterSam.pl $RMT:1-$MTLEN $RNUMT | samtools view -b  > $S.MT.bam
   samtools index $S.MT.bam
   samtools idxstats $S.MT.bam > $S.MT.idxstats
   #samtools depth $S.MT.bam -r $RMT > $S.MT.depth
