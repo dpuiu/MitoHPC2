@@ -17,8 +17,8 @@ MINID=0.95
 RMT=chrM
 
 # Test references exist
-test -s "$MT.fa"  || exit 1
-test -s "$MT2.fa" || exit 1
+test -s "$HP_RDIR/$MT.fa"  || exit 1
+test -s "$HP_RDIR/$MT2.fa" || exit 1
 
 if [ -s $S.MT.bam ]; then
   exit 0
@@ -37,14 +37,14 @@ fi
 # Extract reads and align to the mitochondrial reference
 if [ ! -s "$S.mt.bam" ]; then
   samtools fastq "$S.bam" | \
-    minimap2 --eqx -ax map-ont "$MT.fa" /dev/stdin -t "$P" | \
+    minimap2 --eqx -ax map-ont "$HP_RDIR/$MT.fa" /dev/stdin -t "$P" | \
     samtools view -b -F 4 > "$S.mt.bam"
 fi
 
 # Select reads with >= MIN_LENGTH bases of mitochondrial alignment
 if [ ! -s "$S.MT.ids" ]; then
   samtools fastq "$S.mt.bam" | \
-    minimap2 --eqx  -ax map-hifi "$MT2.fa" /dev/stdin -t "$P" | \
+    minimap2 --eqx  -ax map-hifi "$HP_RDIR/$MT2.fa" /dev/stdin -t "$P" | \
     samtools view -h -F 4  | \
     ./filterAlignments.pl --minlen "$MINLEN" --minpc "$MINPC" --minid "$MINID" | \
     cut -f1 > "$S.MT.ids"
