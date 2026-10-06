@@ -7,18 +7,7 @@
 
 S=$1                 # sample id
 F=$2                 # HPRC remote file name
-
-MT=chrM
-MT2=chrM2
 P=2
-MINLEN=6000
-MINPC=0.95
-MINID=0.95
-RMT=chrM
-
-# Test references exist
-test -s "$MT.fa"  || exit 1
-test -s "$MT2.fa" || exit 1
 
 if [ -s $S.MT.bam ]; then
   exit 0
@@ -37,16 +26,16 @@ fi
 # Extract reads and align to the mitochondrial reference
 if [ ! -s "$S.mt.bam" ]; then
   samtools fastq "$S.bam" | \
-    minimap2 --eqx -ax map-ont "$MT.fa" /dev/stdin -t "$P" | \
+    minimap2 --eqx -ax map-ont "$HP_RDIR/$HP_MT.fa" /dev/stdin -t "$P" | \
     samtools view -b -F 4 > "$S.mt.bam"
 fi
 
 # Select reads with >= MIN_LENGTH bases of mitochondrial alignment
 if [ ! -s "$S.MT.ids" ]; then
   samtools fastq "$S.mt.bam" | \
-    minimap2 --eqx  -ax map-hifi "$MT2.fa" /dev/stdin -t "$P" | \
+    minimap2 --eqx -ax map-ont "$HP_RDIR/$HP_MT2.fa" /dev/stdin -t "$P" | \
     samtools view -h -F 4  | \
-    filterAlignments.pl --minlen "$MINLEN" --minpc "$MINPC" --minid "$MINID" | \
+    filterAlignments.pl --minlen "$HP_MINLEN" --minpc "$HP_MINPC" --minid "$HP_MINID" | \
     cut -f1 > "$S.MT.ids"
 fi
 
@@ -64,6 +53,6 @@ fi
 
 # Cleanup
 if [ -s $S.MT.bam ]; then
-  rm $S.cram $S.cram.crai $S.mt.bam $S.MT.ids
+  rm $S.bam $S.bam.bai $S.mt.bam $S.MT.ids
 fi
 

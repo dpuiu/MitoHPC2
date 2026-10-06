@@ -8,13 +8,7 @@ set -euxo pipefail
 
 S=$1		# sample id
 F=$2		# HPRC remote file name
-
-MT=chrM
 P=2
-RNUMT="chr1:629084-634672 chr17:22521208-22521639"
-RMT=chrM
-RNAME=hs38DH
-MTLEN=16569
 
 if [ -s $S.MT.bam ]; then
   exit 0
@@ -25,29 +19,24 @@ if [ ! -s $S.cram ]; then
   s5cmd cp $F $S.cram
 fi
 
-# Download HPRC CRAI file if exists
+# Download/GENERATE HPRC CRAI file if exists
 if s5cmd ls "$F.crai" >/dev/null 2>&1  ; then
     s5cmd cp $F.crai $S.cram.crai
 else
-    samtools index "$S.cram"
-fi
-
-# Generate CRAI file if not avail
-if [ ! -s $S.cram.crai ]; then
-  samtools index -@ $P $S.cram
+    samtools index -@ $P $S.cram
 fi
 
 # Get the count file
 if [ ! -s $S.MT.count ]; then
   samtools idxstats -@ $P $S.cram | \
-    idxstats2count.pl -sample $S -chrM $RMT > $S.MT.count
+    idxstats2count.pl -sample $S -chrM $HP_RMT > $S.MT.count
 fi
 
 # Extract reads and align to the mitochondrial reference
 if [ ! -s $S.MT.bam ]; then
   #samtools view  $S.cram $RMT $RNUMT -b > $S.MT.bam
-  samtools view -h $S.cram $RMT:1-$MTLEN $RNUMT -F 0x90C | \
-    filterSam.pl $RMT:1-$MTLEN $RNUMT | samtools view -b  > $S.MT.bam
+  samtools view -h $S.cram $HP_RMT:1-$HP_MTLEN $HP_RNUMT -F 0x90C -T $HP_RDIR/$HP_RNAME.fa | \
+    filterSam.pl $HP_RMT:1-$HP_MTLEN $HP_RNUMT | samtools view -b  > $S.MT.bam
   samtools index $S.MT.bam
   samtools idxstats $S.MT.bam > $S.MT.idxstats
   #samtools depth $S.MT.bam -r $RMT > $S.MT.depth
@@ -57,3 +46,4 @@ fi
 if [ -s $S.MT.bam ]; then
   rm $S.cram $S.cram.crai
 fi
+

@@ -1,1 +1,0 @@
-../scripts/idxstats2count.pl
