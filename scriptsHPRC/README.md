@@ -17,7 +17,19 @@ For **Illumina CRAM files**, the complete **hg38 reference genome** is required.
 
 ## Prerequisites
 
-Before running the HPRC scripts, the MitoHPC2 environment and reference files must be installed and initialized.
+Before running the HPRC scripts, the MitoHPC2 environment and reference files must be installed, initialized and tested
+
+## 0. Update and Initialize MitoHPC2
+
+```bash
+cd MitoHPC2
+git pull
+
+export HP_SDIR="$PWD/scripts"
+. "$HP_SDIR/init.sh"
+
+printenv | grep '^HP_'
+```
 
 ## 1. Create the Conda environment
 
@@ -46,13 +58,12 @@ Reference files are installed separately. Run:
 $HP_SDIR/scripts/install_prerequisites.ref.sh
 ```
 
-## 4. Initialize MitoHPC2
+## 4. Initialize MitoHPC2 Long Read (if necessary)
 
 Set the required `HP_` variables:
 
 ```bash
-$HP_SDIR/init.sh
-$HP_SDIR/init.hifi.sh
+$HP_SDIR/init.hifi.sh # or
 $HP_SDIR/init.ont.sh
 ```
 
@@ -114,4 +125,3 @@ Downloading and processing all HPRC samples requires substantial disk space. Che
 ## 8. ONT
 
 *ONT download and processing instructions go here.*
-
