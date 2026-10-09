@@ -98,6 +98,7 @@ export HP_NUMT=NUMT              # NUMT FASTA file under $HP_RDIR
 #OTHER
 
 export HP_CN=1			 # do compute mtDNA copy number
+export HP_C=2000                 # target coverage
 export HP_L=222000               # number of MT reads to subsample; empty: no subsampling; 222000 150bp reads => ~2000x MT coverage
 export HP_FOPT="-q 15 -e 0"      # FASTP options: Ex: " -q 20 -e 30 "; -q: min base quality; -e: avg quality thold
 export HP_DOPT="--removeDups"    # samblaster option; leave empty if no deduplication should be done
@@ -151,3 +152,4 @@ export HP_MODEL="ilmn"           # clair3:ilmn
 export HP_MODELTYPE="WGS"        # deepvariant:WGS|WES
 
 
+export HP_MAXDP=2000

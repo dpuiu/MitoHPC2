@@ -25,22 +25,24 @@ MAIN:
 	$opt{min}=1;
         my $result = GetOptions(
                 "help"          => \$opt{help},
-		"min=i"		=> \$opt{min}
+		"min=i"		=> \$opt{min},
+		"header"	=> \$opt{header}
         );
         if(!$result)            { die "ERROR: $! "}
         if($opt{help})          { print $HELP; exit 0 }
 
         ##########################################################################
 
-	my (%header,%line,%count);
+	my (%header,%line,%count,$header);
 	while(<>)
 	{
 		if(/^#/)
 		{
-			print unless($header{$_}); 
+			print unless($header{$_} or $header); 
 			$header{$_}=1;
 			next;
 		}
+		$header=1 if($opt{header});
 
 		chomp;
 		my @F=split /\t/;

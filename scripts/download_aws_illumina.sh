@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -exuo pipefail
 
 # Usage: $0 <sample> <HPRC_file>
 #
@@ -21,7 +21,7 @@ F=$2
 P=2
 
 # MT BAM already exists: nothing more to do.
-if [[ -s "$S.MT.bam" ]]; then
+if [[ -s "$S.MT.bam.bai" ]]; then
     exit 0
 fi
 
@@ -37,10 +37,12 @@ fi
 # Download CRAI if available; otherwise create it locally
 # ----------------------------------------------------------------------
 
-if s5cmd ls "$F.crai" >/dev/null 2>&1; then
-    s5cmd cp "$F.crai" "$S.cram.crai"
-else
-    samtools index -@ "$P" "$S.cram"
+if [[ ! -s "$S.cram.crai" ]]; then
+  if s5cmd ls "$F.crai" >/dev/null 2>&1; then
+      s5cmd cp "$F.crai" "$S.cram.crai"
+  else
+      samtools index -@ "$P" "$S.cram"
+  fi
 fi
 
 # ----------------------------------------------------------------------
@@ -48,7 +50,8 @@ fi
 # ----------------------------------------------------------------------
 
 if [[ ! -s "$S.MT.count" ]]; then
-    samtools idxstats -@ "$P" "$S.cram" |
+    samtools idxstats -@ "$P" "$S.cram" | \
+        tee $S.idxstats | \
         idxstats2count.pl \
             -sample "$S" \
             -chrM "$HP_RMT" \
@@ -70,15 +73,27 @@ if [[ ! -s "$S.MT.bam" ]]; then
         filterSam.pl "$HP_RMT:1-$HP_MTLEN" "$HP_RNUMT" |
         samtools view -b \
         > "$S.MT.bam"
+fi
 
+if [[ ! -s "$S.MT.bam.bai" ]]; then
     samtools index "$S.MT.bam"
     samtools idxstats "$S.MT.bam" > "$S.MT.idxstats"
+fi
+
+# get subsampling rate
+if [[ ! -s "$S.MT.r" ]]; then
+  samtools stats "$S.MT.bam" | \
+      tee "$S.MT.stats" | \
+      grep -m  1 'bases mapped' | cut -f3 | \
+      perl -ane 'print ($ENV{HP_MTLEN}*$ENV{HP_C}/$F[0]);' > "$S.MT.r"
+  
+  #samtools view -s `cat $S.MT.r`  $S.MT.bam -F 0x90C 
 fi
 
 # ----------------------------------------------------------------------
 # Remove downloaded CRAM and index after MT extraction
 # ----------------------------------------------------------------------
 
-if [[ -s "$S.MT.bam" ]]; then
-    rm -f "$S.cram" "$S.cram.crai"
-fi
+#if [[ -s "$S.MT.bam" ]]; then
+#    rm -f "$S.cram" "$S.cram.crai"
+#fi

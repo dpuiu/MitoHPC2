@@ -30,7 +30,8 @@ MAIN:
 
         #########################################
 
-        my @tags=("INDEL","GT","DP","AF","SM");
+        #my @tags=("INDEL","GT","DP","AF","SM");
+        my @tags=("INDEL","DP4");
 
         while(<>)
         {
