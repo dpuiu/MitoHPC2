@@ -194,3 +194,9 @@ if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
   cp haplocheck.jar haplocheck $HP_BDIR/
 fi
 
+
+which s5cmd
+if [[ $? != 0 || $# == 1 && $1 == "-f" ]] ; then
+  wget https://github.com/peak/s5cmd/releases/download/v2.3.0/s5cmd_2.3.0_Linux-64bit.tar.gz
+  tar -xzvf s5cmd_2.3.0_Linux-64bit.tar.gz s5cmd $HP_BDIR/
+fi 
