@@ -123,6 +123,15 @@ sbatch --job-name=download_aws_illumina --array=1-1%$N --wrap='sed -n "${SLURM_A
 
 Downloading and processing all HPRC samples requires substantial disk space. Check available storage before starting a large download.
 
+Example: sample HG00097
+$ ls HG00097.*
+-rw-r-r--- 1 dpuiu1 arking   116143 Oct 13 14:19 HG00097.idxstats        # Alignment counts for all reference sequences
+-r--r----- 1 dpuiu1 arking       72 Oct 13 14:19 HG00097.MT.count        # Number of reads: total vs mapped to mitochondrion
+-rw-r----- 1 dpuiu1 arking  78350297 Oct 13 15:35 HG00097.MT.bam         # BAM file containing reads aligned to MT + NUMTs
+-rw-r----- 1 dpuiu1 arking     12584 Oct 13 15:35 HG00097.MT.bam.bai     # Index for the MT BAM file
+-rw-r----- 1 dpuiu1 arking        74 Oct 13 15:35 HG00097.MT.idxstats    # Number of reads: MT + NUMTs
+-rw-r----- 1 dpuiu1 arking     16384 Oct 13 15:35 HG00097.MT.stats       # Detailed alignment statistics for mitochondrial reads
+-rw-r----- 1 dpuiu1 arking        17 Oct 13 15:35 HG00097.MT.r           # Subsampling rate for the 2000x cvg target
 ---
 
 ## 7. HiFi
