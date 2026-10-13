@@ -31,12 +31,12 @@ fi
 # ----------------------------------------------------------------------
 
 if [[ ! -s "$S.bam" ]]; then
-    s5cmd cp "$F" "$S.bam"
+    s5cmd --no-sign-request cp "$F" "$S.bam"
 fi
 
 # Download BAI file if it exists.
-if s5cmd ls "$F.bai" >/dev/null 2>&1; then
-    s5cmd cp "$F.bai" "$S.bam.bai"
+if s5cmd --no-sign-request ls "$F.bai" >/dev/null 2>&1; then
+    s5cmd --no-sign-request cp "$F.bai" "$S.bam.bai"
 fi
 
 # ----------------------------------------------------------------------
@@ -120,12 +120,11 @@ fi
 # Cleanup
 # ----------------------------------------------------------------------
 
-if [[ -s "$S.MT.bam" ]]; then
-    rm -f \
-        "$S.bam" \
-        "$S.bam.bai" \
-        "$S.mt.bam" \
-        "$S.MT.ids"
-fi
-```
+#if [[ -s "$S.MT.bam" ]]; then
+#    rm -f \
+#        "$S.bam" \
+#        "$S.bam.bai" \
+#        "$S.mt.bam" \
+#        "$S.MT.ids"
+#fi
 

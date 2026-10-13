@@ -30,7 +30,7 @@ fi
 # ----------------------------------------------------------------------
 
 if [[ ! -s "$S.cram" ]]; then
-    s5cmd cp "$F" "$S.cram"
+    s5cmd --no-sign-request cp "$F" "$S.cram"
 fi
 
 # ----------------------------------------------------------------------
@@ -38,8 +38,8 @@ fi
 # ----------------------------------------------------------------------
 
 if [[ ! -s "$S.cram.crai" ]]; then
-  if s5cmd ls "$F.crai" >/dev/null 2>&1; then
-      s5cmd cp "$F.crai" "$S.cram.crai"
+  if s5cmd --no-sign-request ls "$F.crai" >/dev/null 2>&1; then
+      s5cmd --no-sign-request cp "$F.crai" "$S.cram.crai"
   else
       samtools index -@ "$P" "$S.cram"
   fi
