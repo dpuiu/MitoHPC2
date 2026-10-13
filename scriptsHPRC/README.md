@@ -25,6 +25,7 @@ Before running the HPRC scripts, the MitoHPC2 environment and reference files mu
 cd MitoHPC2
 git pull
 
+export HP_HDIR="$PWD"
 export HP_SDIR="$PWD/scripts"
 . "$HP_SDIR/init.sh"
 
@@ -39,7 +40,7 @@ Run this **once**:
 
 ```bash
 conda init
-conda env create -f $HP_SDIR/scripts/install_prerequisites.yaml
+conda env create --prefix "$HP_HDIR/env"  -f "$HP_SDIR/install_prerequisites.yaml"
 ```
 
 The `mitohpc2` environment provides the main tools required by the scripts, including: s5cmd, samtools, bwa, minimap2 ...
@@ -47,7 +48,7 @@ The `mitohpc2` environment provides the main tools required by the scripts, incl
 ## 2. Activate the Conda environment
 
 ```bash
-conda activate mitohpc2
+conda activate $HP_HDIR/env/
 ```
 
 ## 3. Install/configure reference files
@@ -55,7 +56,7 @@ conda activate mitohpc2
 Reference files are installed separately. Run:
 
 ```bash
-$HP_SDIR/scripts/install_prerequisites.ref.sh
+$HP_SDIR/install_prerequisites.ref.sh
 ```
 
 ## 4. Initialize MitoHPC2 Long Read (if necessary)
@@ -91,7 +92,7 @@ cd Illumina
 To see the command used for the first sample:
 
 ```bash
-head -1 $HP_SDIR/../scriptsHPRC/download_aws_illumina.all.sh
+head -1 $HP_HDIR/scriptsHPRC/download_aws_illumina.all.sh
 ```
 
 For example:
@@ -103,15 +104,21 @@ download_aws_illumina.sh HG00097 s3://human-pangenomics/submissions/59C50DDF-5FA
 Run the first download:
 
 ```bash
-head -1 $HP_SDIR/../scriptsHPRC/download_aws_illumina.all.sh | bash
+head -1 $HP_HDIR/scriptsHPRC/download_aws_illumina.all.sh | bash
 ```
 
 ### Download all Illumina samples
 
-Once the test download works:
+Once the previous download works run:
 
 ```bash
-$HP_SDIR/../scriptsHPRC/download_aws_illumina.all.sh
+$HP_HDIR/scriptsHPRC/download_aws_illumina.all.sh
+```
+or
+
+```bash
+N=`wc -l $HP_HDIR/scriptsHPRC/download_aws_illumina.all.sh`
+sbatch --job-name=download_aws_illumina --array=1-1%$N --wrap='sed -n "${SLURM_ARRAY_TASK_ID}p" $HP_HDIR/scriptsHPRC/download_aws_illumina.all.sh | bash'
 ```
 
 Downloading and processing all HPRC samples requires substantial disk space. Check available storage before starting a large download.

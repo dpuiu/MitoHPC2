@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -exuo pipefail
+set -exu
 
 # Usage: $0 <sample> <HPRC_file>
 #
@@ -67,10 +67,10 @@ if [[ ! -s "$S.MT.bam" ]]; then
         -h \
         "$S.cram" \
         "$HP_RMT:1-$HP_MTLEN" \
-        "$HP_RNUMT" \
+        $HP_RNUMT \
         -F 0x90C \
         -T "$HP_RDIR/$HP_RNAME.fa" |
-        filterSam.pl "$HP_RMT:1-$HP_MTLEN" "$HP_RNUMT" |
+        filterSam.pl "$HP_RMT:1-$HP_MTLEN" $HP_RNUMT |
         samtools view -b \
         > "$S.MT.bam"
 fi
@@ -94,6 +94,6 @@ fi
 # Remove downloaded CRAM and index after MT extraction
 # ----------------------------------------------------------------------
 
-#if [[ -s "$S.MT.bam" ]]; then
-#    rm -f "$S.cram" "$S.cram.crai"
-#fi
+if [[ -s "$S.MT.bam" ]]; then
+    rm -f "$S.cram" "$S.cram.crai"
+fi

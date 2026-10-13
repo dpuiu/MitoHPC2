@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -eux
 
 # Usage: $0 <sample> <HPRC_file>
 #
@@ -120,11 +120,11 @@ fi
 # Cleanup
 # ----------------------------------------------------------------------
 
-#if [[ -s "$S.MT.bam" ]]; then
-#    rm -f \
-#        "$S.bam" \
-#        "$S.bam.bai" \
-#        "$S.mt.bam" \
-#        "$S.MT.ids"
-#fi
+if [[ -s "$S.MT.bam" ]]; then
+    rm -f \
+        "$S.bam" \
+        "$S.bam.bai" \
+        "$S.mt.bam" \
+        "$S.MT.ids"
+fi
 
